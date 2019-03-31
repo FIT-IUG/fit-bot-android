@@ -1,0 +1,39 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<aiml version = "2.0">
+    
+    <category>
+        <pattern> ^ رئيس قسم <set>specializations</set> ^ </pattern>        
+        <template>
+            <map name="hod"><star index="2"/></map>
+        </template>
+    </category>
+        
+    <category>
+        <pattern> ^ ايميل الدكتور <set>teachers_names</set> ^ </pattern>
+        <template>
+            <map name="teachers_emails"><star index="2"/></map>
+        </template>
+    </category>
+    
+    <category>
+        <pattern> ^ ايميل المعيد <set>teachers_assistant_names</set> ^ </pattern>
+        <template>
+            <map name="teachers_assistant_emails"><star index="2"/></map>
+        </template>
+    </category>
+    
+    <category>
+        <pattern> ^ أسماء دكاترة <set>specializations</set> ^ </pattern>
+        <template>
+            <map name="teachers_section"><star index="2"/></map>
+        </template>
+    </category>
+    
+    <category>
+        <pattern> ^ أسماء معيدين <set>specializations</set> ^ </pattern>
+        <template>
+            <map name="teachers_assistant_section"><star index="2"/></map>
+        </template>
+    </category>
+    
+</aiml>

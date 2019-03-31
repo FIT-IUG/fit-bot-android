@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<aiml version = "2.0">
+    
+    <category>
+        <pattern>^ شروط تخصص تطوير البرمجيات ^</pattern>
+        <template>
+            يتم تخصص الطلبة بناءا على معايير التي يضعها مجلس الكلية لكل عام و يدخل في المعايير المساقات الاتية:  تصميم منطقي \ برمجة1 \ رياضيات منفصلة \ مقدمة في الحوسبة 
+        </template>
+    </category>
+    
+    <category>
+        <pattern>^<set>specializations</set> ^ سعر ساعة ^</pattern>
+        <template>25 دينار</template>
+    </category>
+    
+    <category>
+        <pattern>^ التسجيل في مادة ^ الشعبة ^</pattern>
+        <template>مراجعة رئيس القسم او رئيس الكلية</template>
+    </category>
+        
+    
+</aiml>

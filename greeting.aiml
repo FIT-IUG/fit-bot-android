@@ -1,0 +1,96 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<aiml version = "2.0">
+    
+	<category>
+		<pattern>^<set>Greeting</set>^</pattern>
+		<template>
+            <random>
+                <li>وعليكم السلام</li>
+                <li>مرحبا</li>
+                <li>!مرحبا, سررت بلقائك</li>
+                <li> اهلا بك</li>
+                <li>هلا</li>
+                <li>اهلا و سهلا</li>
+                <li>هاي</li>
+                <li>اهلين</li>
+            </random>
+        </template> 
+	</category>
+
+	<category>
+		<pattern>^ صباح ^</pattern>
+		<template>
+            <random>
+                <li>صباح النور</li>
+                <li>صباح الفل </li>
+                <li>صباح الورد </li>
+            </random>
+        </template>
+	</category>
+
+	<category>
+		<pattern>^ مساء ^</pattern>
+		<template>          
+            <random>
+                <li>مساء النور</li>
+                <li>مساء الفل </li>
+                <li>مساء الورد </li>
+            </random>
+        </template>
+	</category>
+    
+    <category>
+		<pattern><set>Greeting-2</set></pattern>
+        <template>
+            <random>
+                <li>وداعا</li>
+                <li>إلى اللقاء</li>
+                <li>أراك لاحقا</li>
+                <li>أراك قريبا</li>
+            </random>
+        </template>
+	</category>
+    
+    <category>
+		<pattern>^ شكرا ^</pattern>
+        <template>
+            <random>
+                <li>عفوا</li>
+                <li>لا شكر على واجب</li>
+                <li>حظا سعيدا</li>
+            </random>
+        </template>
+	</category>
+    
+    <category>
+        <pattern>^ تصبح على خير ^</pattern>
+        <template>^ و انت من أهله ^</template>
+    </category>
+    
+    <category>
+        <pattern>^ إيه الأخبار ^</pattern>
+        <template>
+            <random>
+                <li> ما فيش أخبار ، الأخبار عندك </li>
+                <li> الحمدلله </li>
+                <li> كويس </li>
+            </random>
+        </template>
+    </category>
+    
+      <category>
+        <pattern>^ عن إذنك ^</pattern>
+        <template>إذنك معك</template>
+    </category>
+
+    <category>
+        <pattern>^ طلب ^</pattern>
+        <template>!تفضل</template>
+    </category>
+    
+    <category>
+        <pattern>^ كل عام و انت بخير</pattern>
+        <template>و انت بخير</template>
+    </category>
+
+</aiml>
