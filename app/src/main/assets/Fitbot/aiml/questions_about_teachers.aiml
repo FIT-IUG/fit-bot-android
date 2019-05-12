@@ -1,0 +1,95 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<aiml version = "2.0">
+    
+    <category>
+        <pattern> ^ رئيس قسم ^ <set>specializations</set> ^ </pattern>
+        <template>
+            <map name="hod"><star index="3"/></map>
+        </template>
+    </category>
+        
+    <category>
+        <pattern> ^ ايميل الدكتور ^ <set>teachers_names</set> ^ </pattern>
+        <template>
+            <map name="teachers_emails"><star index="3"/></map>
+        </template>
+    </category>
+
+    <category>
+        <pattern> ^ إيميل الدكتور ^ <set>teachers_names</set> ^ </pattern>
+        <template>
+            <map name="teachers_emails"><star index="3"/></map>
+        </template>
+    </category>
+
+    <category>
+        <pattern> ^ ايميل المعيد ^ <set>teachers_assistant_names</set> ^ </pattern>
+        <template>
+            <map name="teachers_assistant_emails"><star index="3"/></map>
+        </template>
+    </category>
+
+    <category>
+        <pattern> ^ إيميل المعيد ^ <set>teachers_assistant_names</set> ^ </pattern>
+        <template>
+            <map name="teachers_assistant_emails"><star index="3"/></map>
+        </template>
+    </category>
+
+    <category>
+        <pattern> ^ اسماء دكاترة ^ <set>specializations</set> ^ </pattern>
+        <template>
+            <map name="teachers_section"><star index="3"/></map>
+        </template>
+    </category>
+
+    <category>
+        <pattern> ^ أسماء دكاترة ^ <set>specializations</set> ^ </pattern>
+        <template>
+            <map name="teachers_section"><star index="3"/></map>
+        </template>
+    </category>
+
+    <category>
+        <pattern> ^ اسماء معيدين ^ <set>specializations</set> ^ </pattern>
+        <template>
+            <map name="teachers_assistant_section"><star index="3"/></map>
+        </template>
+    </category>
+
+    <category>
+        <pattern> ^ رقم ^ </pattern>
+        <template>
+            <map name="teachers_phone_numbers"><star index="2"/></map>
+        </template>
+    </category>
+
+    <category>
+        <pattern> ^ أسماء معيدين ^ <set>specializations</set> ^ </pattern>
+        <template>
+            <map name="teachers_assistant_section"><star index="3"/></map>
+        </template>
+    </category>
+
+    <category>
+        <pattern> ^ ساعات مكتبية ^ <set>teachers_names</set> ^ </pattern>
+        <template>
+            <map name="teachers_office_hours"><star index="3"/></map>
+        </template>
+    </category>
+
+    <category>
+        <pattern> ^ الساعات المكتبية ^ <set>teachers_names</set> ^ </pattern>
+        <template>
+            <map name="teachers_office_hours"><star index="3"/></map>
+        </template>
+    </category>
+
+    <category>
+        <pattern> ^ مكتب ^ <set>teachers_names</set> ^ </pattern>
+        <template>
+            <map name="teachers_office_location"><star index="3"/></map>
+        </template>
+    </category>
+
+</aiml>

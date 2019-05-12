@@ -123,4 +123,7 @@
   <androidx.work/>
   <androidx.sharetarget/>
   <androidx.enterprise/>
+  <androidx.camera/>
+  <androidx.benchmark/>
+  <androidx.security/>
 </metadata>

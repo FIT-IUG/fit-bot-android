@@ -1,0 +1,55 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<aiml version = "2.0">
+    
+    <category>
+        <pattern> ^ الوسائط المتعددة ^ الفرع العلمي ^ </pattern>
+        <template>للفرع العلمي و الادبي</template>
+    </category>
+
+    <category>
+        <pattern> ^ جدول ^ </pattern>
+        <template>من خلال موقع الجامعة -> الخدمات الالكترونية -> خدمات الطالب الاكاديمية والادارية -> القبول والتسجيل -> جدول الفصل الحالي</template>
+    </category>
+    
+    <category>
+        <pattern> ^ موعد امتحان ^ </pattern>
+        <template>من خلال موقع الجامعة -> الخدمات الالكترونية -> خدمات الطالب الاكاديمية والادارية -> القبول والتسجيل -> جدول الامتحانات</template>
+    </category>
+
+    <category>
+        <pattern> ^ جدول امتحانات ^ </pattern>
+        <template>من خلال موقع الجامعة -> الخدمات الالكترونية -> خدمات الطالب الاكاديمية والادارية -> القبول والتسجيل -> جدول الامتحانات</template>
+    </category>
+
+    <category>
+        <pattern> ^ رسالة تزكية ^ </pattern>
+        <template>من الخلال التواصل مع سكيرتير الكلبة او الدكتور الذي تريد الرسالة منه</template>
+    </category>
+
+    <category>
+        <pattern> ^ الماجيستير ^ </pattern>
+        <template>نعم, بإمكان اي طالب استكمال الدراسات العليا في الكلية فقط اذا كانت الثانوبة العامة علمي</template>
+    </category>
+
+    <category>
+        <pattern> ^ ايش ممكن اعمل ^ </pattern>
+        <that> نعم, بإمكان اي طالب استكمال الدراسات العليا غي الكلية فقط اذا كانت الثانوبة العامة علمي </that>
+        <template>مراجعة مشرف الدراسات العليا, الدكتورة راوية عوض الله</template>
+    </category>
+
+    <category>
+        <pattern> ^ تعارض ^ </pattern>
+        <template>يمكنك مراجعة مدير الكلية</template>
+    </category>
+
+    <category>
+        <pattern> ^ <set>grades</set> ^ </pattern>
+        <template>يمكنك مراجعة الدكتور صاحب المادة</template>
+    </category>
+
+    <category>
+        <pattern> ^ تعليق ^ </pattern>
+        <template>يمكنك مراجعة مدير الكلية أو رئيس قسمك</template>
+    </category>
+
+</aiml>
