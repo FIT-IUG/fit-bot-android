@@ -1,5 +1,6 @@
 package com.logicoverflow.fitbot;
 
+import android.app.Activity;
 import android.content.res.AssetManager;
 import android.os.Environment;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -63,11 +66,19 @@ public class ChatActivity extends AppCompatActivity {
 
 
 
+
         mEditTextMessage.setImeOptions(EditorInfo.IME_ACTION_DONE);
         mEditTextMessage.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
         mAdapter = new ChatMessageAdapter(this, new ArrayList<ChatMessage>());
         mListView.setAdapter(mAdapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                hideSoftKeyboard(ChatActivity.this);
+            }
+        });
 
         MagicStrings.default_bot_response = "مش فاهم عليك, بتقدر تعيد؟";
 
@@ -188,6 +199,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public void sendMessageButton() {
         String message = mEditTextMessage.getText().toString();
+
         //bot
         String response = chat.multisentenceRespond(mEditTextMessage.getText().toString());
         if (TextUtils.isEmpty(message)) {
@@ -199,5 +211,13 @@ public class ChatActivity extends AppCompatActivity {
         mListView.setSelection(mAdapter.getCount() - 1);
 
 
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
     }
 }
