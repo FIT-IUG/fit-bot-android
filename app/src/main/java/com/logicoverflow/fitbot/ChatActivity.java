@@ -170,7 +170,13 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void mimicOtherMessage(String message) {
-        ChatMessage chatMessage = new ChatMessage(message, false, false);
+        ChatMessage chatMessage;
+        if(message.contains(".gif")){
+            chatMessage = new ChatMessage(message, false, true);
+        }else{
+            chatMessage = new ChatMessage(message, false, false);
+        }
+
         mAdapter.add(chatMessage);
     }
 
