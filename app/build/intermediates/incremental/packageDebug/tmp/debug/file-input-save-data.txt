@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Sun May 12 13:11:49 IDT 2019
+#Sun May 19 00:40:26 IDT 2019
 5.base=/home/aburom/AndroidStudioProjects/fit-bot/app/build/intermediates/merged_assets/debug/mergeDebugAssets/out
 42.base=/home/aburom/AndroidStudioProjects/fit-bot/app/build/intermediates/merged_assets/debug/mergeDebugAssets/out
 22.path=Fitbot/aiml/questions_about_registration.aiml

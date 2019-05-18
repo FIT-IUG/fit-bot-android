@@ -1,12 +1,16 @@
 package com.logicoverflow.fitbot.Adapter;
 
 import android.content.Context;
+import android.media.Image;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.logicoverflow.fitbot.Model.ChatMessage;
 import com.logicoverflow.fitbot.R;
 
@@ -34,8 +38,8 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
 
         if (item.isMine() && !item.isImage()) return MY_MESSAGE;
         else if (!item.isMine() && !item.isImage()) return OTHER_MESSAGE;
-        else if (item.isMine() && item.isImage()) return MY_IMAGE;
-        else return OTHER_IMAGE;
+        else if (!item.isMine() && item.isImage()) return OTHER_IMAGE;
+        else return MY_IMAGE;
     }
 
     @Override
@@ -43,17 +47,24 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
         int viewType = getItemViewType(position);
         if (viewType == MY_MESSAGE) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.message_human, parent, false);
-
-            TextView textView = (TextView) convertView.findViewById(R.id.text);
+            TextView textView = convertView.findViewById(R.id.text);
             textView.setText(getItem(position).getContent());
 
         } else if (viewType == OTHER_MESSAGE) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.message_chatbot, parent, false);
 
-            TextView textView = (TextView) convertView.findViewById(R.id.text);
+            TextView textView = convertView.findViewById(R.id.text);
             textView.setText(getItem(position).getContent());
-        } else if (viewType == MY_IMAGE) {
-            //convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_mine_image, parent, false);
+            textView.setAutoLinkMask(Linkify.WEB_URLS);
+
+        } else if (viewType == OTHER_IMAGE) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.message_gif_chatbot, parent, false);
+            TextView textView = convertView.findViewById(R.id.text);
+            ImageView gifView = convertView.findViewById(R.id.message_gif);
+            Glide.with(convertView).load(R.drawable.instruction1).into(gifView);
+
+            textView.setText(getItem(position).getContent());
+            textView.setAutoLinkMask(Linkify.WEB_URLS);
         } else {
            // convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_other_image, parent, false);
         }

@@ -23,6 +23,8 @@ repositories {
     maven {
         url 'http://nexus.bippo.co.id/nexus/content/repositories/soluvas-public-snapshots/'
     }
+    mavenCentral()
+    google()
 }
 
 
@@ -34,8 +36,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha3'
-    //   implementation 'org.alicebot.ab:ab:4.0.4-SNAPSHOT'
-    //implementation files('libs/Ab.jar')
     implementation files('libs/ProgramAB.jar')
     implementation 'com.karumi:dexter:5.0.0'
+    implementation 'com.google.firebase:firebase-storage:17.0.0'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 }

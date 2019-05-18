@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +19,8 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+
+import java.io.File;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -78,6 +81,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
     }
+
 
     public void fullScreen() {
         getWindow().getDecorView().setSystemUiVisibility(
