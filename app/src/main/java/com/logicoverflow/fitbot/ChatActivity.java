@@ -171,7 +171,8 @@ public class ChatActivity extends AppCompatActivity {
 
     private void mimicOtherMessage(String message) {
         ChatMessage chatMessage;
-        if(message.contains(".gif")){
+        if(message.contains("gif")){
+            message = message.substring(0,message.indexOf("gif"));
             chatMessage = new ChatMessage(message, false, true);
         }else{
             chatMessage = new ChatMessage(message, false, false);
