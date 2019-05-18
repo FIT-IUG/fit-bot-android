@@ -2,34 +2,37 @@
 <aiml version = "2.0">
     
     <category>
-        <pattern> ^ شروط ^ تطوير البرمجيات ^ </pattern>
+        <pattern> # شروط # تطوير البرمجيات # </pattern>
         <template>
-            يتم تخصص الطلبة بناءا على معايير التي يضعها مجلس الكلية لكل عام و يدخل في المعايير المساقات الاتية:  تصميم منطقي \ برمجة1 \ رياضيات منفصلة \ مقدمة في الحوسبة 
+        <srai>conditoins</srai>
         </template>
     </category>
 
     <category>
-        <pattern> ^ شروط ^ علم الحاسوب ^ </pattern>
+        <pattern> # شروط # علم الحاسوب # </pattern>
         <template>
-            يتم تخصص الطلبة بناءا على معايير التي يضعها مجلس الكلية لكل عام و يدخل في المعايير المساقات الاتية:  تصميم منطقي \ برمجة1 \ رياضيات منفصلة \ مقدمة في الحوسبة
+            <srai>conditoins</srai>
         </template>
     </category>
 
     <category>
-        <pattern> ^ شروط ^ نظم تكنولوجيا المعلومات ^ </pattern>
+        <pattern> # شروط # نظم تكنولوجيا المعلومات # </pattern>
         <template>
-            يتم تخصص الطلبة بناءا على معايير التي يضعها مجلس الكلية لكل عام و يدخل في المعايير المساقات الاتية:  تصميم منطقي \ برمجة1 \ رياضيات منفصلة \ مقدمة في الحوسبة
+        <srai>conditoins</srai>
         </template>
     </category>
 
     <category>
-        <pattern> ^ سعر ساعة ^ <set>specializations</set> ^ </pattern>
+        <pattern> # سعر ساعة # <set>specializations</set> # </pattern>
         <template>25 دينار</template>
     </category>
-    
+
+
     <category>
-        <pattern> ^ التسجيل ^ الشعبة ^ </pattern>
-        <template>مراجعة رئيس القسم او رئيس الكلية</template>
+        <pattern> conditoins </pattern>
+        <template>
+             يتم تخصص الطلبة بناءا على معايير التي يضعها مجلس الكلية لكل عام و يدخل في المعايير المساقات الاتية:  تصميم منطقي \ برمجة1 \ رياضيات منفصلة \ مقدمة في الحوسبة
+       </template>
     </category>
     
 </aiml>

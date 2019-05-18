@@ -2,7 +2,7 @@
 <aiml version="2.0">
 
     <category>
-        <pattern> ^ <set>allow_sent_set</set> ^ <set>defenitions</set> ^ </pattern>
+        <pattern> # <set>allow_sent_set</set> # <set>defenitions</set> # </pattern>
         <template>
             <think><set name="register_add"><star index="4"/></set></think>
             <srai>registerAdd</srai>
