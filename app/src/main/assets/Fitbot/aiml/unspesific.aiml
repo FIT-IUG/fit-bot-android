@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="2.0">
+
+     <category>
+        <pattern> # <set>unspesific</set> # </pattern>
+        <template>
+            يمكنك التوجة الى سكرتير الكلية او مدير الكلية او مراسلتنا عبر بريدنا الاكتروني
+            itc@iugaza.edu.ps
+        </template>
+     </category>
+
+</aiml>
