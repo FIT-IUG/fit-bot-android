@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Sun May 19 00:55:57 IDT 2019
+#Sun May 19 10:15:26 IDT 2019
 5.base=/home/aburom/AndroidStudioProjects/fit-bot/app/build/intermediates/merged_assets/debug/mergeDebugAssets/out
 42.base=/home/aburom/AndroidStudioProjects/fit-bot/app/build/intermediates/transforms/dexMerger/debug/14
 22.path=Fitbot/sets/specializations.txt

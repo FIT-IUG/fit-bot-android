@@ -206,13 +206,14 @@ public class ChatActivity extends AppCompatActivity {
 
     public void sendMessageButton() {
         String message = mEditTextMessage.getText().toString();
-
+        message = message.replace("؟", " ");
+        message = message.replace("?", " ");
         //bot
-        String response = chat.multisentenceRespond(mEditTextMessage.getText().toString());
+        String response = chat.multisentenceRespond(message);
         if (TextUtils.isEmpty(message)) {
             return;
         }
-        sendMessage(message);
+        sendMessage(mEditTextMessage.getText().toString());
         mimicOtherMessage(response);
         mEditTextMessage.setText("");
         mListView.setSelection(mAdapter.getCount() - 1);
