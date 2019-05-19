@@ -21,13 +21,7 @@
         </template>
     </category>
 
-    <category>
-        <pattern> # </pattern>
-        <that> # <set>greeting</set> # </that>
-        <template>
-        	مرحبا بك, <star/>
-        </template>
-    </category>
+
 
 	<category>
 		<pattern> # صباح # </pattern>
