@@ -11,28 +11,40 @@
         android:layout_marginLeft="10dp"
         android:src="@drawable/logo_image" />
 
-    <TextView
-        android:id="@+id/text"
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_gravity="left"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
+
         android:layout_marginRight="20dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/bubble_message_chatbot"
         android:elevation="5dp"
-        android:fontFamily="@font/pt_sans_web_bold"
         android:gravity="left"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:text="Hello"
-        android:textAlignment="viewEnd"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:fontFamily="@font/pt_sans_web_bold"
+            android:gravity="end"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp"
+
+            android:text="Hello"
+            android:textAlignment="viewEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 
 
 </LinearLayout>

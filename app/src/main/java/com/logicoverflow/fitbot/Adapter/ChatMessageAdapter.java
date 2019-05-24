@@ -53,7 +53,7 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.message_chatbot, parent, false);
 
             TextView textView = convertView.findViewById(R.id.text);
-            textView.setAutoLinkMask(Linkify.WEB_URLS);
+            //textView.setAutoLinkMask(Linkify.WEB_URLS);
             textView.setText(getItem(position).getContent());
             textView.setAutoLinkMask(Linkify.WEB_URLS);
 

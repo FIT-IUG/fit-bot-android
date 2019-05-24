@@ -103,49 +103,49 @@ public class ChatActivity extends AppCompatActivity {
         });
 
 
-        AssetManager assets = getResources().getAssets();
-        File jayDir = new File(Environment.getExternalStorageDirectory().toString() + "/FITChatbot/bots/Fitbot");
-
-
-
-        boolean b = jayDir.mkdirs();
-        if (jayDir.exists()) {
-
-           //to delete files everytime app is loaded (in case of editting aiml files)
-            for (String subdir:jayDir.list()){
-                File dir = new File(jayDir+"/"+subdir);
-                for (String file: dir.list()){
-                    Log.e("rmy",new File(dir+"/"+file).delete()+"");
-                }
-            }
-          //  */
-
-            //Reading the file
-            try {
-                for (String dir : assets.list("Fitbot")) {
-                    File subdir = new File(jayDir.getPath() + "/" + dir);
-                    boolean subdir_check = subdir.mkdirs();
-                    for (String file : assets.list("Fitbot/" + dir)) {
-                        File f = new File(jayDir.getPath() + "/" + dir + "/" + file);
-                        InputStream in = null;
-                        OutputStream out = null;
-                        in = assets.open("Fitbot/" + dir + "/" + file);
-                        out = new FileOutputStream(jayDir.getPath() + "/" + dir + "/" + file);
-                        //copy file from assets to the mobile's SD card or any secondary memory
-                        copyFile(in, out);
-                        in.close();
-                        in = null;
-                        out.flush();
-                        out.close();
-                        out = null;
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-        }
+//        AssetManager assets = getResources().getAssets();
+//        File jayDir = new File(Environment.getExternalStorageDirectory().toString() + "/FITChatbot/bots/Fitbot");
+//
+//
+//
+//        boolean b = jayDir.mkdirs();
+//        if (jayDir.exists()) {
+//
+//           //to delete files everytime app is loaded (in case of editting aiml files)
+//            for (String subdir:jayDir.list()){
+//                File dir = new File(jayDir+"/"+subdir);
+//                for (String file: dir.list()){
+//                    Log.e("rmy",new File(dir+"/"+file).delete()+"");
+//                }
+//            }
+//          //  */
+//
+//            //Reading the file
+//            try {
+//                for (String dir : assets.list("Fitbot")) {
+//                    File subdir = new File(jayDir.getPath() + "/" + dir);
+//                    boolean subdir_check = subdir.mkdirs();
+//                    for (String file : assets.list("Fitbot/" + dir)) {
+//                        File f = new File(jayDir.getPath() + "/" + dir + "/" + file);
+//                        InputStream in = null;
+//                        OutputStream out = null;
+//                        in = assets.open("Fitbot/" + dir + "/" + file);
+//                        out = new FileOutputStream(jayDir.getPath() + "/" + dir + "/" + file);
+//                        //copy file from assets to the mobile's SD card or any secondary memory
+//                        copyFile(in, out);
+//                        in.close();
+//                        in = null;
+//                        out.flush();
+//                        out.close();
+//                        out = null;
+//                    }
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//
+//        }
         //get the working directory
         MagicStrings.root_path = Environment.getExternalStorageDirectory().toString() + "/FITChatbot";
         System.out.println("Working Directory = " + MagicStrings.root_path);
