@@ -7,8 +7,10 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.res.AssetManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -17,7 +19,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,32 +38,32 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.logicoverflow.fitbot.Util.AppInternetStatus;
 
-import org.apache.commons.codec.binary.StringUtils;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import static com.logicoverflow.fitbot.Util.ZipManager.unzip;
 
 public class SplashActivity extends AppCompatActivity {
 
-    ImageView logo_image;
-    TextView logo_text;
-    ProgressBar progressBar;
-    FirebaseDatabase mFirebaseDatabase;
-    DatabaseReference mDatabaseReference;
-    FirebaseStorage mFirebaseStorage;
-    StorageReference mStorageReference;
-    int storedVersion;
-    int databaseVersion;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor sharedPreferencesEditor;
-    File fileDirectory;
-    File downloadedFile;
+    private ImageView logo_image;
+    private TextView logo_text;
+    private TextView progress_text;
+    private ProgressBar progressBar;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mDatabaseReference;
+    private FirebaseStorage mFirebaseStorage;
+    private StorageReference mStorageReference;
+    private int storedVersion;
+    private int databaseVersion;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor sharedPreferencesEditor;
+    private File fileDirectory;
+    private File downloadedFile;
 
 
     @Override
@@ -75,140 +76,200 @@ public class SplashActivity extends AppCompatActivity {
         logo_image = findViewById(R.id.logo_image_in_splash_activity);
         logo_text = findViewById(R.id.logo_text_in_splash_activity);
         progressBar = findViewById(R.id.splash_progress_bar);
+        progress_text = findViewById(R.id.progress_text);
 
-
-
-
-        //String databaseVersion = mDatabaseReference.child("version").getKey();
-        //Toast.makeText(this, databaseVersion, Toast.LENGTH_SHORT).show();
-
-
-        //File jayDir = new File(Environment.getExternalStorageDirectory().toString() + "/FITChatbot/bots/Fitbot");
-
-
-
-        //FirebaseStorage storage = FirebaseStorage.getInstance();
-        //StorageReference storageRef = storage.getReferenceFromUrl("gs://fit-bot-936cb.appspot.com").child("version.txt");
-
-
-
-
-
-//        try {
-//            final File localFile = File.createTempFile("version", "txt");
-//            storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//
-//                    try {
-//
-//                        BufferedReader bufferedReader = new BufferedReader(new FileReader(localFile));
-//                        String version;
-//                        SharedPreferences sharedPreferences = getSharedPreferences("VersionPreference",Context.MODE_PRIVATE);
-//                        SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
-//
-//                        if ((version = bufferedReader.readLine()) != null && version.matches("\\d+")) {
-//                            int currentVersion = sharedPreferences.getInt("version",0);
-//                            int updatedVersion = Integer.parseInt(version);
-//                            if(currentVersion==0){
-//                                sharedPreferencesEditor.putInt("version",updatedVersion);
-//                            }else if(currentVersion<updatedVersion){
-//
-//                            }else if(currentVersion==updatedVersion){
-//
-//                            }
-//
-//                        }else{
-//                            Toast.makeText(SplashActivity.this, "Invalid version number", Toast.LENGTH_SHORT).show();
-//                        }
-//                        bufferedReader.close();
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception exception) {
-//                }
-//            });
-//        } catch (IOException e ) {}
+        fileDirectory = new File(Environment.getExternalStorageDirectory().toString() + "/FITChatbot/bots/Fitbot");
 
     }
 
-    private void getDatabaseVersion(){
+    private void getDatabaseVersion() {
 
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference("version");
+        sharedPreferences = getSharedPreferences("version", Context.MODE_PRIVATE);
 
-        sharedPreferences = getSharedPreferences("version",Context.MODE_PRIVATE);
+        new Handler().postDelayed(new Runnable() {
 
-
-        storedVersion = sharedPreferences.getInt("version",0);
-
-        mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                databaseVersion = dataSnapshot.getValue(Integer.class);
-
-                if(databaseVersion>storedVersion){
-                    try {
-                        updateAIMLfiles();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+            public void run() {
+                if(progress_text.getText().toString().equals("Checking For Updates...")){
+                    progress_text.setText("Couldn't check for updates / Saving default files");
+                    if (sharedPreferences.getInt("version", 0) == 0) {
+                        storeDefaultAIMLfiles();
                     }
+                    startChatActivity();
                 }
 
             }
+        }, 8000);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(SplashActivity.this, "Couldn't check for updates", Toast.LENGTH_SHORT).show();
+        if (!AppInternetStatus.getInstance(SplashActivity.this).isOnline()) {
+            progress_text.setText("Couldn't check for updates / Saving default files");
+            if (sharedPreferences.getInt("version", 0) == 0) {
+                storeDefaultAIMLfiles();
             }
-        });
+            startChatActivity();
+        } else {
+            progress_text.setText("Checking For Updates...");
+            mFirebaseDatabase = FirebaseDatabase.getInstance();
+            mDatabaseReference = mFirebaseDatabase.getReference("version");
 
+
+            storedVersion = sharedPreferences.getInt("version", 0);
+
+
+
+            mDatabaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    databaseVersion = dataSnapshot.getValue(Integer.class);
+
+                    if (databaseVersion > storedVersion) {
+                        progress_text.setText("Found Updates");
+                        updateAIMLfiles();
+                    } else {
+                        progress_text.setText("No Updates Found");
+                        startChatActivity();
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    progress_text.setText("Couldn't check for updates / Saving default files");
+                    storeDefaultAIMLfiles();
+                    startChatActivity();
+                }
+            });
+        }
 
     }
 
-    private void updateAIMLfiles() throws IOException {
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
+    }
+
+    private void updateAIMLfiles() {
+        progress_text.setText("Downloading Updates...");
         mFirebaseStorage = FirebaseStorage.getInstance();
         mStorageReference = mFirebaseStorage.getReferenceFromUrl("gs://fit-bot-936cb.appspot.com").child("Fitbot.zip");
         sharedPreferencesEditor = sharedPreferences.edit();
 
-        fileDirectory = new File(Environment.getExternalStorageDirectory().toString() + "/FITChatbot/bots/Fitbot");
+
         fileDirectory.mkdirs();
 
-        downloadedFile = new File(fileDirectory.getPath(),"Fitbot.zip");
+        downloadedFile = new File(fileDirectory.getPath(), "Fitbot.zip");
 
         mStorageReference.getFile(downloadedFile)
                 .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(SplashActivity.this, "File Downloaded", Toast.LENGTH_SHORT).show();
-
-
                         if (fileDirectory.canWrite()) {
-                            final File backupDBFolder = new File(fileDirectory.getPath());
-                            try {
-                                unzip("Fitbot.zip", fileDirectory.getPath());
-                                Toast.makeText(SplashActivity.this, "FileUnzipped", Toast.LENGTH_SHORT).show();
-                                sharedPreferencesEditor.putInt("version",databaseVersion);
-                                sharedPreferencesEditor.apply();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                Toast.makeText(SplashActivity.this, "FileNotUnzipped", Toast.LENGTH_SHORT).show();
-                            }
+
+                            progress_text.setText("Unzipping File...");
+                            AsyncTask.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    deletePreviousAIMLfiles();
+                                    try {
+                                        unzip("Fitbot.zip", fileDirectory.getPath());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                        progress_text.setText("Error Unzipping File / Saving default files");
+                                        storeDefaultAIMLfiles();
+                                        startChatActivity();
+                                    }
+                                    sharedPreferencesEditor.putInt("version", databaseVersion);
+                                    sharedPreferencesEditor.apply();
+                                    startChatActivity();
+                                }
+                            });
+
+
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                Toast.makeText(SplashActivity.this, "Download Failed", Toast.LENGTH_SHORT).show();
+                progress_text.setText("Download Failed / Saving default files");
+                storeDefaultAIMLfiles();
+                startChatActivity();
             }
         });
+    }
+
+    public void storeDefaultAIMLfiles() {
+
+        AssetManager assets = getResources().getAssets();
+
+
+        boolean b = fileDirectory.mkdirs();
+        if (fileDirectory.exists()) {
+
+            //to delete files everytime app is loaded (in case of editting aiml files)
+            deletePreviousAIMLfiles();
+
+            //Reading the file
+            try {
+                for (String dir : assets.list("Fitbot")) {
+                    File subdir = new File(fileDirectory.getPath() + "/" + dir);
+                    boolean subdir_check = subdir.mkdirs();
+                    for (String file : assets.list("Fitbot/" + dir)) {
+                        File f = new File(fileDirectory.getPath() + "/" + dir + "/" + file);
+                        InputStream in = null;
+                        OutputStream out = null;
+                        in = assets.open("Fitbot/" + dir + "/" + file);
+                        out = new FileOutputStream(fileDirectory.getPath() + "/" + dir + "/" + file);
+                        //copy file from assets to the mobile's SD card or any secondary memory
+                        copyFile(in, out);
+                        in.close();
+                        in = null;
+                        out.flush();
+                        out.close();
+                        out = null;
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
+    public void deletePreviousAIMLfiles() {
+        fileDirectory.delete();
+//        for (String subdir : fileDirectory.list()) {
+//            File dir = new File(fileDirectory + "/" + subdir);
+//            for (String file : dir.list()) {
+//                Log.e("rmy", new File(dir + "/" + file).delete() + "");
+//            }
+//        }
+    }
+
+    private void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while ((read = in.read(buffer)) != -1) {
+            out.write(buffer, 0, read);
+        }
+    }
+
+    public void startChatActivity() {
+        Intent intent = new Intent(SplashActivity.this, ChatActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -226,13 +287,7 @@ public class SplashActivity extends AppCompatActivity {
                         .withListener(new PermissionListener() {
                             @Override
                             public void onPermissionGranted(PermissionGrantedResponse response) {
-                                //readContacts();
                                 getDatabaseVersion();
-                                Intent intent = new Intent(SplashActivity.this,ChatActivity.class);
-                                startActivity(intent);
-                                //avi.hide();
-                                //splashImage.setVisibility(View.INVISIBLE);
-                                finish();
                             }
 
                             @Override
@@ -248,8 +303,6 @@ public class SplashActivity extends AppCompatActivity {
 
             }
         }, 2000);
-
-        //Permission Check
 
 
     }
@@ -287,7 +340,6 @@ public class SplashActivity extends AppCompatActivity {
                 .alpha(0).ms(10).then().pause(600).setDefaultStepDuration(250)
                 .then().alpha(1).reset()
                 .execute();
-
 
 
     }

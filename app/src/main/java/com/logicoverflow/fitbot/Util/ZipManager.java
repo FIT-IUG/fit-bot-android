@@ -20,7 +20,7 @@ public class ZipManager {
             if (!f.isDirectory()) {
                 f.mkdirs();
             }
-            ZipInputStream zin = new ZipInputStream(new FileInputStream(location+"/"+zipFile));
+            ZipInputStream zin = new ZipInputStream(new FileInputStream(location + "/" + zipFile));
             try {
                 ZipEntry ze = null;
                 while ((ze = zin.getNextEntry()) != null) {
@@ -52,7 +52,7 @@ public class ZipManager {
             Log.e(TAG, "Unzip exception", e);
         }
 
-        File file = new File(location+"/"+zipFile);
+        File file = new File(location + "/" + zipFile);
         file.delete();
     }
 }

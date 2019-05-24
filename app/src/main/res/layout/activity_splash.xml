@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SplashActivity" >
+    tools:context=".SplashActivity">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.3"
-        />
+        android:alpha="0.3" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,8 +18,8 @@
 
         <ImageView
             android:id="@+id/logo_image_in_splash_activity"
-            android:layout_height="wrap_content"
             android:layout_width="300dp"
+            android:layout_height="wrap_content"
 
             android:layout_centerHorizontal="true"
             android:layout_marginTop="100dp"
@@ -30,24 +29,35 @@
 
         <TextView
             android:id="@+id/logo_text_in_splash_activity"
-            android:layout_below="@+id/logo_image_in_splash_activity"
             android:layout_width="250dp"
             android:layout_height="80dp"
+            android:layout_below="@+id/logo_image_in_splash_activity"
             android:layout_centerHorizontal="true"
-            android:textSize="67dp"
-            android:textColor="@color/colorPrimary"
             android:fontFamily="@font/lilitaone_regular"
-            android:text="FIT-BOT"/>
+            android:text="FIT-BOT"
+            android:textColor="@color/colorPrimary"
+            android:textSize="67dp" />
 
         <ProgressBar
-            android:layout_below="@id/logo_text_in_splash_activity"
             android:id="@+id/splash_progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:indeterminateDuration="300"
+            android:layout_below="@id/logo_text_in_splash_activity"
             android:layout_centerHorizontal="true"
-            android:indeterminateDrawable="@drawable/progress_bar" />
+            android:layout_marginTop="25dp"
+            android:indeterminateDrawable="@drawable/progress_bar"
+            android:indeterminateDuration="300" />
+
+        <TextView
+            android:id="@+id/progress_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/splash_progress_bar"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/lilitaone_regular"
+            android:textColor="@color/colorPrimary"
+            android:textAlignment="center"
+            android:textSize="24dp" />
 
 
     </RelativeLayout>
