@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Sat May 25 11:57:55 IDT 2019
+#Sat May 25 12:55:49 IDT 2019
 5.base=/home/aburom/AndroidStudioProjects/fit-bot/app/build/intermediates/merged_assets/release/mergeReleaseAssets/out
 22.path=Fitbot/config/normal.txt
 32.set=ASSET

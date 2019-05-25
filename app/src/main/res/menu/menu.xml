@@ -4,7 +4,6 @@
     tools:context="com.logicoverflow.aburom.newsapp.TabbedActivity">
     <item
         android:title="Check For updates"
-        android:id="@+id/action_refresh"
         android:enabled="false"
         android:orderInCategory="100"
         app:showAsAction="never" />
