@@ -1,4 +1,4 @@
-#Sat May 25 12:55:48 IDT 2019
+#Sat May 25 13:00:12 IDT 2019
 base.0=/home/aburom/AndroidStudioProjects/fit-bot/app/build/intermediates/transforms/dexMerger/release/0
 path.0=classes.dex
 renamed.0=classes.dex
