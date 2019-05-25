@@ -37,7 +37,8 @@
             android:paddingRight="20dp"
             android:paddingBottom="10dp"
             android:text=""
-
+            android:linksClickable="true"
+            android:autoLink="all"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@android:color/black"
             android:textSize="16sp" />

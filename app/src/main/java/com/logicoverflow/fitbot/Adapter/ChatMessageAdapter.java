@@ -64,7 +64,7 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
             Glide.with(convertView).load(R.drawable.instruction1).into(gifView);
 
             textView.setText(getItem(position).getContent());
-            textView.setAutoLinkMask(Linkify.WEB_URLS);
+            //textView.setAutoLinkMask(Linkify.WEB_URLS);
         } else {
            // convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_other_image, parent, false);
         }
