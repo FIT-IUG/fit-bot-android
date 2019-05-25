@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "928700531999",
+    "firebase_url": "https://fit-bot-936cb.firebaseio.com",
+    "project_id": "fit-bot-936cb",
+    "storage_bucket": "fit-bot-936cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:928700531999:android:386e32863ffef863",
+        "android_client_info": {
+          "package_name": "com.logicoverflow.fit_bot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "928700531999-nsslb4qo6vqk2usge6ok6em2itgtlhe4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.logicoverflow.fit_bot",
+            "certificate_hash": "56e048dc0f8c2d4abeb7a2944e39ea48a3667425"
+          }
+        },
+        {
+          "client_id": "928700531999-g564sdu2odastsnt5ppji2l60ub2usmb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2xtzu3fezSEaA4U4PI_sbzu-4TdIZan0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "928700531999-g564sdu2odastsnt5ppji2l60ub2usmb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
