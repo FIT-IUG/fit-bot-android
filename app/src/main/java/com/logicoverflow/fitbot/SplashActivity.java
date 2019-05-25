@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,6 +39,8 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.logicoverflow.fitbot.Util.AppInternetStatus;
+
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -123,7 +126,11 @@ public class SplashActivity extends AppCompatActivity {
 
                     if (databaseVersion > storedVersion) {
                         progress_text.setText("Found Updates");
-                        updateAIMLfiles();
+                        try {
+                            updateAIMLfiles();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     } else {
                         progress_text.setText("No Updates Found");
                         startChatActivity();
@@ -159,7 +166,7 @@ public class SplashActivity extends AppCompatActivity {
         return haveConnectedWifi || haveConnectedMobile;
     }
 
-    private void updateAIMLfiles() {
+    private void updateAIMLfiles() throws IOException {
         progress_text.setText("Downloading Updates...");
         mFirebaseStorage = FirebaseStorage.getInstance();
         mStorageReference = mFirebaseStorage.getReferenceFromUrl("gs://fit-bot-936cb.appspot.com").child("Fitbot.zip");
@@ -169,6 +176,12 @@ public class SplashActivity extends AppCompatActivity {
         fileDirectory.mkdirs();
 
         downloadedFile = new File(fileDirectory.getPath(), "Fitbot.zip");
+
+        for (File child : fileDirectory.listFiles()){
+            if(!child.isDirectory()){
+                FileUtils.forceDelete(child);
+            }
+        }
 
         mStorageReference.getFile(downloadedFile)
                 .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -186,6 +199,7 @@ public class SplashActivity extends AppCompatActivity {
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                         progress_text.setText("Error Unzipping File / Saving default files");
+                                        Toast.makeText(SplashActivity.this, "Error unzipping files", Toast.LENGTH_SHORT).show();
                                         storeDefaultAIMLfiles();
                                         startChatActivity();
                                     }
