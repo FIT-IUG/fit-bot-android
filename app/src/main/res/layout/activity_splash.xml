@@ -12,6 +12,7 @@
         android:alpha="0.3" />
 
     <RelativeLayout
+        android:background="@drawable/splash_bgd_gradient"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

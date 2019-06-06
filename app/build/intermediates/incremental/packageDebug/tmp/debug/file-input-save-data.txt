@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Sat May 25 20:32:20 IDT 2019
+#Thu Jun 06 14:47:37 IDT 2019
 5.base=/home/aburom/AndroidStudioProjects/fit-bot/app/build/intermediates/transforms/dexMerger/debug/12
 42.base=/home/aburom/AndroidStudioProjects/fit-bot/app/build/intermediates/merged_assets/debug/out
 22.path=Fitbot/aiml/duration_of_study.aiml

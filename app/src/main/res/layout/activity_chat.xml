@@ -54,14 +54,28 @@
 
 
     <!--List view for displaying chat messages-->
+    <FrameLayout
+        android:layout_below="@+id/toolbar"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/chat_bgd"
+        android:scaleType="centerCrop"/>
+<RelativeLayout
 
+    android:layout_width="match_parent"
+    android:layout_below="@+id/toolbar"
+    android:layout_height="match_parent">
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/send_message_layout"
-        android:layout_below="@+id/toolbar"
-        android:background="#F5F9FA"
+
+
         android:divider="@null" />
     <!--To type and send the message-->
     <LinearLayout
@@ -99,5 +113,7 @@
             android:layout_weight="1"
             android:background="@drawable/send_background" />
     </LinearLayout>
+</RelativeLayout>
+    </FrameLayout>
 
 </RelativeLayout>

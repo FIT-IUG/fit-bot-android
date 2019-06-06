@@ -35,27 +35,27 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ChatActivity extends AppCompatActivity {
 
-
+    private ImageView chat_bgd;
     private ListView mListView;
     private Button mButtonSend;
     private EditText mEditTextMessage;
-    private ImageView mImageView;
     public Bot bot;
     public static Chat chat;
     private ChatMessageAdapter mAdapter;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor sharedPreferencesEditor;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        //getWindow().setBackgroundDrawableResource(R.drawable.chat_bgd);
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.menu);
-        mListView = (ListView) findViewById(R.id.listView);
+        mListView = findViewById(R.id.listView);
         mButtonSend = findViewById(R.id.btn_send);
-        mEditTextMessage = (EditText) findViewById(R.id.et_message);
+        mEditTextMessage = findViewById(R.id.et_message);
+
+
 
         //max same responses allowed
         MagicNumbers.repetition_count = 100;
