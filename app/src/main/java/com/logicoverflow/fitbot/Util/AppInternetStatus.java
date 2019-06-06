@@ -10,9 +10,6 @@ public class AppInternetStatus {
 
     private static AppInternetStatus instance = new AppInternetStatus();
     static Context context;
-    ConnectivityManager connectivityManager;
-    NetworkInfo wifiInfo, mobileInfo;
-    boolean connected = false;
 
     public static AppInternetStatus getInstance(Context ctx) {
         context = ctx.getApplicationContext();
@@ -20,20 +17,10 @@ public class AppInternetStatus {
     }
 
     public boolean isOnline() {
-        try {
-            connectivityManager = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            connected = networkInfo != null && networkInfo.isAvailable() &&
-                    networkInfo.isConnected();
-            return connected;
-
-
-        } catch (Exception e) {
-            System.out.println("CheckConnectivity Exception: " + e.getMessage());
-            Log.v("connectivity", e.toString());
-        }
-        return connected;
+            ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            boolean isConnected = activeNetwork != null &&
+                    activeNetwork.isConnectedOrConnecting();
+            return isConnected;
     }
 }

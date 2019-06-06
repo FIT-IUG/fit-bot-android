@@ -1,11 +1,13 @@
 package com.logicoverflow.fitbot;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -15,9 +17,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.logicoverflow.fitbot.Adapter.ChatMessageAdapter;
 import com.logicoverflow.fitbot.Model.ChatMessage;
+import com.logicoverflow.fitbot.Util.AppInternetStatus;
 
 import org.alicebot.ab.AIMLProcessor;
 import org.alicebot.ab.Bot;
@@ -35,27 +40,35 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ChatActivity extends AppCompatActivity {
 
-    private ImageView chat_bgd;
     private ListView mListView;
     private Button mButtonSend;
+    private static TextView connectivity_text;
+    private static ImageView connectivity_circle;
     private EditText mEditTextMessage;
     public Bot bot;
     public static Chat chat;
     private ChatMessageAdapter mAdapter;
 
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        //getWindow().setBackgroundDrawableResource(R.drawable.chat_bgd);
-        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.inflateMenu(R.menu.menu);
+        //androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        //toolbar.inflateMenu(R.menu.menu);
         mListView = findViewById(R.id.listView);
         mButtonSend = findViewById(R.id.btn_send);
         mEditTextMessage = findViewById(R.id.et_message);
+        connectivity_text = findViewById(R.id.toolbar_connectivity_text);
+        connectivity_circle = findViewById(R.id.toolbar_connectivity_circle);
 
-
+        if (!AppInternetStatus.getInstance(ChatActivity.this).isOnline()) {
+            connectivity_circle.setImageResource(R.drawable.offline_circle);
+            connectivity_text.setText("Offline");
+        }
 
         //max same responses allowed
         MagicNumbers.repetition_count = 100;
@@ -105,12 +118,23 @@ public class ChatActivity extends AppCompatActivity {
         bot = new Bot("Fitbot", MagicStrings.root_path, "chat");
         chat = new Chat(bot);
         bot.writeAIMLIFFiles();
-
-
         String[] args = null;
 
         mainFunction(args);
 
+    }
+
+    public static void checkConnectivity(Context context) {
+        if (!AppInternetStatus.getInstance(context).isOnline()) {
+            connectivity_circle.setImageResource(R.drawable.offline_circle);
+            connectivity_text.setText("Offline");
+            Toast.makeText(context, "offline", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            connectivity_circle.setImageResource(R.drawable.online_circle);
+            connectivity_text.setText("Online");
+            Toast.makeText(context, "online", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -124,7 +148,7 @@ public class ChatActivity extends AppCompatActivity {
     private void mimicOtherMessage(String message) {
         ChatMessage chatMessage;
         if (message.contains("gif")) {
-            message = message.replace("gif","");
+            message = message.replace("gif", "");
             chatMessage = new ChatMessage(message, false, true);
         } else {
             chatMessage = new ChatMessage(message, false, false);
@@ -132,8 +156,6 @@ public class ChatActivity extends AppCompatActivity {
 
         mAdapter.add(chatMessage);
     }
-
-
 
 
     //Request and response of user and the bot
