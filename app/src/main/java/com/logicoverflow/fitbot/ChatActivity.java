@@ -101,7 +101,7 @@ public class ChatActivity extends AppCompatActivity {
 
                             @Override
                             public void run() {
-                                toolbar.setBackground(getDrawable(R.drawable.toolbar_shape_straight_corners));
+                                toolbar.setBackground(getDrawable(R.drawable.toolbar_shape_straight_corners_primarycolor));
                             }
                         }, 300);
 

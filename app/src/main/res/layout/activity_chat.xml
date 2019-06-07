@@ -6,10 +6,7 @@
     android:layout_below="@+id/toolbar"
     tools:context=".ChatActivity">
 
-    <include
-        layout="@layout/pull_down_menu"
-        android:visibility="invisible"
-        tools:visibility="invisible" />
+
 
     <RelativeLayout
         android:id="@+id/chat_activity"
@@ -148,4 +145,9 @@
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
+    <include
+        layout="@layout/pull_down_menu"
+        android:visibility="invisible"
+        tools:visibility="invisible" />
+
 </FrameLayout>
