@@ -2,12 +2,10 @@ package com.logicoverflow.fitbot;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Environment;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
