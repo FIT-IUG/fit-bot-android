@@ -104,7 +104,7 @@ public class SplashActivity extends AppCompatActivity {
         }, 8000);
 
         if (!AppInternetStatus.getInstance(SplashActivity.this).isOnline()) {
-            progress_text.setText("Couldn't check for updates / Saving default files");
+            progress_text.setText("Couldn't check for updates\nSaving default files");
             if (sharedPreferences.getInt("version", 0) == 0) {
                 storeDefaultAIMLfiles();
             }
