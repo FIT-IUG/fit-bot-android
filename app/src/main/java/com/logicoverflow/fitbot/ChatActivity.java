@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -21,7 +22,6 @@ import android.widget.Toast;
 import com.logicoverflow.fitbot.Adapter.ChatMessageAdapter;
 import com.logicoverflow.fitbot.Model.ChatMessage;
 import com.logicoverflow.fitbot.Util.AppInternetStatus;
-
 import org.alicebot.ab.AIMLProcessor;
 import org.alicebot.ab.Bot;
 import org.alicebot.ab.Chat;
@@ -46,9 +46,6 @@ public class ChatActivity extends AppCompatActivity {
     public Bot bot;
     public static Chat chat;
     private ChatMessageAdapter mAdapter;
-
-
-
 
 
     @Override
