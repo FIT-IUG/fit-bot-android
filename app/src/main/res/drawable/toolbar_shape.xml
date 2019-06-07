@@ -10,8 +10,8 @@
 
     <!-- The radius makes the corners rounded -->
     <corners
-        android:bottomLeftRadius="30dp"
-        android:bottomRightRadius="30dp">
+        android:bottomLeftRadius="10dp"
+        android:bottomRightRadius="10dp">
     </corners>
 
     <padding android:left="10dp" android:right="10dp">
