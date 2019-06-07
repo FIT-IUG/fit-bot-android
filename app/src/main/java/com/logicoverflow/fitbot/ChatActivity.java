@@ -2,13 +2,16 @@ package com.logicoverflow.fitbot;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -22,6 +25,7 @@ import android.widget.Toast;
 import com.logicoverflow.fitbot.Adapter.ChatMessageAdapter;
 import com.logicoverflow.fitbot.Model.ChatMessage;
 import com.logicoverflow.fitbot.Util.AppInternetStatus;
+
 import org.alicebot.ab.AIMLProcessor;
 import org.alicebot.ab.Bot;
 import org.alicebot.ab.Chat;
@@ -46,6 +50,7 @@ public class ChatActivity extends AppCompatActivity {
     public Bot bot;
     public static Chat chat;
     private ChatMessageAdapter mAdapter;
+    private View pull_down_menu;
 
 
     @Override
@@ -64,6 +69,47 @@ public class ChatActivity extends AppCompatActivity {
             connectivity_circle.setImageResource(R.drawable.offline_circle);
             connectivity_text.setText("Offline");
         }
+
+        pull_down_menu = findViewById(R.id.pull_down_menu);
+        final View toolbar = findViewById(R.id.toolbar);
+
+        final Animation slide_down_animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down_animation);
+        final Animation slide_up_animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up_animation);
+
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (pull_down_menu.isShown()) {
+                    pull_down_menu.startAnimation(slide_up_animation);
+                    pull_down_menu.setVisibility(View.INVISIBLE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        new Handler().postDelayed(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                toolbar.setBackground(getDrawable(R.drawable.toolbar_shape_rounded_corners));
+                            }
+                        }, 200);
+
+                    }
+                } else {
+                    pull_down_menu.startAnimation(slide_down_animation);
+                    pull_down_menu.setVisibility(View.VISIBLE);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        new Handler().postDelayed(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                toolbar.setBackground(getDrawable(R.drawable.toolbar_shape_straight_corners));
+                            }
+                        }, 300);
+
+                    }
+                }
+            }
+        });
+
 
         //max same responses allowed
         MagicNumbers.repetition_count = 100;
@@ -124,8 +170,7 @@ public class ChatActivity extends AppCompatActivity {
             connectivity_circle.setImageResource(R.drawable.offline_circle);
             connectivity_text.setText("Offline");
             Toast.makeText(context, "offline", Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             connectivity_circle.setImageResource(R.drawable.online_circle);
             connectivity_text.setText("Online");
             Toast.makeText(context, "online", Toast.LENGTH_SHORT).show();
