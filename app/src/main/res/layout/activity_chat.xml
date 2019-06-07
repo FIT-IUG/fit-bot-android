@@ -1,113 +1,113 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/chat_bgd"
+    android:layout_below="@+id/toolbar"
     tools:context=".ChatActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/toolbar"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentTop="true"
-        app:contentInsetLeft="0dp"
-        android:background="@drawable/toolbar_shape"
-        app:contentInsetStart="0dp"
-        app:layout_scrollFlags="scroll|enterAlways">
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/chat_bgd" />
 
-        <RelativeLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/toolbar_shape"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:layout_scrollFlags="scroll|enterAlways">
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center">
+            <RelativeLayout
 
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/logo_image"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                    <ImageView
-                        android:id="@+id/toolbar_connectivity_circle"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_gravity="bottom|right"
-                        android:src="@drawable/online_circle"/>
-
-                </FrameLayout>
-
-
-
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp">
-                    <TextView
-                        android:id="@+id/toolbar_title"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/logo_image" />
+
+                        <ImageView
+                            android:id="@+id/toolbar_connectivity_circle"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="bottom|right"
+                            android:src="@drawable/online_circle" />
+
+                    </FrameLayout>
+
+
+                    <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/pt_sans_web_bold"
-                        android:gravity="center"
-                        android:text="FIT-Bot"
-                        android:textAlignment="center"
-                        android:textColor="@android:color/white"
-                        android:textSize="22sp" />
-                    <TextView
-                        android:id="@+id/toolbar_connectivity_text"
-                        android:layout_below="@+id/toolbar_title"
-                        android:text="Online"
-                        android:fontFamily="@font/pt_sans_web_regular"
-                        android:textColor="@android:color/white"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        />
-                </RelativeLayout>
+                        android:layout_marginLeft="10dp">
+
+                        <TextView
+                            android:id="@+id/toolbar_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/pt_sans_web_bold"
+                            android:gravity="center"
+                            android:text="FIT-Bot"
+                            android:textAlignment="center"
+                            android:textColor="@android:color/white"
+                            android:textSize="22sp" />
+
+                        <TextView
+                            android:id="@+id/toolbar_connectivity_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/toolbar_title"
+                            android:fontFamily="@font/pt_sans_web_regular"
+                            android:text="Online"
+                            android:textColor="@android:color/white"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
 
 
-            </LinearLayout>
+                </LinearLayout>
 
-        </RelativeLayout>
-
-
-    </androidx.appcompat.widget.Toolbar>
+            </RelativeLayout>
 
 
-    <!--List view for displaying chat messages-->
-    <FrameLayout
-        android:layout_below="@+id/toolbar"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/chat_bgd"
-            android:scaleType="centerCrop"/>
+        </androidx.appcompat.widget.Toolbar>
+
+
+        <!--List view for displaying chat messages-->
+
         <RelativeLayout
 
             android:layout_width="match_parent"
-            android:layout_below="@+id/toolbar"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar">
+
             <ListView
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/send_message_layout"
-
-
                 android:divider="@null" />
             <!--To type and send the message-->
             <LinearLayout
@@ -146,6 +146,5 @@
                     android:background="@drawable/send_background" />
             </LinearLayout>
         </RelativeLayout>
-    </FrameLayout>
-
-</RelativeLayout>
+    </RelativeLayout>
+</FrameLayout>
