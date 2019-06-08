@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.logicoverflow.fitbot.Adapter.ChatMessageAdapter;
 import com.logicoverflow.fitbot.Model.ChatMessage;
 import com.logicoverflow.fitbot.Util.AppInternetStatus;
@@ -43,7 +44,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class ChatActivity extends AppCompatActivity {
 
     private ListView mListView;
-    private Button mButtonSend;
+    private FloatingActionButton mButtonSend;
     private static TextView connectivity_text;
     private static ImageView connectivity_circle;
     private EditText mEditTextMessage;
