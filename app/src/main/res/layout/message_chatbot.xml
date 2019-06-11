@@ -21,7 +21,7 @@
         android:layout_marginRight="50dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/bubble_message_chatbot"
-        android:elevation="20dp"
+        android:elevation="5dp"
         android:orientation="vertical">
 
         <TextView

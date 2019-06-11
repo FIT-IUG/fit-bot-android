@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.logicoverflow.fitbot.ChatActivity" android:theme="@style/NoActionBar" android:windowSoftInputMode="stateHidden|adjustResize">
+        <activity android:name="com.logicoverflow.fitbot.ChatActivity" android:theme="@style/DefaultTheme" android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
 
         <receiver

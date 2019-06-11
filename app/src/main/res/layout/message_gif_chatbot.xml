@@ -21,12 +21,12 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="10dp"
+        android:elevation="5dp"
         android:orientation="vertical">
         <TextView
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="5dp"
             android:fontFamily="@font/pt_sans_web_bold"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"

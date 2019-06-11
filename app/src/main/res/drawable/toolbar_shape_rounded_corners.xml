@@ -5,13 +5,13 @@
     <!--<stroke android:width="5dp" android:color="#F4F7F8"></stroke>-->
     <!-- View background color -->
     <solid
-        android:color="@color/colorPrimaryDark" >
+        android:color="@color/colorPrimaryDark_1" >
     </solid>
 
     <!-- The radius makes the corners rounded -->
     <corners
-        android:bottomLeftRadius="30dp"
-        android:bottomRightRadius="30dp">
+        android:bottomLeftRadius="10dp"
+        android:bottomRightRadius="10dp">
     </corners>
 
     <padding android:left="10dp" android:right="10dp">

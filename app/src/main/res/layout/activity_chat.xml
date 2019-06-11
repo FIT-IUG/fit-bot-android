@@ -1,158 +1,141 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chat_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_below="@+id/toolbar"
     tools:context=".ChatActivity">
 
-
-    <RelativeLayout
-        android:id="@+id/chat_activity"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/toolbar_shape_rounded_corners"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_scrollFlags="scroll|enterAlways">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/toolbar_shape_rounded_corners"
-            app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
-            app:layout_scrollFlags="scroll|enterAlways">
-
-
-            <RelativeLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:src="@drawable/logo_image" />
-
-                        <ImageView
-                            android:id="@+id/toolbar_connectivity_circle"
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:layout_gravity="bottom|right"
-                            android:src="@drawable/online_circle" />
-
-                    </FrameLayout>
-
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp">
-
-                        <TextView
-                            android:id="@+id/toolbar_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/pt_sans_web_bold"
-                            android:gravity="center"
-                            android:text="FIT-Bot"
-                            android:textAlignment="center"
-                            android:textColor="@android:color/white"
-                            android:textSize="22sp" />
-
-                        <TextView
-                            android:id="@+id/toolbar_connectivity_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/toolbar_title"
-                            android:fontFamily="@font/pt_sans_web_regular"
-                            android:text="Online"
-                            android:textColor="@android:color/white"
-                            android:textSize="16sp" />
-                    </RelativeLayout>
-
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-
-        </androidx.appcompat.widget.Toolbar>
-
-
-        <!--List view for displaying chat messages-->
 
         <RelativeLayout
 
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar">
+            android:layout_height="match_parent">
 
-            <ListView
-                android:id="@+id/listView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@+id/send_message_layout"
-                android:divider="@null" />
-            <!--To type and send the message-->
             <LinearLayout
-                android:id="@+id/send_message_layout"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:elevation="50dp"
-                android:gravity="center_vertical"
+                android:layout_centerInParent="true"
+                android:gravity="center"
                 android:orientation="horizontal">
 
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/et_message"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_weight="9"
-                    android:background="@drawable/rounded_shape"
-                    android:fontFamily="@font/pt_sans_web_regular"
-                    android:gravity="right"
-                    android:hint="رسالة جديدة"
-                    android:imeOptions="actionSend"
-                    android:layoutDirection="rtl"
-                    android:padding="10dp"
-                    android:textColor="@android:color/black"
-                    android:textDirection="rtl" />
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/logo_image" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/btn_send"
+                    <ImageView
+                        android:id="@+id/toolbar_connectivity_circle"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="bottom|right"
+                        android:src="@drawable/online_circle" />
+
+                </FrameLayout>
+
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:backgroundTint="@color/colorPrimaryDark"
-                    app:borderWidth="0dp"
-                    app:pressedTranslationZ="12dp"
-                    app:elevation="2dp"
-                    android:scaleType="center"
-                    app:maxImageSize="30dp"
-                    android:src="@drawable/ic_send_white" />
+                    android:layout_marginLeft="10dp">
+
+                    <TextView
+                        android:id="@+id/toolbar_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pt_sans_web_bold"
+                        android:gravity="center"
+                        android:text="FIT-Bot"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="22sp" />
+
+                    <TextView
+                        android:id="@+id/toolbar_connectivity_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/toolbar_title"
+                        android:fontFamily="@font/pt_sans_web_regular"
+                        android:text="Online"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+
             </LinearLayout>
+
         </RelativeLayout>
-    </RelativeLayout>
 
-    <include
-        layout="@layout/pull_down_menu"
-        android:visibility="invisible"
-        tools:visibility="invisible" />
 
-</FrameLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <!--List view for displaying chat messages-->
+
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/send_message_layout"
+            android:layout_below="@+id/toolbar"
+            android:transcriptMode="alwaysScroll"
+            android:divider="@null" />
+        <!--To type and send the message-->
+        <LinearLayout
+            android:id="@+id/send_message_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary_1"
+            android:elevation="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+
+            <EditText
+                android:id="@+id/et_message"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="9"
+                android:background="@drawable/rounded_shape"
+                android:fontFamily="@font/pt_sans_web_regular"
+                android:gravity="center|right"
+                android:hint="رسالة جديدة"
+                android:imeOptions="actionSend"
+                android:layoutDirection="rtl"
+                android:padding="10dp"
+                android:textColor="@android:color/black"
+                android:textDirection="rtl"
+                android:textSize="20sp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:backgroundTint="@color/colorPrimaryDark_1"
+                android:src="@drawable/ic_send_white"
+                app:borderWidth="0dp"
+                app:elevation="2dp" />
+        </LinearLayout>
+</RelativeLayout>
