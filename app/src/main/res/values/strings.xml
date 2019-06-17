@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FIT-Bot</string>
+    <string name="settings_menu_item" />
 </resources>

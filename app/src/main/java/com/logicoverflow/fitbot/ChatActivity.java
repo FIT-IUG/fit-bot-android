@@ -2,6 +2,7 @@ package com.logicoverflow.fitbot;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Bundle;
@@ -9,6 +10,9 @@ import android.os.Handler;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -39,6 +43,7 @@ import org.alicebot.ab.Timer;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -64,51 +69,53 @@ public class ChatActivity extends AppCompatActivity {
         mEditTextMessage = findViewById(R.id.et_message);
         connectivity_text = findViewById(R.id.toolbar_connectivity_text);
         connectivity_circle = findViewById(R.id.toolbar_connectivity_circle);
+        Toolbar actionToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(actionToolbar);
 
         if (!AppInternetStatus.getInstance(ChatActivity.this).isOnline()) {
             connectivity_circle.setImageResource(R.drawable.offline_circle);
             connectivity_text.setText("Offline");
         }
 
-        pull_down_menu = findViewById(R.id.pull_down_menu);
-        final View toolbar = findViewById(R.id.toolbar);
+        //pull_down_menu = findViewById(R.id.pull_down_menu);
+       // final View toolbar = findViewById(R.id.toolbar);
 
-        final Animation slide_down_animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down_animation);
-        final Animation slide_up_animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up_animation);
+        //final Animation slide_down_animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down_animation);
+       // final Animation slide_up_animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up_animation);
 
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (pull_down_menu.isShown()) {
-                    pull_down_menu.startAnimation(slide_up_animation);
-                    pull_down_menu.setVisibility(View.INVISIBLE);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        new Handler().postDelayed(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                toolbar.setBackground(getDrawable(R.drawable.toolbar_shape_rounded_corners));
-                            }
-                        }, 200);
-
-                    }
-                } else {
-                    pull_down_menu.startAnimation(slide_down_animation);
-                    pull_down_menu.setVisibility(View.VISIBLE);
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        new Handler().postDelayed(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                toolbar.setBackground(getDrawable(R.drawable.toolbar_shape_straight_corners_primarycolor));
-                            }
-                        }, 300);
-
-                    }
-                }
-            }
-        });
+//        toolbar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (pull_down_menu.isShown()) {
+//                    pull_down_menu.startAnimation(slide_up_animation);
+//                    pull_down_menu.setVisibility(View.INVISIBLE);
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                        new Handler().postDelayed(new Runnable() {
+//
+//                            @Override
+//                            public void run() {
+//                                toolbar.setBackground(getDrawable(R.drawable.toolbar_shape_rounded_corners));
+//                            }
+//                        }, 200);
+//
+//                    }
+//                } else {
+//                    pull_down_menu.startAnimation(slide_down_animation);
+//                    pull_down_menu.setVisibility(View.VISIBLE);
+//
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                        new Handler().postDelayed(new Runnable() {
+//
+//                            @Override
+//                            public void run() {
+//                                toolbar.setBackground(getDrawable(R.drawable.toolbar_shape_straight_corners_primarycolor));
+//                            }
+//                        }, 300);
+//
+//                    }
+//                }
+//            }
+//        });
 
 
         //max same responses allowed
@@ -235,4 +242,23 @@ public class ChatActivity extends AppCompatActivity {
         inputMethodManager.hideSoftInputFromWindow(
                 activity.getCurrentFocus().getWindowToken(), 0);
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

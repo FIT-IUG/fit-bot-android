@@ -18,11 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/toolbar_shape_rounded_corners"
-            app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
+            android:background="@color/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways">
 
 

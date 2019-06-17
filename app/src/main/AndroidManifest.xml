@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -15,22 +15,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
-        <activity android:name="com.logicoverflow.fitbot.SplashActivity"  android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".SettingActivity"></activity>
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.logicoverflow.fitbot.ChatActivity" android:theme="@style/NoActionBar" android:windowSoftInputMode="stateHidden|adjustResize">
-        </activity>
+        <activity
+            android:name=".ChatActivity"
+            android:theme="@style/NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
 
         <receiver
             android:name=".BroadcastReceivers.InternetBroadcastReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
             </intent-filter>
         </receiver>
     </application>
