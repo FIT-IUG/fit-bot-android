@@ -26,6 +26,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.logicoverflow.fitbot.Adapter.ChatMessageAdapter;
 import com.logicoverflow.fitbot.Model.ChatMessage;
 import com.logicoverflow.fitbot.Util.AppInternetStatus;
@@ -256,6 +257,7 @@ public class ChatActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             Intent settingsIntent = new Intent(this, SettingActivity.class);
             startActivity(settingsIntent);
+            Animatoo.animateSlideLeft(this);
             return true;
         }
         return super.onOptionsItemSelected(item);

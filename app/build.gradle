@@ -47,4 +47,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.9'
     implementation 'com.google.firebase:firebase-auth:17.0.0'
     implementation 'org.apache.commons:commons-io:1.3.2'
+    implementation 'com.github.mohammadatif:Animatoo:master'
 }
