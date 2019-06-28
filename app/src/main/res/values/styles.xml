@@ -1,33 +1,13 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary_1</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark_1</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
     </style>
 
-    <style name="DefaultTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary_1</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark_1</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <!--<item name="android:windowBackground">@drawable/chat_bgd</item>-->
-    </style>
-
-    <style name="SecondTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary_2</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark_2</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <!--<item name="android:windowBackground">@drawable/chat_bgd</item>-->
-    </style>
 
 </resources>

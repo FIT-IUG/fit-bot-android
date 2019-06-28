@@ -10,7 +10,7 @@
 
     <!-- The radius makes the corners rounded -->
     <corners
-        android:topLeftRadius="0dp"
+        android:bottomLeftRadius="10dp"
         android:radius="50dp">
     </corners>
 
