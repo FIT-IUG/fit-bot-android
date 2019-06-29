@@ -13,15 +13,15 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="false"
-        android:theme="@style/AppTheme">
-
-        <activity android:name=".SettingActivity">
-        </activity>
-
+        android:supportsRtl="true"
+        android:theme="@style/AppThemeLight">
+        <activity
+            android:name=".SettingActivity"
+            android:label="@string/title_activity_setting"
+            android:theme="@style/AppThemeLight.NoActionBar"></activity>
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppThemeLight">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,8 +30,8 @@
         </activity>
         <activity
             android:name=".ChatActivity"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:theme="@style/AppThemeLight"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <receiver
             android:name=".BroadcastReceivers.InternetBroadcastReceiver"
