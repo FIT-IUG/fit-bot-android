@@ -806,7 +806,7 @@ public class AndroidAnimationBuilder {
      * A predefined animation hook (can be attached to animation steps) that
      * removes *all* animation-typical transformations from the view (translation,
      * scale, rotation, ...). <em>This includes alpha</em>, as assigned to the view
-     * (in contrast to stuff like transparent background colors or images).
+     * (in contrast to stuff like transparent backgroundColor colors or images).
      * <br/><br/>
      * <b>NOTE:</b> Unlike a 'reset()' animation step, this will take immediate effect
      * (= not animated) and always deliver the same result. 'reset' will always go

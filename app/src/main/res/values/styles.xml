@@ -3,17 +3,23 @@
     <!-- Base application theme. -->
     <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary_LightTheme</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark_LightTheme</item>
-        <item name="colorAccent">@color/colorAccent_LightTheme</item>
+        <item name="backgroundColor">@color/white</item>
+        <item name="colorPrimaryDark">@color/whiteDark</item>
+        <item name="mainColor">@color/whiteDark</item>
+        <item name="textColor">@android:color/black</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary_DarkTheme</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark_DarkTheme</item>
-        <item name="colorAccent">@color/colorAccent_DarkTheme</item>
+        <item name="backgroundColor">@color/black</item>
+        <item name="colorPrimaryDark">@color/blackDark</item>
+        <item name="mainColor">@color/blackDark</item>
+        <item name="textColor">@android:color/white</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:textColorHint">@color/black</item>
     </style>
 
     <style name="AppThemeLight.NoActionBar">

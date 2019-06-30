@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary_LightTheme">#F6F7F8</color>
-    <color name="colorPrimaryDark_LightTheme">#F6F7F8</color>
-    <color name="colorAccent_LightTheme">#5F6FEE</color>
+    <color name="white">#FFFFFF</color>
+    <color name="whiteDark">#F6F7F8</color>
 
-    <color name="colorPrimary_DarkTheme">#000000</color>
-    <color name="colorPrimaryDark_DarkTheme">#000000</color>
-    <color name="colorAccent_DarkTheme">#5F6FEE</color>
+    <color name="black">#1B1B1B</color>
+    <color name="blackDark">#000000</color>
+
+    <color name="colorAccent">#5F6FEE</color>
+
+    <!--<color name="colorPrimary_DarkTheme">#000000</color>-->
+    <!--<color name="colorPrimaryDark_DarkTheme">#000000</color>-->
+    <!--<color name="colorAccent_DarkTheme">#5F6FEE</color>-->
 
     <color name="colorSplashText">#3F51B5</color>
 </resources>

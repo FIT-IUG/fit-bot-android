@@ -3,6 +3,7 @@ package com.logicoverflow.fitbot;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Bundle;
@@ -49,6 +50,11 @@ import androidx.appcompat.widget.Toolbar;
 
 public class ChatActivity extends AppCompatActivity {
 
+    public static final String THEME_PREFERENCES = "THEME_PREFERENCES";
+    public static final String THEME_SAVED = "THEME_SAVED";
+    public static final String LIGHTTHEME = "LIGHTTHEME";
+    public static final String DARKTHEME = "DARKTHEME";
+
     private ListView mListView;
     private FloatingActionButton mButtonSend;
     private static TextView connectivity_text;
@@ -58,11 +64,22 @@ public class ChatActivity extends AppCompatActivity {
     public static Chat chat;
     private ChatMessageAdapter mAdapter;
 
+    private SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        String theme = getSharedPreferences(ChatActivity.THEME_PREFERENCES, MODE_PRIVATE).getString(ChatActivity.THEME_SAVED, ChatActivity.LIGHTTHEME);
+        if (theme.equals(ChatActivity.LIGHTTHEME)) {
+            setTheme(R.style.AppThemeLight);
+        } else {
+            setTheme(R.style.AppThemeDark);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+
         mListView = findViewById(R.id.listView);
         mButtonSend = findViewById(R.id.btn_send);
         mEditTextMessage = findViewById(R.id.et_message);
@@ -127,6 +144,16 @@ public class ChatActivity extends AppCompatActivity {
         String[] args = null;
 
         mainFunction(args);
+
+
+        onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+                recreate();
+            }
+        };
+        getSharedPreferences(ChatActivity.THEME_PREFERENCES, MODE_PRIVATE).registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+
 
     }
 
@@ -219,5 +246,7 @@ public class ChatActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 
 }

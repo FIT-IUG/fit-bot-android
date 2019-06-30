@@ -3,9 +3,9 @@
     android:shape="rectangle" >
 
 <!--<stroke android:width="5dp" android:color="#F4F7F8"></stroke>-->
-    <!-- View background color -->
+    <!-- View backgroundColor color -->
     <solid
-        android:color="@color/colorAccent_LightTheme" >
+        android:color="@color/colorAccent" >
     </solid>
 
     <!-- The radius makes the corners rounded -->

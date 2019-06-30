@@ -18,20 +18,26 @@
         <activity
             android:name=".SettingActivity"
             android:label="@string/title_activity_setting"
-            android:theme="@style/AppThemeLight.NoActionBar"></activity>
+            android:theme="@style/AppThemeLight"></activity>
         <activity
             android:name=".SplashActivity"
             android:theme="@style/AppThemeLight">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity
+            android:name=".ChatActivity"
+            android:theme="@style/AppThemeLight"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ChatActivity"
-            android:theme="@style/AppThemeLight"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <receiver
             android:name=".BroadcastReceivers.InternetBroadcastReceiver"
