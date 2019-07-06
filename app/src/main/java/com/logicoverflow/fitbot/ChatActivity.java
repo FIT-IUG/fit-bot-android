@@ -4,33 +4,40 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.os.Environment;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.QuickContactBadge;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.logicoverflow.fitbot.Adapter.ChatMessageAdapter;
 import com.logicoverflow.fitbot.Model.ChatMessage;
+import com.logicoverflow.fitbot.Model.FirebaseMessage;
 import com.logicoverflow.fitbot.Util.AppInternetStatus;
 
 import org.alicebot.ab.AIMLProcessor;
@@ -45,6 +52,7 @@ import org.alicebot.ab.Timer;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -52,6 +60,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public static final String THEME_PREFERENCES = "THEME_PREFERENCES";
     public static final String THEME_SAVED = "THEME_SAVED";
+    public static final String BACKGROUND_SAVED = "BACKGROUND_SAVED";
     public static final String LIGHTTHEME = "LIGHTTHEME";
     public static final String DARKTHEME = "DARKTHEME";
 
@@ -64,10 +73,16 @@ public class ChatActivity extends AppCompatActivity {
     public static Chat chat;
     private ChatMessageAdapter mAdapter;
 
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mDatabaseReference;
+
     private SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabaseReference = mFirebaseDatabase.getReference();
 
         String theme = getSharedPreferences(ChatActivity.THEME_PREFERENCES, MODE_PRIVATE).getString(ChatActivity.THEME_SAVED, ChatActivity.LIGHTTHEME);
         if (theme.equals(ChatActivity.LIGHTTHEME)) {
@@ -79,6 +94,8 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        ScrollView sv = findViewById(R.id.scroll);
+        sv.setEnabled(false);
 
         mListView = findViewById(R.id.listView);
         mButtonSend = findViewById(R.id.btn_send);
@@ -122,6 +139,13 @@ public class ChatActivity extends AppCompatActivity {
                     return true;
                 }
                 return false;
+            }
+        });
+
+        mEditTextMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAdapter.notifyDataSetChanged();
             }
         });
 
@@ -214,6 +238,27 @@ public class ChatActivity extends AppCompatActivity {
         }
         sendMessage(mEditTextMessage.getText().toString());
         mimicOtherMessage(response);
+
+        //Upload messages to firebase
+        boolean isAnswered = true;
+        if (response.equals(MagicStrings.default_bot_response)) {
+            isAnswered = false;
+        }
+
+        mDatabaseReference.child("messages").push().setValue(new FirebaseMessage(message, response, isAnswered))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //Toast.makeText(ChatActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Toast.makeText(ChatActivity.this, "Failed: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //
         mEditTextMessage.setText("");
         mListView.setSelection(mAdapter.getCount() - 1);
 
@@ -239,7 +284,7 @@ public class ChatActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            Intent settingsIntent = new Intent(this, SettingActivity.class);
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsIntent);
             Animatoo.animateSlideLeft(this);
             return true;
@@ -247,6 +292,20 @@ public class ChatActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setBackgroundImage();
+    }
 
-
+    public void setBackgroundImage() {
+        String backgroundString = getSharedPreferences(ChatActivity.THEME_PREFERENCES, MODE_PRIVATE).getString(ChatActivity.BACKGROUND_SAVED, ChatActivity.LIGHTTHEME);
+        byte[] imageAsBytes = Base64.decode(backgroundString.getBytes(), Base64.DEFAULT);
+        //RelativeLayout chatBackground = findViewById(R.id.chatBackground);
+        ImageView background_image = findViewById(R.id.background_image);
+        Bitmap backgroundBitmap = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
+        BitmapDrawable backgroundBitmapDrawable = new BitmapDrawable(getResources(), backgroundBitmap);
+        //chatBackground.setBackground(backgroundBitmapDrawable);
+        background_image.setImageDrawable(backgroundBitmapDrawable);
+    }
 }

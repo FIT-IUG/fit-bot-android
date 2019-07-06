@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentTop="true"
-            android:background="?attr/mainColor"
+            android:background="?attr/mainColorDark"
             app:layout_scrollFlags="scroll|enterAlways">
 
 
@@ -93,12 +93,27 @@
         <!--List view for displaying chat messages-->
 
         <RelativeLayout
-            android:background="?attr/backgroundColor"
+            android:id="@+id/chatBackground"
+            android:background="?attr/mainColor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbar">
 
+            <ScrollView
+                android:id="@+id/scroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/send_message_layout">
+                <ImageView
+                    android:id="@+id/background_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"/>
+            </ScrollView>
+
             <ListView
+                android:transcriptMode="alwaysScroll"
+                android:isScrollContainer="false"
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -110,7 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_alignParentBottom="true"
-                android:background="?attr/colorPrimaryDark"
+                android:background="?attr/mainColorDark"
                 android:elevation="50dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -123,7 +138,7 @@
                     android:layout_marginLeft="4dp"
                     android:layout_marginRight="4dp"
                     android:layout_weight="9"
-                    android:background="?attr/colorPrimaryDark"
+                    android:background="?attr/mainColorDark"
                     android:fontFamily="@font/pt_sans_web_regular"
                     android:gravity="right"
                     android:hint="رسالة جديدة"
@@ -135,10 +150,10 @@
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     app:rippleColor="?attr/mainColor"
-                    android:backgroundTint="?attr/backgroundColor"
+                    android:backgroundTint="?attr/mainColorDark"
                     android:src="@drawable/ic_send"
-                    android:outlineSpotShadowColor="?attr/backgroundColor"
-                    android:outlineAmbientShadowColor="?attr/backgroundColor"
+                    android:outlineSpotShadowColor="?attr/mainColor"
+                    android:outlineAmbientShadowColor="?attr/mainColor"
                     android:id="@+id/btn_send"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
