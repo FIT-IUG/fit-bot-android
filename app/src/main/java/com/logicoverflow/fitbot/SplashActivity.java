@@ -2,6 +2,7 @@ package com.logicoverflow.fitbot;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.solver.widgets.Snapshot;
 
 import android.Manifest;
 import android.content.Context;
@@ -11,9 +12,13 @@ import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -58,15 +63,16 @@ public class SplashActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
+    private DatabaseReference mDatabaseReference_2;
     private FirebaseStorage mFirebaseStorage;
     private StorageReference mStorageReference;
     private int storedVersion;
     private int databaseVersion;
+    private boolean isInstalledBefore;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor sharedPreferencesEditor;
     private File fileDirectory;
     private File downloadedFile;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,12 +93,13 @@ public class SplashActivity extends AppCompatActivity {
     private void getDatabaseVersion() {
 
         sharedPreferences = getSharedPreferences("version", Context.MODE_PRIVATE);
+        sharedPreferencesEditor = sharedPreferences.edit();
 
         new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
-                if(progress_text.getText().toString().equals("Checking For Updates...")){
+                if (progress_text.getText().toString().equals("Checking For Updates...")) {
                     progress_text.setText("Couldn't check for updates / Saving default files");
                     if (sharedPreferences.getInt("version", 0) == 0) {
                         storeDefaultAIMLfiles();
@@ -113,29 +120,67 @@ public class SplashActivity extends AppCompatActivity {
             progress_text.setText("Checking For Updates...");
             mFirebaseDatabase = FirebaseDatabase.getInstance();
             mDatabaseReference = mFirebaseDatabase.getReference("version");
-
+            mDatabaseReference_2 = mFirebaseDatabase.getReference();
 
             storedVersion = sharedPreferences.getInt("version", 0);
+            isInstalledBefore = sharedPreferences.getBoolean("isInstall", false);
+
+
+            mDatabaseReference_2.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    int currentInstallations = dataSnapshot.child("number_of_installations").getValue(Integer.class);
+
+                   // Log.e("wwwwwwwwwwwwwwwww" , currentInstallations+"");
+
+
+                    ++ currentInstallations;
+
+
+                    if (!isInstalledBefore) {
+                        uploadDeviceToFirebase();
+                        sharedPreferencesEditor.putBoolean("isInstall", true);
+                        sharedPreferencesEditor.apply();
+                        sharedPreferencesEditor.commit();
+                        mDatabaseReference_2.child("number_of_installations").setValue(currentInstallations);
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
 
 
 
             mDatabaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    databaseVersion = dataSnapshot.getValue(Integer.class);
 
-                    if (databaseVersion > storedVersion) {
-                        progress_text.setText("Found Updates");
-                        try {
-                            updateAIMLfiles();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+
+                    if (dataSnapshot.child("version").exists()) {
+                        databaseVersion = dataSnapshot.child("version").getValue(Integer.class);
+
+
+
+                        Log.e("datasnapshotKey: ", databaseVersion + "");
+
+                        if (databaseVersion > storedVersion) {
+                            progress_text.setText("Found Updates");
+                            try {
+                                updateAIMLfiles();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            progress_text.setText("No Updates Found");
+                            startChatActivity();
                         }
-                    } else {
-                        progress_text.setText("No Updates Found");
-                        startChatActivity();
                     }
-
                 }
 
                 @Override
@@ -177,8 +222,8 @@ public class SplashActivity extends AppCompatActivity {
 
         downloadedFile = new File(fileDirectory.getPath(), "Fitbot.zip");
 
-        for (File child : fileDirectory.listFiles()){
-            if(!child.isDirectory()){
+        for (File child : fileDirectory.listFiles()) {
+            if (!child.isDirectory()) {
                 FileUtils.forceDelete(child);
             }
         }
@@ -356,4 +401,16 @@ public class SplashActivity extends AppCompatActivity {
 
 
     }
+
+    public void uploadDeviceToFirebase() {
+        mDatabaseReference = mFirebaseDatabase.getReference();
+
+        String deviceType = Build.MANUFACTURER.toUpperCase() + "_" + Build.MODEL;
+        String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+
+        mDatabaseReference.child("devices").child(deviceID).setValue(deviceType);
+
+    }
+
+
 }
