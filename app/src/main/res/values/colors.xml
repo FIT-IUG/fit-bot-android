@@ -7,6 +7,14 @@
     <color name="blackDark">#000000</color>
 
     <color name="colorAccent">#5F6FEE</color>
+    <color name="starColor">#FFEB3B</color>
+    <color name="noteDescriptionTextColor">#0C0C0B</color>
+    <color name="titleTextColor">#2196F3</color>
+    <color name="contentTextColor">#5F6FEE</color>
+    <color name="hintTextColor">#5A5C5C</color>
+    <color name="commentTextColor">#0E0D0D</color>
+    <color name="colorPrimaryDark">#F6F7F8</color>
+
 
     <!--<color name="colorPrimary_DarkTheme">#000000</color>-->
     <!--<color name="colorPrimaryDark_DarkTheme">#000000</color>-->

@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.os.Environment;
 import android.os.Bundle;
 import android.text.InputType;
@@ -23,12 +22,9 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.QuickContactBadge;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,8 +34,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.logicoverflow.fitbot.Adapter.ChatMessageAdapter;
 import com.logicoverflow.fitbot.Model.ChatMessage;
 import com.logicoverflow.fitbot.Model.FirebaseMessage;
+import com.logicoverflow.fitbot.Model.FirebaseReport;
 import com.logicoverflow.fitbot.Util.AppInternetStatus;
-
 import org.alicebot.ab.AIMLProcessor;
 import org.alicebot.ab.Bot;
 import org.alicebot.ab.Chat;
@@ -49,12 +45,12 @@ import org.alicebot.ab.MagicNumbers;
 import org.alicebot.ab.MagicStrings;
 import org.alicebot.ab.PCAIMLProcessorExtension;
 import org.alicebot.ab.Timer;
-
 import java.util.ArrayList;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -75,6 +71,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
+    private  DatabaseReference mDatabaseReferemce_2;
 
     private SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener;
 
@@ -124,6 +121,20 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 hideSoftKeyboard(ChatActivity.this);
+            }
+        });
+
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position%2==0){
+                    showReportDialog(new FirebaseReport(mAdapter.getItem(position).getContent(),mAdapter.getItem(position+1).getContent()) );
+                    Toast.makeText(ChatActivity.this, "usermessage position "+position, Toast.LENGTH_SHORT).show();
+                }else{
+                    showReportDialog(new FirebaseReport(mAdapter.getItem(position-1).getContent(),mAdapter.getItem(position).getContent()) );
+                    Toast.makeText(ChatActivity.this, "chatbot position "+position, Toast.LENGTH_SHORT).show();
+                }
+                return false;
             }
         });
 
@@ -308,4 +319,25 @@ public class ChatActivity extends AppCompatActivity {
         //chatBackground.setBackground(backgroundBitmapDrawable);
         background_image.setImageDrawable(backgroundBitmapDrawable);
     }
+
+    private void showReportDialog(final FirebaseReport firebaseReport) {
+
+        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Report about this message ?")
+                .setConfirmText("Report").setCancelButton("cancle", new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                sweetAlertDialog.dismissWithAnimation();
+            }
+        }).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        mDatabaseReference.child("reports").push().setValue(firebaseReport);
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                })
+                .show();
+
+    }
+
 }

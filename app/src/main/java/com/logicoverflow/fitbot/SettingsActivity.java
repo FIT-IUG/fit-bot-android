@@ -7,6 +7,11 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.logicoverflow.fitbot.Model.FirebaseFeedback;
+import com.stepstone.apprating.AppRatingDialog;
+import com.stepstone.apprating.listener.RatingDialogListener;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
@@ -18,6 +23,7 @@ import androidx.core.content.ContextCompat;
 import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,8 +31,9 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 
-public class SettingsActivity extends AppCompatActivity implements IPickResult {
+public class SettingsActivity extends AppCompatActivity implements IPickResult , RatingDialogListener {
 
 
     SharedPreferences sharedPreferences;
@@ -34,7 +41,9 @@ public class SettingsActivity extends AppCompatActivity implements IPickResult {
     private ImageView back_button;
     private Switch enable_darkMode_switch;
     private ImageButton background_picker;
-
+    private Button ratingButton ;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mDatabaseReference;
     @Override
     protected void onCreate(final Bundle savedInstanceState)  {
 
@@ -57,6 +66,17 @@ public class SettingsActivity extends AppCompatActivity implements IPickResult {
         //Toolbar toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
+        ratingButton = findViewById(R.id.rating_button);
+        ratingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mFirebaseDatabase = FirebaseDatabase.getInstance();
+                mDatabaseReference = mFirebaseDatabase.getReference();
+
+                showDialog();
+            }
+        });
         background_picker = findViewById(R.id.background_picker);
         enable_darkMode_switch = findViewById(R.id.enable_darkMode_switch);
         if (theme.equals(ChatActivity.LIGHTTHEME)) {
@@ -167,4 +187,46 @@ public class SettingsActivity extends AppCompatActivity implements IPickResult {
     }
 
 
+
+    @Override
+    public void onNegativeButtonClicked() {
+
+    }
+
+    private void showDialog() {
+        new AppRatingDialog.Builder()
+                .setPositiveButtonText("Submit")
+                .setNegativeButtonText("Cancel")
+                .setNeutralButtonText("Later")
+                .setNoteDescriptions(Arrays.asList("Very Bad", "Not good", "Quite ok", "Very Good", "Excellent !!!"))
+                .setDefaultRating(2)
+                .setTitle("Rate this application")
+                .setDescription("Please select some stars and give your feedback")
+                .setCommentInputEnabled(true)
+                .setStarColor(R.color.starColor)
+                .setNoteDescriptionTextColor(R.color.noteDescriptionTextColor)
+                .setTitleTextColor(R.color.titleTextColor)
+                .setDescriptionTextColor(R.color.contentTextColor)
+                .setHint("Please write your comment here ...")
+                .setHintTextColor(R.color.hintTextColor)
+                .setCommentTextColor(R.color.commentTextColor)
+                .setCommentBackgroundColor(R.color.colorPrimaryDark)
+                .setWindowAnimation(R.style.MyDialogFadeAnimation)
+                .setCancelable(false)
+                .setCanceledOnTouchOutside(false)
+                .create(SettingsActivity.this)
+                .show();
+    }
+
+    @Override
+    public void onNeutralButtonClicked() {
+
+    }
+
+    @Override
+    public void onPositiveButtonClicked(int i, String s) {
+
+        mDatabaseReference.child("feedBacks").push().setValue(new FirebaseFeedback(i , s));
+
+    }
 }

@@ -36,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.logicoverflow.fitbot.Model.FirebaseDevice;
 import com.logicoverflow.fitbot.Util.AndroidAnimationBuilder;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -161,13 +162,14 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                    Log.e("version:",dataSnapshot.getValue().toString());
 
-                    if (dataSnapshot.child("version").exists()) {
-                        databaseVersion = dataSnapshot.child("version").getValue(Integer.class);
+                    if (dataSnapshot.getKey().equals("version")) {
+                        databaseVersion = dataSnapshot.getValue(Integer.class);
 
 
 
-                        Log.e("datasnapshotKey: ", databaseVersion + "");
+                        Log.e("version: ", "storedversion: "+storedVersion + ",databaseversion: "+databaseVersion);
 
                         if (databaseVersion > storedVersion) {
                             progress_text.setText("Found Updates");
@@ -405,10 +407,11 @@ public class SplashActivity extends AppCompatActivity {
     public void uploadDeviceToFirebase() {
         mDatabaseReference = mFirebaseDatabase.getReference();
 
-        String deviceType = Build.MANUFACTURER.toUpperCase() + "_" + Build.MODEL;
+        String device_manufacturer = Build.MANUFACTURER.toUpperCase();
+        String device_model = Build.MODEL.toUpperCase();
         String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        mDatabaseReference.child("devices").child(deviceID).setValue(deviceType);
+        mDatabaseReference.child("devices").child(deviceID).setValue(new FirebaseDevice(device_manufacturer,device_model));
 
     }
 

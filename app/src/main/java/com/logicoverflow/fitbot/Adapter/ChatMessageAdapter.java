@@ -10,9 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.logicoverflow.fitbot.ChatActivity;
 import com.logicoverflow.fitbot.Model.ChatMessage;
 import com.logicoverflow.fitbot.R;
+import com.logicoverflow.fitbot.SettingsActivity;
+import com.stepstone.apprating.AppRatingDialog;
+import com.stepstone.apprating.listener.RatingDialogListener;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,8 +26,12 @@ import java.util.List;
 public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
     private static final int MY_MESSAGE = 0, OTHER_MESSAGE = 1, MY_IMAGE = 2, OTHER_IMAGE = 3;
 
+    Context context ;
+
     public ChatMessageAdapter(Context context, List<ChatMessage> data) {
+
         super(context, R.layout.message_human, data);
+        this.context = context;
     }
 
     @Override
@@ -42,7 +51,7 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         int viewType = getItemViewType(position);
         if (viewType == MY_MESSAGE) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.message_human, parent, false);
@@ -70,4 +79,10 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
 
         return convertView;
     }
+
+
+
+
+
+
 }
