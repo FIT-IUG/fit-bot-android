@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/mainColor"
+    tools:context=".SettingsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/toolbar_round_shape"
+        app:contentInsetStart="0dp"
+        android:layout_marginBottom="40dp"
+        app:layout_scrollFlags="scroll|enterAlways">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/back_button"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_arrow" />
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/pt_sans_web_bold"
+                android:gravity="center"
+                android:text="Settings"
+                android:paddingTop="10dp"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="26sp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:src="@drawable/ic_star"
+                android:id="@+id/feedback_button"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                app:fabCustomSize="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp" />
+
+
+        </RelativeLayout>
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.gauravk.bubblenavigation.BubbleNavigationConstraintView
+
+        android:layout_centerHorizontal="true"
+        android:id="@+id/floating_top_bar_navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/rounded_rect_white"
+        android:elevation="8dp"
+        app:bnc_mode="packed">
+
+        <com.gauravk.bubblenavigation.BubbleToggleView
+            android:id="@+id/l_item_appearance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:bt_active="true"
+            app:bt_colorActive="@color/purple_active"
+            app:bt_colorInactive="@color/purple_inactive"
+            app:bt_icon="@drawable/ic_color_lens"
+            app:bt_shape="@drawable/rounded_rect"
+            app:bt_shapeColor="@color/red_bg_light"
+            app:bt_title="@string/appearance_string" />
+
+        <com.gauravk.bubblenavigation.BubbleToggleView
+            android:id="@+id/l_item_about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:bt_colorActive="@color/blue_active"
+            app:bt_colorInactive="@color/blue_inactive"
+            app:bt_icon="@drawable/ic_info"
+            app:bt_shape="@drawable/rounded_rect"
+            app:bt_shapeColor="@color/blue_bg_light"
+            app:bt_title="@string/about_string" />
+
+
+    </com.gauravk.bubblenavigation.BubbleNavigationConstraintView>
+
+    <androidx.viewpager.widget.ViewPager
+        android:layout_below="@id/toolbar"
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
