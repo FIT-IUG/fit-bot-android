@@ -10,14 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.logicoverflow.fitbot.ChatActivity;
 import com.logicoverflow.fitbot.Model.ChatMessage;
 import com.logicoverflow.fitbot.R;
-import com.logicoverflow.fitbot.SettingsActivity;
-import com.stepstone.apprating.AppRatingDialog;
-import com.stepstone.apprating.listener.RatingDialogListener;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**

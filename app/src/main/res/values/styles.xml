@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="mainColor">@color/white</item>
+        <item name="mainColor">@color/whiteLight</item>
         <item name="mainColorDark">@color/whiteDark</item>
         <item name="colorPrimaryDark">@color/whiteDark</item>
         <item name="textColor">@android:color/black</item>
@@ -38,7 +38,7 @@
 
     <!-- Dialog -->
     <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@color/whiteLight</item>
         <item name="buttonBarPositiveButtonStyle">@style/MyAlertDialogButtonStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/MyAlertDialogButtonStyle</item>
         <item name="buttonBarNeutralButtonStyle">@style/MyAlertDialogButtonStyle</item>

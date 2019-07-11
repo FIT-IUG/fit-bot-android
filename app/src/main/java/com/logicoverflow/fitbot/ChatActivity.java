@@ -59,6 +59,7 @@ public class ChatActivity extends AppCompatActivity {
     public static final String BACKGROUND_SAVED = "BACKGROUND_SAVED";
     public static final String LIGHTTHEME = "LIGHTTHEME";
     public static final String DARKTHEME = "DARKTHEME";
+    public static final String COLOR_SAVED = "COLOR_SAVED";
 
     private ListView mListView;
     private FloatingActionButton mButtonSend;
