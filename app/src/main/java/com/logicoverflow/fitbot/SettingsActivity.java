@@ -170,7 +170,7 @@ public class SettingsActivity extends AppCompatActivity implements RatingDialogL
     @Override
     public void onPositiveButtonClicked(int i, String s) {
         mDatabaseReference.child("feedBacks").push().setValue(new FirebaseFeedback(i , s));
-
+        Toast.makeText(this, "تم التقييم بنجاح", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -139,7 +139,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        MagicStrings.default_bot_response = "هل بامكانك صياغة السؤال مرة اخرى!";
+        MagicStrings.default_bot_response = "هل بامكانك صياغة السؤال مرة اخرى؟";
 
         mEditTextMessage.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -335,6 +335,7 @@ public class ChatActivity extends AppCompatActivity {
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         mDatabaseReference.child("reports").push().setValue(firebaseReport);
                         sweetAlertDialog.dismissWithAnimation();
+                        Toast.makeText(ChatActivity.this, "تم الابلاغ عن الرسالة بنجاح", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
