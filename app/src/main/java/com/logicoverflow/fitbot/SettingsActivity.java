@@ -188,4 +188,5 @@ public class SettingsActivity extends AppCompatActivity implements RatingDialogL
         String encoded = Base64.encodeToString(b, Base64.DEFAULT);
         return encoded;
     }
+
 }

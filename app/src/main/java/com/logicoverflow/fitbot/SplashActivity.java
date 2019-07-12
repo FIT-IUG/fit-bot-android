@@ -74,6 +74,8 @@ public class SplashActivity extends AppCompatActivity {
     private SharedPreferences.Editor sharedPreferencesEditor;
     private File fileDirectory;
     private File downloadedFile;
+    private ValueEventListener versionValueEventListener;
+    private ValueEventListener installationValueEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,17 +128,16 @@ public class SplashActivity extends AppCompatActivity {
             storedVersion = sharedPreferences.getInt("version", 0);
             isInstalledBefore = sharedPreferences.getBoolean("isInstall", false);
 
-
-            mDatabaseReference_2.addListenerForSingleValueEvent(new ValueEventListener() {
+            installationValueEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                     int currentInstallations = dataSnapshot.child("number_of_installations").getValue(Integer.class);
+                    //Toast.makeText(SplashActivity.this, "currentinstallations", Toast.LENGTH_SHORT).show();
+                    // Log.e("wwwwwwwwwwwwwwwww" , currentInstallations+"");
 
-                   // Log.e("wwwwwwwwwwwwwwwww" , currentInstallations+"");
 
-
-                    ++ currentInstallations;
+                    ++currentInstallations;
 
 
                     if (!isInstalledBefore) {
@@ -153,23 +154,21 @@ public class SplashActivity extends AppCompatActivity {
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
-            });
+            };
 
+            mDatabaseReference_2.addListenerForSingleValueEvent(installationValueEventListener);
 
-
-
-            mDatabaseReference.addValueEventListener(new ValueEventListener() {
+            versionValueEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    Log.e("version:",dataSnapshot.getValue().toString());
-
+                    Log.e("version:", dataSnapshot.getValue().toString());
+                    //Toast.makeText(SplashActivity.this, "versionsplash", Toast.LENGTH_SHORT).show();
                     if (dataSnapshot.getKey().equals("version")) {
                         databaseVersion = dataSnapshot.getValue(Integer.class);
 
 
-
-                        Log.e("version: ", "storedversion: "+storedVersion + ",databaseversion: "+databaseVersion);
+                        Log.e("version: ", "storedversion: " + storedVersion + ",databaseversion: " + databaseVersion);
 
                         if (databaseVersion > storedVersion) {
                             progress_text.setText("يوجد تحديثات...");
@@ -191,7 +190,10 @@ public class SplashActivity extends AppCompatActivity {
                     storeDefaultAIMLfiles();
                     startChatActivity();
                 }
-            });
+            };
+
+
+            mDatabaseReference.addValueEventListener(versionValueEventListener);
         }
 
     }
@@ -330,6 +332,8 @@ public class SplashActivity extends AppCompatActivity {
         Intent intent = new Intent(SplashActivity.this, ChatActivity.class);
         startActivity(intent);
         finish();
+        mDatabaseReference.removeEventListener(versionValueEventListener);
+        mDatabaseReference_2.removeEventListener(installationValueEventListener);
     }
 
     @Override
@@ -411,7 +415,7 @@ public class SplashActivity extends AppCompatActivity {
         String device_model = Build.MODEL.toUpperCase();
         String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        mDatabaseReference.child("devices").child(deviceID).setValue(new FirebaseDevice(device_manufacturer,device_model));
+        mDatabaseReference.child("devices").child(deviceID).setValue(new FirebaseDevice(device_manufacturer, device_model));
 
     }
 

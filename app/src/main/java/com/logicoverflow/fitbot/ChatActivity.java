@@ -257,18 +257,7 @@ public class ChatActivity extends AppCompatActivity {
             isAnswered = false;
         }
 
-        mDatabaseReference.child("messages").push().setValue(new FirebaseMessage(message, response, isAnswered))
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        //Toast.makeText(ChatActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //Toast.makeText(ChatActivity.this, "Failed: "+e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        mDatabaseReference.child("messages").push().setValue(new FirebaseMessage(message, response, isAnswered));
 
         //
         mEditTextMessage.setText("");
