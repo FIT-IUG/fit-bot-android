@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/mainColor"
-    tools:context=".SettingsActivity">
+    tools:context=".SettingsActivity"
+    android:layoutDirection="rtl"
+    >
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -28,7 +30,9 @@
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/ic_arrow" />
+                android:src="@drawable/ic_arrow"
+                android:rotation="180"
+                />
 
             <TextView
                 android:id="@+id/toolbar_title"
@@ -37,7 +41,7 @@
                 android:layout_centerHorizontal="true"
                 android:fontFamily="@font/pt_sans_web_bold"
                 android:gravity="center"
-                android:text="Settings"
+                android:text="@string/settings_textView"
                 android:paddingTop="10dp"
                 android:textAlignment="center"
                 android:textColor="@color/colorAccent"
@@ -51,6 +55,7 @@
                 app:fabCustomSize="40dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp" />
 
 
@@ -72,7 +77,7 @@
 
         <com.gauravk.bubblenavigation.BubbleToggleView
             android:id="@+id/l_item_appearance"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             app:bt_active="true"
             app:bt_colorActive="@color/purple_active"
@@ -84,7 +89,7 @@
 
         <com.gauravk.bubblenavigation.BubbleToggleView
             android:id="@+id/l_item_about"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             app:bt_colorActive="@color/blue_active"
             app:bt_colorInactive="@color/blue_inactive"

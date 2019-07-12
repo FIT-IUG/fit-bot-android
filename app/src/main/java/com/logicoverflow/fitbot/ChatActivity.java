@@ -139,7 +139,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        MagicStrings.default_bot_response = "مش فاهم عليك, بتقدر تعيد؟";
+        MagicStrings.default_bot_response = "هل بامكانك صياغة السؤال مرة اخرى!";
 
         mEditTextMessage.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -324,8 +324,8 @@ public class ChatActivity extends AppCompatActivity {
     private void showReportDialog(final FirebaseReport firebaseReport) {
 
         new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("Report about this message ?")
-                .setConfirmText("Report").setCancelButton("cancle", new SweetAlertDialog.OnSweetClickListener() {
+                .setTitleText("مشكلة في هذه الرسالة؟")
+                .setConfirmText("تبليغ عن خطأ").setCancelButton("الغاء", new SweetAlertDialog.OnSweetClickListener() {
             @Override
             public void onClick(SweetAlertDialog sweetAlertDialog) {
                 sweetAlertDialog.dismissWithAnimation();

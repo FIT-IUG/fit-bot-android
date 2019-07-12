@@ -18,15 +18,20 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
-    <string name="about_the_app">FIT-Bot is Graduation project developed for the Faculty of Information Technology at the Islamic University of Gaza (IUG) which consists of an AIML Android Chatbot App and a server based AIML engine that connects with the Facebook page of the Faculty of Information Technology ( can be found at this repository: https://github.com/motazsaad/fit-bot-fb-clt )\n\n
-        This Chat-bot is aimed to make the academic life of IT students at the IUG easier than ever. It was designed and implemented fitting the needs students, answering their most asked questions and guiding them through their university life, featuring offline functionality, Firebase functionality to update AIML files when needed, and a modern sleek UI design.\n\n
-        This project was launched under the supervision and guidance of Dr. Motaz Saad, and developed by the students, Ramy Helow, Obayda Alesawi, Amjad Ajrami and Oday Attallah</string>
+    <string name="about_the_app">FIT-BOT هو  مشروع تخرج تم برمجته وتطويره لكلية تكنولوجيا المعلومات في الجامعة الاسلامية بغزة.
+يهدف التطبيق لتسهيل الحياة الاكاديمية لطلاب الكلية من خلال تقديم اجابات عن الاسئلة الخاصة بهم.وقد تم هذا العمل تحت اشراف وتوجيه الدكتور معتز سعد وتطوير الطلاب : رامي الحلو, عبيدة العيسوي,امجد العجرمي,عدي عطالله</string>
 
     <!--floating navigation menu-->
-    <string name="appearance_string">Appearance</string>
-    <string name="about_string">About</string>
+    <string name="appearance_string">المظهر</string>
+    <string name="about_string">عن التطبيق</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="settings_textView">الاعدادات</string>
+    <string name="about_textView_setting_fragment">عن التطبيق</string>
+    <string name="theme_textView_in_appearance_fragment">المظهر</string>
+    <string name="enable_dark_mode_textView_in_appearance_fragment">تفعيل الوضع الليلي</string>
+    <string name="select_background_image_textView_in_appearance_fragment">تغيير خلفية المحادثة</string>
+    <string name="select_main_colo_textView_in_appearance_fragment">تغيير اللون</string>
 
 </resources>

@@ -100,8 +100,8 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                if (progress_text.getText().toString().equals("Checking For Updates...")) {
-                    progress_text.setText("Couldn't check for updates / Saving default files");
+                if (progress_text.getText().toString().equals("البحث عن تحديثات...")) {
+                    progress_text.setText("مشكلة في البحث عن التحديثات / حفظ الملفات الافتراضية..");
                     if (sharedPreferences.getInt("version", 0) == 0) {
                         storeDefaultAIMLfiles();
                     }
@@ -112,13 +112,13 @@ public class SplashActivity extends AppCompatActivity {
         }, 8000);
 
         if (!AppInternetStatus.getInstance(SplashActivity.this).isOnline()) {
-            progress_text.setText("Couldn't check for updates\nSaving default files");
+            progress_text.setText("مشكلة في البحث عن التحديثات\nحفظ الملفات الافتراضية..");
             if (sharedPreferences.getInt("version", 0) == 0) {
                 storeDefaultAIMLfiles();
             }
             startChatActivity();
         } else {
-            progress_text.setText("Checking For Updates...");
+            progress_text.setText("البحث عن تحديثات...");
             mFirebaseDatabase = FirebaseDatabase.getInstance();
             mDatabaseReference = mFirebaseDatabase.getReference("version");
             mDatabaseReference_2 = mFirebaseDatabase.getReference();
@@ -172,14 +172,14 @@ public class SplashActivity extends AppCompatActivity {
                         Log.e("version: ", "storedversion: "+storedVersion + ",databaseversion: "+databaseVersion);
 
                         if (databaseVersion > storedVersion) {
-                            progress_text.setText("Found Updates");
+                            progress_text.setText("يوجد تحديثات...");
                             try {
                                 updateAIMLfiles();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            progress_text.setText("No Updates Found");
+                            progress_text.setText("لا يوجد تحديثات");
                             startChatActivity();
                         }
                     }
@@ -187,7 +187,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    progress_text.setText("Couldn't check for updates / Saving default files");
+                    progress_text.setText("مشكلة في البحث عن التحديثات / حفظ الملفات الافتراضية..");
                     storeDefaultAIMLfiles();
                     startChatActivity();
                 }
@@ -214,7 +214,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void updateAIMLfiles() throws IOException {
-        progress_text.setText("Downloading Updates...");
+        progress_text.setText("جاري تحديث الملفات...");
         mFirebaseStorage = FirebaseStorage.getInstance();
         mStorageReference = mFirebaseStorage.getReferenceFromUrl("gs://fit-bot-936cb.appspot.com").child("Fitbot.zip");
         sharedPreferencesEditor = sharedPreferences.edit();
@@ -236,7 +236,7 @@ public class SplashActivity extends AppCompatActivity {
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                         if (fileDirectory.canWrite()) {
 
-                            progress_text.setText("Unzipping File...");
+                            progress_text.setText(" جاري فك ضغط الملفات ...");
                             AsyncTask.execute(new Runnable() {
                                 @Override
                                 public void run() {
@@ -245,7 +245,7 @@ public class SplashActivity extends AppCompatActivity {
                                         unzip("Fitbot.zip", fileDirectory.getPath());
                                     } catch (IOException e) {
                                         e.printStackTrace();
-                                        progress_text.setText("Error Unzipping File / Saving default files");
+                                        progress_text.setText("مشكلة في فك ضغط الملفات / حفظ الملفات الافتراضية...");
                                         Toast.makeText(SplashActivity.this, "Error unzipping files", Toast.LENGTH_SHORT).show();
                                         storeDefaultAIMLfiles();
                                         startChatActivity();
@@ -262,7 +262,7 @@ public class SplashActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                progress_text.setText("Download Failed / Saving default files");
+                progress_text.setText("مشكلة في تنزيل التحديثات / حفظ الملفات الافتراضية...");
                 storeDefaultAIMLfiles();
                 startChatActivity();
             }
