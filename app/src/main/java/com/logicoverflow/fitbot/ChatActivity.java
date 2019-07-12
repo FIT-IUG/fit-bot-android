@@ -130,10 +130,10 @@ public class ChatActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position%2==0){
                     showReportDialog(new FirebaseReport(mAdapter.getItem(position).getContent(),mAdapter.getItem(position+1).getContent()) );
-                    Toast.makeText(ChatActivity.this, "usermessage position "+position, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ChatActivity.this, "usermessage position "+position, Toast.LENGTH_SHORT).show();
                 }else{
                     showReportDialog(new FirebaseReport(mAdapter.getItem(position-1).getContent(),mAdapter.getItem(position).getContent()) );
-                    Toast.makeText(ChatActivity.this, "chatbot position "+position, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ChatActivity.this, "chatbot position "+position, Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
