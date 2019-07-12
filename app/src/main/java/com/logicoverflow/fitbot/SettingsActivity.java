@@ -68,7 +68,7 @@ public class SettingsActivity extends AppCompatActivity implements RatingDialogL
             setTheme(R.style.AppThemeDark);
         }
 
-        setContentView(R.layout.activity_settings_test);
+        setContentView(R.layout.activity_settings);
 
         feedback_button = findViewById(R.id.feedback_button);
 
@@ -80,6 +80,8 @@ public class SettingsActivity extends AppCompatActivity implements RatingDialogL
         mDatabaseReference = mFirebaseDatabase.getReference();
 
         floating_top_bar_navigation = findViewById(R.id.floating_top_bar_navigation);
+
+
 
         floating_top_bar_navigation.setNavigationChangeListener(new BubbleNavigationChangeListener() {
             @Override
@@ -104,6 +106,9 @@ public class SettingsActivity extends AppCompatActivity implements RatingDialogL
 
             }
         });
+
+        floating_top_bar_navigation.setCurrentActiveItem(1);
+        mPager.setCurrentItem(1);
 
 
         feedback_button.setOnClickListener(new View.OnClickListener() {
@@ -133,7 +138,7 @@ public class SettingsActivity extends AppCompatActivity implements RatingDialogL
                 .setPositiveButtonText("تقييم")
                 .setNeutralButtonText("الغاء")
                 .setNoteDescriptions(Arrays.asList("سيء جدا", "ليس جيدا", "مقبول", "جيد جدا", "ممتاز"))
-                .setDefaultRating(2)
+                .setDefaultRating(3)
                 .setTitle("قيم هذا التطبيق")
                 .setDescription("كم نجمة يستحق التطبيق برايك؟")
                 .setCommentInputEnabled(true)

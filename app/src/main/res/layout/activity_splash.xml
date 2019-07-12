@@ -24,6 +24,7 @@
             android:src="@drawable/logo_image" />
 
         <TextView
+            android:gravity="center"
             android:id="@+id/logo_text_in_splash_activity"
             android:layout_width="match_parent"
             android:textAlignment="center"

@@ -25,6 +25,7 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:layout_alignParentEnd="true"
                 android:id="@+id/back_button"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -50,7 +51,7 @@
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:src="@drawable/ic_star"
                 android:id="@+id/feedback_button"
-                android:layout_alignParentEnd="true"
+
                 android:layout_width="wrap_content"
                 app:fabCustomSize="40dp"
                 android:layout_height="wrap_content"
@@ -75,17 +76,7 @@
         android:elevation="8dp"
         app:bnc_mode="packed">
 
-        <com.gauravk.bubblenavigation.BubbleToggleView
-            android:id="@+id/l_item_appearance"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            app:bt_active="true"
-            app:bt_colorActive="@color/purple_active"
-            app:bt_colorInactive="@color/purple_inactive"
-            app:bt_icon="@drawable/ic_color_lens"
-            app:bt_shape="@drawable/rounded_rect"
-            app:bt_shapeColor="@color/red_bg_light"
-            app:bt_title="@string/appearance_string" />
+
 
         <com.gauravk.bubblenavigation.BubbleToggleView
             android:id="@+id/l_item_about"
@@ -98,6 +89,17 @@
             app:bt_shapeColor="@color/blue_bg_light"
             app:bt_title="@string/about_string" />
 
+        <com.gauravk.bubblenavigation.BubbleToggleView
+            android:id="@+id/l_item_appearance"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            app:bt_active="true"
+            app:bt_colorActive="@color/purple_active"
+            app:bt_colorInactive="@color/purple_inactive"
+            app:bt_icon="@drawable/ic_color_lens"
+            app:bt_shape="@drawable/rounded_rect"
+            app:bt_shapeColor="@color/red_bg_light"
+            app:bt_title="@string/appearance_string" />
 
     </com.gauravk.bubblenavigation.BubbleNavigationConstraintView>
 

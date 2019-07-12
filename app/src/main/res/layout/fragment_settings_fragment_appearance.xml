@@ -36,6 +36,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:layout_alignParentEnd="true"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -44,10 +45,11 @@
                 android:textSize="18sp" />
 
             <Switch
+                android:layout_marginLeft="10dp"
                 android:id="@+id/enable_darkMode_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true" />
+                 />
 
         </RelativeLayout>
 
@@ -57,6 +59,8 @@
             android:orientation="horizontal">
 
             <TextView
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
                 android:paddingLeft="10dp"
                 android:id="@+id/selectBackgroundTextView"
                 android:layout_width="wrap_content"
@@ -70,14 +74,13 @@
                 android:id="@+id/remove_background"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_toLeftOf="@id/background_picker"
+                android:layout_toRightOf="@id/background_picker"
                 android:background="@drawable/ic_cancel" />
 
             <ImageButton
                 android:id="@+id/background_picker"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
                 android:background="@drawable/ic_image_pick" />
 
             <LinearLayout
