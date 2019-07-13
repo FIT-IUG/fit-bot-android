@@ -168,20 +168,63 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    int currentInstallations = dataSnapshot.child("number_of_installations").getValue(Integer.class);
-                    //Toast.makeText(SplashActivity.this, "currentinstallations", Toast.LENGTH_SHORT).show();
-                    // Log.e("wwwwwwwwwwwwwwwww" , currentInstallations+"");
+                    String manufacturer =   getPhonemanufacturer();
+                    String model = getPhonemodel();
+                    int numberOfinstallationBymodel =0;
+
+                    DataSnapshot devices = dataSnapshot.child("devices");
+
+                   // Log.e("eeeeeeeeeeeeeeee", devices+"");
+
+                    if(devices.hasChild(manufacturer)){
+
+                        DataSnapshot corporation = devices.child(manufacturer);
+
+                       // Log.e("bbbbbbbbbbbbbbbbb", corporation+"");
 
 
-                    ++currentInstallations;
+                        if(corporation.hasChild(model)){
 
+                            numberOfinstallationBymodel = corporation.child(model).getValue(Integer.class);
+                        }else{
+
+                            mDatabaseReference_2.child("devices").child(manufacturer).child(model).setValue(1);
+
+                        }
+
+
+                    }else{
+
+                        mDatabaseReference_2.child("devices").child(manufacturer).child(model).setValue(1);
+
+                    }
+
+
+
+//                    int currentInstallations = dataSnapshot.child("number_of_installations").getValue(Integer.class);
+//                    //Toast.makeText(SplashActivity.this, "currentinstallations", Toast.LENGTH_SHORT).show();
+//                    // Log.e("wwwwwwwwwwwwwwwww" , currentInstallations+"");
+//
+//
+//                    ++currentInstallations;
+//
+//
+//                    if (!isInstalledBefore) {
+//                        uploadDeviceToFirebase();
+//                        sharedPreferencesEditor.putBoolean("isInstall", true);
+//                        sharedPreferencesEditor.apply();
+//                        sharedPreferencesEditor.commit();
+//                        mDatabaseReference_2.child("number_of_installations").setValue(currentInstallations);
+//                    }
 
                     if (!isInstalledBefore) {
-                        uploadDeviceToFirebase();
+                        //uploadDeviceToFirebase();
+                        ++numberOfinstallationBymodel;
                         sharedPreferencesEditor.putBoolean("isInstall", true);
                         sharedPreferencesEditor.apply();
                         sharedPreferencesEditor.commit();
-                        mDatabaseReference_2.child("number_of_installations").setValue(currentInstallations);
+                        mDatabaseReference_2.child("devices").child(manufacturer)
+                                .child(model).setValue(numberOfinstallationBymodel);
                     }
 
                 }
@@ -412,16 +455,27 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-    public void uploadDeviceToFirebase() {
-        mDatabaseReference = mFirebaseDatabase.getReference();
+//    public void uploadDeviceToFirebase() {
+//        mDatabaseReference = mFirebaseDatabase.getReference();
+//
+//        String device_manufacturer = Build.MANUFACTURER.toUpperCase();
+//        String device_model = Build.MODEL.toUpperCase();
+//        String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+//
+//        mDatabaseReference.child("devices").child(deviceID).setValue(new FirebaseDevice(device_manufacturer, device_model));
+//
+//    }
 
-        String device_manufacturer = Build.MANUFACTURER.toUpperCase();
-        String device_model = Build.MODEL.toUpperCase();
-        String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+    public  String getPhonemanufacturer(){
 
-        mDatabaseReference.child("devices").child(deviceID).setValue(new FirebaseDevice(device_manufacturer, device_model));
+        return Build.MANUFACTURER.toString();
 
     }
 
+    public  String getPhonemodel(){
+
+        return Build.MODEL.toString();
+
+    }
 
 }

@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -25,6 +26,7 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,9 +35,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.logicoverflow.fitbot.Adapter.ChatMessageAdapter;
 import com.logicoverflow.fitbot.Model.ChatMessage;
+import com.logicoverflow.fitbot.Model.FirebaseFeedback;
 import com.logicoverflow.fitbot.Model.FirebaseMessage;
 import com.logicoverflow.fitbot.Model.FirebaseReport;
 import com.logicoverflow.fitbot.Util.AppInternetStatus;
+import com.stepstone.apprating.AppRatingDialog;
+import com.stepstone.apprating.listener.RatingDialogListener;
+
 import org.alicebot.ab.AIMLProcessor;
 import org.alicebot.ab.Bot;
 import org.alicebot.ab.Chat;
@@ -45,14 +51,18 @@ import org.alicebot.ab.MagicNumbers;
 import org.alicebot.ab.MagicStrings;
 import org.alicebot.ab.PCAIMLProcessorExtension;
 import org.alicebot.ab.Timer;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity implements RatingDialogListener {
 
     public static final String THEME_PREFERENCES = "THEME_PREFERENCES";
     public static final String THEME_SAVED = "THEME_SAVED";
@@ -72,8 +82,9 @@ public class ChatActivity extends AppCompatActivity {
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
-    private  DatabaseReference mDatabaseReferemce_2;
 
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor sharedPreferencesEditor;
     private SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener;
 
     @Override
@@ -81,6 +92,9 @@ public class ChatActivity extends AppCompatActivity {
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mFirebaseDatabase.getReference();
+
+        sharedPreferences = getSharedPreferences("version", Context.MODE_PRIVATE);
+        sharedPreferencesEditor = sharedPreferences.edit();
 
         String theme = getSharedPreferences(ChatActivity.THEME_PREFERENCES, MODE_PRIVATE).getString(ChatActivity.THEME_SAVED, ChatActivity.LIGHTTHEME);
         if (theme.equals(ChatActivity.LIGHTTHEME)) {
@@ -128,11 +142,11 @@ public class ChatActivity extends AppCompatActivity {
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position%2==0){
-                    showReportDialog(new FirebaseReport(mAdapter.getItem(position).getContent(),mAdapter.getItem(position+1).getContent()) );
+                if (position % 2 == 0) {
+                    showReportDialog(new FirebaseReport(mAdapter.getItem(position).getContent(), mAdapter.getItem(position + 1).getContent()));
                     //Toast.makeText(ChatActivity.this, "usermessage position "+position, Toast.LENGTH_SHORT).show();
-                }else{
-                    showReportDialog(new FirebaseReport(mAdapter.getItem(position-1).getContent(),mAdapter.getItem(position).getContent()) );
+                } else {
+                    showReportDialog(new FirebaseReport(mAdapter.getItem(position - 1).getContent(), mAdapter.getItem(position).getContent()));
                     //Toast.makeText(ChatActivity.this, "chatbot position "+position, Toast.LENGTH_SHORT).show();
                 }
                 return false;
@@ -320,15 +334,84 @@ public class ChatActivity extends AppCompatActivity {
                 sweetAlertDialog.dismissWithAnimation();
             }
         }).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        mDatabaseReference.child("reports").push().setValue(firebaseReport);
-                        sweetAlertDialog.dismissWithAnimation();
-                        Toast.makeText(ChatActivity.this, "تم الابلاغ عن الرسالة بنجاح", Toast.LENGTH_SHORT).show();
-                    }
-                })
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                mDatabaseReference.child("reports").push().setValue(firebaseReport);
+                sweetAlertDialog.dismissWithAnimation();
+                Toast.makeText(ChatActivity.this, "تم الابلاغ عن الرسالة بنجاح", Toast.LENGTH_SHORT).show();
+            }
+        })
                 .show();
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+
+        Boolean rating = sharedPreferences.getBoolean("isRating", false);
+
+        if (!rating) {
+
+            showFeedbackDialog();
+        } else {
+
+            super.onBackPressed();
+        }
+
+
+    }
+
+    private void showFeedbackDialog() {
+        new AppRatingDialog.Builder()
+                .setPositiveButtonText("تقييم")
+                .setNeutralButtonText("التقييم لاحقا")
+                .setNegativeButtonText("عدم الاظهار مرة اخرى")
+                .setNoteDescriptions(Arrays.asList("سيء جدا", "ليس جيدا", "مقبول", "جيد جدا", "ممتاز"))
+                .setDefaultRating(3)
+                .setTitle("قيم هذا التطبيق")
+                .setDescription("كم نجمة يستحق التطبيق برايك؟")
+                .setCommentInputEnabled(true)
+                .setStarColor(R.color.starColor)
+                .setNoteDescriptionTextColor(R.color.noteDescriptionTextColor)
+                .setTitleTextColor(R.color.titleTextColor)
+                .setDescriptionTextColor(R.color.contentTextColor)
+                .setHint("اذا كان لديك اي تعليق الرجاء كتابته هنا...")
+                .setHintTextColor(R.color.hintTextColor)
+                .setCommentTextColor(R.color.commentTextColor)
+                .setCommentBackgroundColor(R.color.colorPrimaryDark)
+                .setWindowAnimation(R.style.MyDialogFadeAnimation)
+                .setCancelable(false)
+                .setCanceledOnTouchOutside(true)
+                .create(ChatActivity.this)
+                .show();
+    }
+
+    @Override
+    public void onNegativeButtonClicked() {
+
+        sharedPreferencesEditor.putBoolean("isRating", true);
+        sharedPreferencesEditor.apply();
+        sharedPreferencesEditor.commit();
+        finish();
+    }
+
+    @Override
+    public void onNeutralButtonClicked() {
+
+        ChatActivity.super.onBackPressed();
+
+    }
+
+    @Override
+    public void onPositiveButtonClicked(int i, String s) {
+
+        mDatabaseReference.child("feedBacks").push().setValue(new FirebaseFeedback(i, s));
+        Toast.makeText(this, "تم التقييم بنجاح", Toast.LENGTH_SHORT).show();
+
+        sharedPreferencesEditor.putBoolean("isRating", true);
+        sharedPreferencesEditor.apply();
+        sharedPreferencesEditor.commit();
+        ChatActivity.super.onBackPressed();
+    }
 }
