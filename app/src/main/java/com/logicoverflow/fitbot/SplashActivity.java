@@ -91,12 +91,48 @@ public class SplashActivity extends AppCompatActivity {
 
         fileDirectory = new File(Environment.getExternalStorageDirectory().toString() + "/FITChatbot/bots/Fitbot");
 
+        sharedPreferences = getSharedPreferences("version", Context.MODE_PRIVATE);
+        sharedPreferencesEditor = sharedPreferences.edit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fullScreen();
+        animate();
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                Dexter.withActivity(SplashActivity.this)
+                        .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .withListener(new PermissionListener() {
+                            @Override
+                            public void onPermissionGranted(PermissionGrantedResponse response) {
+                                getDatabaseVersion();
+                            }
+
+                            @Override
+                            public void onPermissionDenied(PermissionDeniedResponse response) {
+                                finish();
+                            }
+
+                            @Override
+                            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                                token.continuePermissionRequest();
+                            }
+                        }).check();
+
+            }
+        }, 2000);
+
+
     }
 
     private void getDatabaseVersion() {
 
-        sharedPreferences = getSharedPreferences("version", Context.MODE_PRIVATE);
-        sharedPreferencesEditor = sharedPreferences.edit();
 
         new Handler().postDelayed(new Runnable() {
 
@@ -332,43 +368,11 @@ public class SplashActivity extends AppCompatActivity {
         Intent intent = new Intent(SplashActivity.this, ChatActivity.class);
         startActivity(intent);
         finish();
-        mDatabaseReference.removeEventListener(versionValueEventListener);
-        mDatabaseReference_2.removeEventListener(installationValueEventListener);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        fullScreen();
-        animate();
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                Dexter.withActivity(SplashActivity.this)
-                        .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        .withListener(new PermissionListener() {
-                            @Override
-                            public void onPermissionGranted(PermissionGrantedResponse response) {
-                                getDatabaseVersion();
-                            }
-
-                            @Override
-                            public void onPermissionDenied(PermissionDeniedResponse response) {
-                                finish();
-                            }
-
-                            @Override
-                            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                                token.continuePermissionRequest();
-                            }
-                        }).check();
-
-            }
-        }, 2000);
-
-
+        if (versionValueEventListener != null && installationValueEventListener != null) {
+            mDatabaseReference.removeEventListener(versionValueEventListener);
+            mDatabaseReference_2.removeEventListener(installationValueEventListener);
+        }
     }
 
 
