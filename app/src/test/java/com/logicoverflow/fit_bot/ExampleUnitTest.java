@@ -1,4 +1,4 @@
-package com.logicoverflow.fitbot;
+package com.logicoverflow.fit_bot;
 
 import org.junit.Test;
 
