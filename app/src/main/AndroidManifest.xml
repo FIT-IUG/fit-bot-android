@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppThemeLight"
-        tools:replace="android:icon,android:theme">
+        tools:replace="android:icon,android:theme,android:supportsRtl"
+        >
 
         <receiver
             android:name=".BroadcastReceivers.InternetBroadcastReceiver"

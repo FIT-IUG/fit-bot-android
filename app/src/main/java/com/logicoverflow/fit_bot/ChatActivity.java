@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +39,8 @@ import com.logicoverflow.fit_bot.Model.FirebaseFeedback;
 import com.logicoverflow.fit_bot.Model.FirebaseMessage;
 import com.logicoverflow.fit_bot.Model.FirebaseReport;
 import com.logicoverflow.fit_bot.Util.AppInternetStatus;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.ViewHolder;
 import com.stepstone.apprating.AppRatingDialog;
 import com.stepstone.apprating.listener.RatingDialogListener;
 
@@ -51,6 +54,11 @@ import org.alicebot.ab.MagicStrings;
 import org.alicebot.ab.PCAIMLProcessorExtension;
 import org.alicebot.ab.Timer;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,6 +67,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import us.feras.mdv.MarkdownView;
 
 
 public class ChatActivity extends AppCompatActivity implements RatingDialogListener {
@@ -72,6 +81,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
 
     private ListView mListView;
     private FloatingActionButton mButtonSend;
+    private ImageView guideLine ;
     private static ImageView connectivity_circle;
     private EditText mEditTextMessage;
     public static Bot bot;
@@ -80,7 +90,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
     private static ArrayList<FirebaseMessage> messageLogArrayList;
     private static ArrayList<FirebaseFeedback> feedbackLogArrayList;
     private static ArrayList<FirebaseReport> reportLogArrayList;
-
+   private MarkdownView markdownView;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
 
@@ -116,6 +126,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         sv.setEnabled(false);
 
         mListView = findViewById(R.id.listView);
+        guideLine = findViewById(R.id.guideline_imageView);
         mButtonSend = findViewById(R.id.btn_send);
         mEditTextMessage = findViewById(R.id.et_message);
         //connectivity_text = findViewById(R.id.toolbar_connectivity_text);
@@ -202,6 +213,15 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         };
         getSharedPreferences(ChatActivity.THEME_PREFERENCES, MODE_PRIVATE).registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
 
+
+        guideLine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showDialog();
+
+            }
+        });
 
     }
 
@@ -610,6 +630,43 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
             clearReportLog();
         }
     }
+    public void showDialog() {
 
+        File guideFile = new File(Environment.getExternalStorageDirectory().toString()
+                + "/FITChatbot/bots/Fitbot/Fitbot/guide.md");
 
+        DialogPlus dialog = DialogPlus.newDialog(this)
+                .setContentHolder(new ViewHolder(R.layout.markdown_layout))
+                .setCancelable(true)
+                .setGravity(Gravity.CENTER)
+                .create();
+        dialog.show();
+
+        markdownView = findViewById(R.id.markdownView);
+
+        try {
+            markdownView.loadMarkdown(getStringFromFile(guideFile));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String convertStreamToString(InputStream is) throws Exception {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line).append("\n");
+        }
+        reader.close();
+        return sb.toString();
+    }
+
+    public static String getStringFromFile (File fl) throws Exception {
+        FileInputStream fin = new FileInputStream(fl);
+        String ret = convertStreamToString(fin);
+        //Make sure you close all streams.
+        fin.close();
+        return ret;
+    }
 }
