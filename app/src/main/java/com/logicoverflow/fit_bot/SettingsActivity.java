@@ -1,4 +1,4 @@
-package com.logicoverflow.fitbot;
+package com.logicoverflow.fit_bot;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
@@ -19,14 +19,18 @@ import com.gauravk.bubblenavigation.listener.BubbleNavigationChangeListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.logicoverflow.fitbot.Adapter.SettingsSlidePagerAdapter;
-import com.logicoverflow.fitbot.Model.FirebaseFeedback;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.logicoverflow.fit_bot.Adapter.SettingsSlidePagerAdapter;
+import com.logicoverflow.fit_bot.Model.FirebaseFeedback;
 import com.stepstone.apprating.AppRatingDialog;
 import com.stepstone.apprating.listener.RatingDialogListener;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.listeners.IPickResult;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class SettingsActivity extends AppCompatActivity implements RatingDialogListener , IPickResult {
@@ -50,7 +54,14 @@ public class SettingsActivity extends AppCompatActivity implements RatingDialogL
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor sharedPreferencesEditor;
 
+    private SharedPreferences sharedPreferences_log;
+    private SharedPreferences.Editor sharedPreferencesEditor_log;
+
     private FloatingActionButton feedback_button;
+
+    private ArrayList<FirebaseFeedback> feedbackLogArrayList;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +70,11 @@ public class SettingsActivity extends AppCompatActivity implements RatingDialogL
 
         sharedPreferences = getSharedPreferences(ChatActivity.THEME_PREFERENCES, Context.MODE_PRIVATE);
         sharedPreferencesEditor = sharedPreferences.edit();
+
+        sharedPreferences_log = getSharedPreferences("LOG",MODE_PRIVATE);
+        sharedPreferencesEditor_log = sharedPreferences_log.edit();
+
+        loadFeedbackLog();
 
         final String theme = sharedPreferences.getString(ChatActivity.THEME_SAVED, ChatActivity.LIGHTTHEME);
         if (theme.equals(ChatActivity.LIGHTTHEME)) {
@@ -168,8 +184,9 @@ public class SettingsActivity extends AppCompatActivity implements RatingDialogL
     }
 
     @Override
-    public void onPositiveButtonClicked(int i, String s) {
-        mDatabaseReference.child("feedBacks").push().setValue(new FirebaseFeedback(i , s));
+    public void onPositiveButtonClicked(int rating, String feedback) {
+        saveFeedbackToLog(new FirebaseFeedback(rating,feedback));
+        //mDatabaseReference.child("feedbacks").push().setValue(new FirebaseFeedback(i , s));
         Toast.makeText(this, "تم التقييم بنجاح", Toast.LENGTH_SHORT).show();
     }
 
@@ -187,6 +204,30 @@ public class SettingsActivity extends AppCompatActivity implements RatingDialogL
         byte[] b = baos.toByteArray();
         String encoded = Base64.encodeToString(b, Base64.DEFAULT);
         return encoded;
+    }
+
+
+    public void loadFeedbackLog(){
+        if(feedbackLogArrayList == null){
+            feedbackLogArrayList = new ArrayList<>();
+        }
+
+        Gson gson = new Gson();
+        String json = sharedPreferences_log.getString("FeedbackLog", null);
+        Type type = new TypeToken<ArrayList<FirebaseFeedback>>() {}.getType();
+        feedbackLogArrayList =  gson.fromJson(json, type);
+        if(feedbackLogArrayList==null){
+            feedbackLogArrayList = new ArrayList<FirebaseFeedback>();
+        }
+    }
+
+    public void saveFeedbackToLog(FirebaseFeedback firebaseFeedback){
+        feedbackLogArrayList.add(firebaseFeedback);
+        Gson gson = new Gson();
+        String json = gson.toJson(feedbackLogArrayList);
+        sharedPreferencesEditor_log.putString("FeedbackLog", json);
+        sharedPreferencesEditor_log.commit();
+        sharedPreferencesEditor_log.apply();
     }
 
 }

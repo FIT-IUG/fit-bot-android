@@ -1,4 +1,4 @@
-package com.logicoverflow.fitbot.Adapter;
+package com.logicoverflow.fit_bot.Adapter;
 
 
 import androidx.annotation.NonNull;
@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.logicoverflow.fitbot.Fragments.SettingsFragmentAbout;
-import com.logicoverflow.fitbot.Fragments.SettingsFragmentAppearance;
+import com.logicoverflow.fit_bot.Fragments.SettingsFragmentAbout;
+import com.logicoverflow.fit_bot.Fragments.SettingsFragmentAppearance;
 
 public class SettingsSlidePagerAdapter extends FragmentStatePagerAdapter {
 

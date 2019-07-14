@@ -8,8 +8,8 @@ android {
         applicationId "com.logicoverflow.fit_bot"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 5
-        versionName "1.1"
+        versionCode 6
+        versionName "1.11"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -56,4 +56,6 @@ dependencies {
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
     implementation 'com.gauravk.bubblenavigation:bubblenavigation:1.0.7'
     implementation 'me.jfenn.ColorPickerDialog:base:0.2.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
+
 }

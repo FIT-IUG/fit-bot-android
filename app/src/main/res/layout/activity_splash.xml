@@ -7,11 +7,10 @@
     tools:context=".SplashActivity">
 
 
-
     <RelativeLayout
-        android:background="@drawable/splash_bgd_gradient"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/splash_bgd_gradient">
 
 
         <ImageView
@@ -24,41 +23,39 @@
             android:src="@drawable/logo_image" />
 
         <TextView
-            android:gravity="center"
             android:id="@+id/logo_text_in_splash_activity"
             android:layout_width="match_parent"
-            android:textAlignment="center"
             android:layout_height="80dp"
             android:layout_below="@+id/logo_image_in_splash_activity"
             android:layout_centerHorizontal="true"
             android:fontFamily="@font/lilitaone_regular"
+            android:gravity="center"
             android:text="FIT-BOT"
+            android:textAlignment="center"
             android:textColor="@color/colorSplashText"
             android:textSize="67sp" />
 
 
-            <ProgressBar
-android:layout_below="@id/logo_text_in_splash_activity"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/splash_progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminateDrawable="@drawable/progress_bar"
-                android:indeterminateDuration="300" />
+        <ProgressBar
+            android:id="@+id/splash_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/logo_text_in_splash_activity"
+            android:layout_centerHorizontal="true"
+            android:indeterminateDrawable="@drawable/progress_bar"
+            android:indeterminateDuration="300"
+            android:textAlignment="center" />
 
-            <TextView
-android:layout_below="@+id/splash_progress_bar"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/progress_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/lilitaone_regular"
-                android:textColor="@color/colorSplashText"
-                android:textAlignment="center"
-                android:textSize="24dp" />
-
-
-
+        <TextView
+            android:id="@+id/progress_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/splash_progress_bar"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/lilitaone_regular"
+            android:textAlignment="center"
+            android:textColor="@color/colorSplashText"
+            android:textSize="24dp" />
 
 
     </RelativeLayout>

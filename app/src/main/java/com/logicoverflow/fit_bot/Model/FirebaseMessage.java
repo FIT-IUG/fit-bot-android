@@ -1,4 +1,4 @@
-package com.logicoverflow.fitbot.Model;
+package com.logicoverflow.fit_bot.Model;
 
 import java.io.Serializable;
 

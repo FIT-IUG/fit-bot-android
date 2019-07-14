@@ -1,8 +1,7 @@
-package com.logicoverflow.fitbot;
+package com.logicoverflow.fit_bot;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.solver.widgets.Snapshot;
 
 import android.Manifest;
 import android.content.Context;
@@ -16,9 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.provider.Settings;
-import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -36,15 +32,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.logicoverflow.fitbot.Model.FirebaseDevice;
-import com.logicoverflow.fitbot.Util.AndroidAnimationBuilder;
+import com.logicoverflow.fit_bot.Util.AndroidAnimationBuilder;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
-import com.logicoverflow.fitbot.Util.AppInternetStatus;
+import com.logicoverflow.fit_bot.Util.AppInternetStatus;
 
 import org.apache.commons.io.FileUtils;
 
@@ -54,7 +49,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import static com.logicoverflow.fitbot.Util.ZipManager.unzip;
+import static com.logicoverflow.fit_bot.Util.ZipManager.unzip;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -77,12 +72,16 @@ public class SplashActivity extends AppCompatActivity {
     private ValueEventListener versionValueEventListener;
     private ValueEventListener installationValueEventListener;
 
+    boolean alreadyInChatActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(getApplicationContext());
         setContentView(R.layout.activity_splash);
+
+        alreadyInChatActivity = false;
 
         logo_image = findViewById(R.id.logo_image_in_splash_activity);
         logo_text = findViewById(R.id.logo_text_in_splash_activity);
@@ -111,7 +110,7 @@ public class SplashActivity extends AppCompatActivity {
                         .withListener(new PermissionListener() {
                             @Override
                             public void onPermissionGranted(PermissionGrantedResponse response) {
-                                getDatabaseVersion();
+                                checkDatabaseVersion();
                             }
 
                             @Override
@@ -131,30 +130,18 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-    private void getDatabaseVersion() {
 
 
-        new Handler().postDelayed(new Runnable() {
+    private void checkDatabaseVersion() {
 
-            @Override
-            public void run() {
-                if (progress_text.getText().toString().equals("البحث عن تحديثات...")) {
-                    progress_text.setText("مشكلة في البحث عن التحديثات / حفظ الملفات الافتراضية..");
-                    if (sharedPreferences.getInt("version", 0) == 0) {
-                        storeDefaultAIMLfiles();
-                    }
-                    startChatActivity();
-                }
-
-            }
-        }, 8000);
 
         if (!AppInternetStatus.getInstance(SplashActivity.this).isOnline()) {
             progress_text.setText("مشكلة في البحث عن التحديثات\nحفظ الملفات الافتراضية..");
             if (sharedPreferences.getInt("version", 0) == 0) {
                 storeDefaultAIMLfiles();
+            }else{
+                startChatActivity();
             }
-            startChatActivity();
         } else {
             progress_text.setText("البحث عن تحديثات...");
             mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -168,19 +155,15 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    String manufacturer =   getPhonemanufacturer();
-                    String model = getPhonemodel();
+                    String manufacturer =   getPhoneManufacturer();
+                    String model = getPhoneModel();
                     int numberOfinstallationBymodel =0;
 
                     DataSnapshot devices = dataSnapshot.child("devices");
 
-                   // Log.e("eeeeeeeeeeeeeeee", devices+"");
-
                     if(devices.hasChild(manufacturer)){
 
                         DataSnapshot corporation = devices.child(manufacturer);
-
-                       // Log.e("bbbbbbbbbbbbbbbbb", corporation+"");
 
 
                         if(corporation.hasChild(model)){
@@ -198,24 +181,6 @@ public class SplashActivity extends AppCompatActivity {
                         mDatabaseReference_2.child("devices").child(manufacturer).child(model).setValue(1);
 
                     }
-
-
-
-//                    int currentInstallations = dataSnapshot.child("number_of_installations").getValue(Integer.class);
-//                    //Toast.makeText(SplashActivity.this, "currentinstallations", Toast.LENGTH_SHORT).show();
-//                    // Log.e("wwwwwwwwwwwwwwwww" , currentInstallations+"");
-//
-//
-//                    ++currentInstallations;
-//
-//
-//                    if (!isInstalledBefore) {
-//                        uploadDeviceToFirebase();
-//                        sharedPreferencesEditor.putBoolean("isInstall", true);
-//                        sharedPreferencesEditor.apply();
-//                        sharedPreferencesEditor.commit();
-//                        mDatabaseReference_2.child("number_of_installations").setValue(currentInstallations);
-//                    }
 
                     if (!isInstalledBefore) {
                         //uploadDeviceToFirebase();
@@ -241,14 +206,8 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    Log.e("version:", dataSnapshot.getValue().toString());
-                    //Toast.makeText(SplashActivity.this, "versionsplash", Toast.LENGTH_SHORT).show();
                     if (dataSnapshot.getKey().equals("version")) {
                         databaseVersion = dataSnapshot.getValue(Integer.class);
-
-
-                        Log.e("version: ", "storedversion: " + storedVersion + ",databaseversion: " + databaseVersion);
-
                         if (databaseVersion > storedVersion) {
                             progress_text.setText("يوجد تحديثات...");
                             try {
@@ -267,7 +226,6 @@ public class SplashActivity extends AppCompatActivity {
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     progress_text.setText("مشكلة في البحث عن التحديثات / حفظ الملفات الافتراضية..");
                     storeDefaultAIMLfiles();
-                    startChatActivity();
                 }
             };
 
@@ -295,7 +253,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void updateAIMLfiles() throws IOException {
-        progress_text.setText("جاري تحديث الملفات...");
+        progress_text.setText("جار تحديث الملفات...");
         mFirebaseStorage = FirebaseStorage.getInstance();
         mStorageReference = mFirebaseStorage.getReferenceFromUrl("gs://fit-bot-936cb.appspot.com").child("Fitbot.zip");
         sharedPreferencesEditor = sharedPreferences.edit();
@@ -305,11 +263,14 @@ public class SplashActivity extends AppCompatActivity {
 
         downloadedFile = new File(fileDirectory.getPath(), "Fitbot.zip");
 
-        for (File child : fileDirectory.listFiles()) {
-            if (!child.isDirectory()) {
-                FileUtils.forceDelete(child);
+        if(fileDirectory.listFiles()!=null){
+            for (File child : fileDirectory.listFiles()) {
+                if (!child.isDirectory()) {
+                    FileUtils.forceDelete(child);
+                }
             }
         }
+
 
         mStorageReference.getFile(downloadedFile)
                 .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -317,23 +278,30 @@ public class SplashActivity extends AppCompatActivity {
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                         if (fileDirectory.canWrite()) {
 
-                            progress_text.setText(" جاري فك ضغط الملفات ...");
+                            //progress_text.setText(" جاري فك ضغط الملفات ...");
                             AsyncTask.execute(new Runnable() {
                                 @Override
                                 public void run() {
                                     deletePreviousAIMLfiles();
-                                    try {
-                                        unzip("Fitbot.zip", fileDirectory.getPath());
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                        progress_text.setText("مشكلة في فك ضغط الملفات / حفظ الملفات الافتراضية...");
-                                        Toast.makeText(SplashActivity.this, "Error unzipping files", Toast.LENGTH_SHORT).show();
-                                        storeDefaultAIMLfiles();
-                                        startChatActivity();
-                                    }
-                                    sharedPreferencesEditor.putInt("version", databaseVersion);
-                                    sharedPreferencesEditor.apply();
-                                    startChatActivity();
+
+                                        AsyncTask.execute(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    unzip("Fitbot.zip", fileDirectory.getPath());
+                                                    sharedPreferencesEditor.putInt("version", databaseVersion);
+                                                    sharedPreferencesEditor.apply();
+                                                    startChatActivity();
+                                                } catch (IOException e1) {
+                                                    e1.printStackTrace();
+                                                    progress_text.setText("مشكلة في فك ضغط الملفات / حفظ الملفات الافتراضية...");
+                                                    Toast.makeText(SplashActivity.this, "Error unzipping files", Toast.LENGTH_SHORT).show();
+                                                    storeDefaultAIMLfiles();
+                                                }
+                                            }
+                                        });
+
+
                                 }
                             });
 
@@ -345,7 +313,6 @@ public class SplashActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception exception) {
                 progress_text.setText("مشكلة في تنزيل التحديثات / حفظ الملفات الافتراضية...");
                 storeDefaultAIMLfiles();
-                startChatActivity();
             }
         });
     }
@@ -385,18 +352,12 @@ public class SplashActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-
+            startChatActivity();
         }
     }
 
     public void deletePreviousAIMLfiles() {
         fileDirectory.delete();
-//        for (String subdir : fileDirectory.list()) {
-//            File dir = new File(fileDirectory + "/" + subdir);
-//            for (String file : dir.list()) {
-//                Log.e("rmy", new File(dir + "/" + file).delete() + "");
-//            }
-//        }
     }
 
     private void copyFile(InputStream in, OutputStream out) throws IOException {
@@ -408,14 +369,18 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void startChatActivity() {
-        Intent intent = new Intent(SplashActivity.this, ChatActivity.class);
-        startActivity(intent);
-        finish();
+        if (!alreadyInChatActivity) {
+            Intent intent = new Intent(SplashActivity.this, ChatActivity.class);
+            startActivity(intent);
+            finish();
 
-        if (versionValueEventListener != null && installationValueEventListener != null) {
-            mDatabaseReference.removeEventListener(versionValueEventListener);
-            mDatabaseReference_2.removeEventListener(installationValueEventListener);
+            if (versionValueEventListener != null && installationValueEventListener != null) {
+                mDatabaseReference.removeEventListener(versionValueEventListener);
+                mDatabaseReference_2.removeEventListener(installationValueEventListener);
+            }
+            alreadyInChatActivity = true;
         }
+
     }
 
 
@@ -455,24 +420,13 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-//    public void uploadDeviceToFirebase() {
-//        mDatabaseReference = mFirebaseDatabase.getReference();
-//
-//        String device_manufacturer = Build.MANUFACTURER.toUpperCase();
-//        String device_model = Build.MODEL.toUpperCase();
-//        String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-//
-//        mDatabaseReference.child("devices").child(deviceID).setValue(new FirebaseDevice(device_manufacturer, device_model));
-//
-//    }
-
-    public  String getPhonemanufacturer(){
+    public  String getPhoneManufacturer(){
 
         return Build.MANUFACTURER.toString();
 
     }
 
-    public  String getPhonemodel(){
+    public  String getPhoneModel(){
 
         return Build.MODEL.toString();
 

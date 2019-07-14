@@ -1,4 +1,4 @@
-package com.logicoverflow.fitbot.Fragments;
+package com.logicoverflow.fit_bot.Fragments;
 
 
 import android.content.Context;
@@ -17,9 +17,9 @@ import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.logicoverflow.fitbot.ChatActivity;
-import com.logicoverflow.fitbot.R;
-import com.logicoverflow.fitbot.SettingsActivity;
+import com.logicoverflow.fit_bot.ChatActivity;
+import com.logicoverflow.fit_bot.R;
+import com.logicoverflow.fit_bot.SettingsActivity;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
 
@@ -106,10 +106,16 @@ public class SettingsFragmentAppearance extends Fragment {
         remove_background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Background Removed", Toast.LENGTH_SHORT).show();
-                //sharedPreferencesEditor.remove(ChatActivity.THEME_SAVED);
-                sharedPreferencesEditor.putString(ChatActivity.BACKGROUND_SAVED,"");
-                sharedPreferencesEditor.apply();
+
+                if(sharedPreferences.getString(ChatActivity.BACKGROUND_SAVED,"")==""){
+                    Toast.makeText(getActivity(), "لا يوجد خلفية", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getActivity(), "تم ازالة الخلفية", Toast.LENGTH_SHORT).show();
+                    //sharedPreferencesEditor.remove(ChatActivity.THEME_SAVED);
+                    sharedPreferencesEditor.putString(ChatActivity.BACKGROUND_SAVED,"");
+                    sharedPreferencesEditor.apply();
+                }
+
             }
         });
 

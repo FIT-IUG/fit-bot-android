@@ -1,4 +1,4 @@
-package com.logicoverflow.fitbot.Util;
+package com.logicoverflow.fit_bot.Util;
 
 /*
  MIT license, do whatever

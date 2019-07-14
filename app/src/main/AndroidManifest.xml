@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.logicoverflow.fitbot">
+    package="com.logicoverflow.fit_bot">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,6 +20,16 @@
         android:supportsRtl="false"
         android:theme="@style/AppThemeLight"
         tools:replace="android:icon,android:theme">
+
+        <receiver
+            android:name=".BroadcastReceivers.InternetBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
         <activity android:name=".SettingsActivity">
 
         </activity>
@@ -35,14 +47,7 @@
             android:theme="@style/AppThemeLight"
             android:windowSoftInputMode="stateHidden|adjustResize"></activity>
 
-        <receiver
-            android:name=".BroadcastReceivers.InternetBroadcastReceiver"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-            </intent-filter>
-        </receiver>
+
 
         <provider
             android:name="androidx.core.content.FileProvider"

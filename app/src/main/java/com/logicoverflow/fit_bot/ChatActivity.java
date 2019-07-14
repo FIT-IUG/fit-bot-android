@@ -1,4 +1,4 @@
-package com.logicoverflow.fitbot;
+package com.logicoverflow.fit_bot;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -26,19 +25,19 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.logicoverflow.fitbot.Adapter.ChatMessageAdapter;
-import com.logicoverflow.fitbot.Model.ChatMessage;
-import com.logicoverflow.fitbot.Model.FirebaseFeedback;
-import com.logicoverflow.fitbot.Model.FirebaseMessage;
-import com.logicoverflow.fitbot.Model.FirebaseReport;
-import com.logicoverflow.fitbot.Util.AppInternetStatus;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.logicoverflow.fit_bot.Adapter.ChatMessageAdapter;
+import com.logicoverflow.fit_bot.Model.ChatMessage;
+import com.logicoverflow.fit_bot.Model.FirebaseFeedback;
+import com.logicoverflow.fit_bot.Model.FirebaseMessage;
+import com.logicoverflow.fit_bot.Model.FirebaseReport;
+import com.logicoverflow.fit_bot.Util.AppInternetStatus;
 import com.stepstone.apprating.AppRatingDialog;
 import com.stepstone.apprating.listener.RatingDialogListener;
 
@@ -52,13 +51,13 @@ import org.alicebot.ab.MagicStrings;
 import org.alicebot.ab.PCAIMLProcessorExtension;
 import org.alicebot.ab.Timer;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
@@ -73,28 +72,35 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
 
     private ListView mListView;
     private FloatingActionButton mButtonSend;
-    private static TextView connectivity_text;
     private static ImageView connectivity_circle;
     private EditText mEditTextMessage;
-    public Bot bot;
+    public static Bot bot;
     public static Chat chat;
     private ChatMessageAdapter mAdapter;
+    private static ArrayList<FirebaseMessage> messageLogArrayList;
+    private static ArrayList<FirebaseFeedback> feedbackLogArrayList;
+    private static ArrayList<FirebaseReport> reportLogArrayList;
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
 
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor sharedPreferencesEditor;
+    private SharedPreferences sharedPreferences_log;
+    private SharedPreferences.Editor sharedPreferencesEditor_log;
+
     private SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        startBot();
+
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mFirebaseDatabase.getReference();
 
-        sharedPreferences = getSharedPreferences("version", Context.MODE_PRIVATE);
-        sharedPreferencesEditor = sharedPreferences.edit();
+        sharedPreferences_log = getSharedPreferences("LOG",MODE_PRIVATE);
+        sharedPreferencesEditor_log = sharedPreferences_log.edit();
+
+
 
         String theme = getSharedPreferences(ChatActivity.THEME_PREFERENCES, MODE_PRIVATE).getString(ChatActivity.THEME_SAVED, ChatActivity.LIGHTTHEME);
         if (theme.equals(ChatActivity.LIGHTTHEME)) {
@@ -112,14 +118,16 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         mListView = findViewById(R.id.listView);
         mButtonSend = findViewById(R.id.btn_send);
         mEditTextMessage = findViewById(R.id.et_message);
-        connectivity_text = findViewById(R.id.toolbar_connectivity_text);
+        //connectivity_text = findViewById(R.id.toolbar_connectivity_text);
         connectivity_circle = findViewById(R.id.toolbar_connectivity_circle);
         Toolbar actionToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(actionToolbar);
 
         if (!AppInternetStatus.getInstance(ChatActivity.this).isOnline()) {
             connectivity_circle.setImageResource(R.drawable.offline_circle);
-            connectivity_text.setText("Offline");
+            //connectivity_text.setText("Offline");
+        }else{
+            connectivity_circle.setImageResource(R.drawable.online_circle);
         }
 
         //max same responses allowed
@@ -142,12 +150,12 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position % 2 == 0) {
-                    showReportDialog(new FirebaseReport(mAdapter.getItem(position).getContent(), mAdapter.getItem(position + 1).getContent()));
-                    //Toast.makeText(ChatActivity.this, "usermessage position "+position, Toast.LENGTH_SHORT).show();
-                } else {
-                    showReportDialog(new FirebaseReport(mAdapter.getItem(position - 1).getContent(), mAdapter.getItem(position).getContent()));
-                    //Toast.makeText(ChatActivity.this, "chatbot position "+position, Toast.LENGTH_SHORT).show();
+                if(position%2==0){
+                    showReportDialog(new FirebaseReport(mAdapter.getItem(position).getContent(),
+                            mAdapter.getItem(position+1).getContent()) );
+                }else{
+                    showReportDialog(new FirebaseReport(mAdapter.getItem(position-1).getContent(),
+                            mAdapter.getItem(position).getContent()) );
                 }
                 return false;
             }
@@ -183,17 +191,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         });
 
 
-        //get the working directory
-        MagicStrings.root_path = Environment.getExternalStorageDirectory().toString() + "/FITChatbot";
-        System.out.println("Working Directory = " + MagicStrings.root_path);
-        AIMLProcessor.extension = new PCAIMLProcessorExtension();
-        //Assign the AIML files to bot for processing
-        bot = new Bot("Fitbot", MagicStrings.root_path, "chat");
-        chat = new Chat(bot);
-        bot.writeAIMLIFFiles();
-        String[] args = null;
 
-        mainFunction(args);
 
 
         onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
@@ -207,15 +205,13 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
 
     }
 
+
+
     public static void checkConnectivity(Context context) {
         if (!AppInternetStatus.getInstance(context).isOnline()) {
             connectivity_circle.setImageResource(R.drawable.offline_circle);
-            connectivity_text.setText("Offline");
-            Toast.makeText(context, "offline", Toast.LENGTH_SHORT).show();
         } else {
             connectivity_circle.setImageResource(R.drawable.online_circle);
-            connectivity_text.setText("Online");
-            Toast.makeText(context, "online", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -241,7 +237,18 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
 
 
     //Request and response of user and the bot
-    public static void mainFunction(String[] args) {
+    public static void startBot() {
+
+        //get the working directory
+        MagicStrings.root_path = Environment.getExternalStorageDirectory().toString() + "/FITChatbot";
+        System.out.println("Working Directory = " + MagicStrings.root_path);
+        AIMLProcessor.extension = new PCAIMLProcessorExtension();
+        //Assign the AIML files to bot for processing
+        bot = new Bot("Fitbot", MagicStrings.root_path, "chat");
+        chat = new Chat(bot);
+        bot.writeAIMLIFFiles();
+
+
         MagicBooleans.trace_mode = false;
         System.out.println("trace mode = " + MagicBooleans.trace_mode);
         Graphmaster.enableShortCuts = true;
@@ -271,7 +278,8 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
             isAnswered = false;
         }
 
-        mDatabaseReference.child("messages").push().setValue(new FirebaseMessage(message, response, isAnswered));
+        //mDatabaseReference.child("messages").push().setValue(new FirebaseMessage(message, response, isAnswered));
+        saveMessageToLog(new FirebaseMessage(message, response, isAnswered));
 
         //
         mEditTextMessage.setText("");
@@ -310,7 +318,11 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
     @Override
     protected void onResume() {
         super.onResume();
+
         setBackgroundImage();
+        loadMessageLog();
+        loadFeedbackLog();
+        loadReportLog();
     }
 
     public void setBackgroundImage() {
@@ -334,22 +346,22 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
                 sweetAlertDialog.dismissWithAnimation();
             }
         }).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-            @Override
-            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                mDatabaseReference.child("reports").push().setValue(firebaseReport);
-                sweetAlertDialog.dismissWithAnimation();
-                Toast.makeText(ChatActivity.this, "تم الابلاغ عن الرسالة بنجاح", Toast.LENGTH_SHORT).show();
-            }
-        })
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        //mDatabaseReference.child("reports").push().setValue(firebaseReport);
+                        saveReportToLog(firebaseReport);
+                        sweetAlertDialog.dismissWithAnimation();
+                        Toast.makeText(ChatActivity.this, "تم الابلاغ عن الرسالة بنجاح", Toast.LENGTH_SHORT).show();
+                    }
+                })
                 .show();
 
     }
 
-
     @Override
     public void onBackPressed() {
 
-        Boolean rating = sharedPreferences.getBoolean("isRating", false);
+        Boolean rating = sharedPreferences_log.getBoolean("isRating", false);
 
         if (!rating) {
 
@@ -390,9 +402,9 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
     @Override
     public void onNegativeButtonClicked() {
 
-        sharedPreferencesEditor.putBoolean("isRating", true);
-        sharedPreferencesEditor.apply();
-        sharedPreferencesEditor.commit();
+        sharedPreferencesEditor_log.putBoolean("isRating", true);
+        sharedPreferencesEditor_log.apply();
+        sharedPreferencesEditor_log.commit();
         finish();
     }
 
@@ -404,14 +416,200 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
     }
 
     @Override
-    public void onPositiveButtonClicked(int i, String s) {
+    public void onPositiveButtonClicked(int rating, String feedback) {
 
-        mDatabaseReference.child("feedBacks").push().setValue(new FirebaseFeedback(i, s));
+        saveFeedbackToLog(new FirebaseFeedback(rating, feedback));
+        //databaseReference.child("feedbacks").push().setValue(new FirebaseFeedback(i, s));
         Toast.makeText(this, "تم التقييم بنجاح", Toast.LENGTH_SHORT).show();
 
-        sharedPreferencesEditor.putBoolean("isRating", true);
-        sharedPreferencesEditor.apply();
-        sharedPreferencesEditor.commit();
+        sharedPreferencesEditor_log.putBoolean("isRating", true);
+        sharedPreferencesEditor_log.apply();
+        sharedPreferencesEditor_log.commit();
         ChatActivity.super.onBackPressed();
     }
+
+    public void loadMessageLog(){
+        messageLogArrayList = new ArrayList<>();
+        Gson gson = new Gson();
+        String json = sharedPreferences_log.getString("MessageLog", null);
+        Type type = new TypeToken<ArrayList<FirebaseMessage>>() {}.getType();
+        messageLogArrayList =  gson.fromJson(json, type);
+        if(messageLogArrayList==null){
+            messageLogArrayList = new ArrayList<FirebaseMessage>();
+        }
+    }
+
+
+    public void saveMessageToLog(FirebaseMessage firebaseMessage){
+        messageLogArrayList.add(firebaseMessage);
+        Gson gson = new Gson();
+        String json = gson.toJson(messageLogArrayList);
+        sharedPreferencesEditor_log.putString("MessageLog", json);
+        sharedPreferencesEditor_log.commit();
+        sharedPreferencesEditor_log.apply();
+    }
+
+    public void clearMessageLog(){
+        if(messageLogArrayList!=null){
+            messageLogArrayList.clear();
+        }
+
+        sharedPreferencesEditor_log.remove("MessageLog");
+        sharedPreferencesEditor_log.commit();
+        sharedPreferencesEditor_log.apply();
+
+    }
+
+    public void loadFeedbackLog(){
+        if(feedbackLogArrayList==null){
+            feedbackLogArrayList = new ArrayList<FirebaseFeedback>();
+        }
+        Gson gson = new Gson();
+        String json = sharedPreferences_log.getString("FeedbackLog", null);
+        Type type = new TypeToken<ArrayList<FirebaseFeedback>>() {}.getType();
+        feedbackLogArrayList =  gson.fromJson(json, type);
+
+        if(feedbackLogArrayList==null){
+            feedbackLogArrayList = new ArrayList<FirebaseFeedback>();
+        }
+
+    }
+
+
+    public void saveFeedbackToLog(FirebaseFeedback firebaseFeedback){
+        feedbackLogArrayList.add(firebaseFeedback);
+        Gson gson = new Gson();
+        String json = gson.toJson(feedbackLogArrayList);
+        sharedPreferencesEditor_log.putString("FeedbackLog", json);
+        sharedPreferencesEditor_log.commit();
+        sharedPreferencesEditor_log.apply();
+    }
+
+    public void clearFeedbackLog(){
+        if(feedbackLogArrayList!=null){
+            feedbackLogArrayList.clear();
+        }
+
+        sharedPreferencesEditor_log.remove("FeedbackLog");
+        sharedPreferencesEditor_log.commit();
+        sharedPreferencesEditor_log.apply();
+
+    }
+
+    public void loadReportLog(){
+        if(reportLogArrayList==null){
+            reportLogArrayList = new ArrayList<FirebaseReport>();
+        }
+        Gson gson = new Gson();
+        String json = sharedPreferences_log.getString("ReportLog", null);
+        Type type = new TypeToken<ArrayList<FirebaseReport>>() {}.getType();
+        reportLogArrayList =  gson.fromJson(json, type);
+
+        if(reportLogArrayList==null){
+            reportLogArrayList = new ArrayList<FirebaseReport>();
+        }
+
+    }
+
+
+    public void saveReportToLog(FirebaseReport firebaseReport){
+        reportLogArrayList.add(firebaseReport);
+        Gson gson = new Gson();
+        String json = gson.toJson(reportLogArrayList);
+        sharedPreferencesEditor_log.putString("ReportLog", json);
+        sharedPreferencesEditor_log.commit();
+        sharedPreferencesEditor_log.apply();
+    }
+
+    public void clearReportLog(){
+        if(reportLogArrayList!=null){
+            reportLogArrayList.clear();
+        }
+
+        sharedPreferencesEditor_log.remove("ReportLog");
+        sharedPreferencesEditor_log.commit();
+        sharedPreferencesEditor_log.apply();
+
+    }
+
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        uploadMessagesToFirebase();
+        uploadFeedbackToFirebase();
+        uploadReportsToFirebase();
+
+    }
+
+    boolean uploadedSuccessfully = true;
+    int position;
+
+    public void uploadMessagesToFirebase(){
+        uploadedSuccessfully = true;
+        position = messageLogArrayList.size()-1;
+        while(position != -1){
+            mDatabaseReference.child("messages").push().setValue(messageLogArrayList.get(position)).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    uploadedSuccessfully = false;
+                }
+            });
+            if (!uploadedSuccessfully) {
+                break;
+            }
+
+            position--;
+        }
+        if (uploadedSuccessfully) {
+            clearMessageLog();
+        }
+    }
+
+    public void uploadFeedbackToFirebase(){
+        uploadedSuccessfully = true;
+        position = feedbackLogArrayList.size()-1;
+
+        while(position != -1){
+            mDatabaseReference.child("feedbacks").push().setValue(feedbackLogArrayList.get(position)).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    uploadedSuccessfully = false;
+                }
+            });
+            if (!uploadedSuccessfully) {
+                break;
+            }
+
+            position--;
+        }
+        if (uploadedSuccessfully) {
+            clearFeedbackLog();
+        }
+    }
+
+    public void uploadReportsToFirebase(){
+        uploadedSuccessfully = true;
+        position = reportLogArrayList.size()-1;
+
+        while(position != -1){
+            mDatabaseReference.child("reports").push().setValue(reportLogArrayList.get(position)).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    uploadedSuccessfully = false;
+                }
+            });
+            if (!uploadedSuccessfully) {
+                break;
+            }
+
+            position--;
+        }
+        if (uploadedSuccessfully) {
+            clearReportLog();
+        }
+    }
+
+
 }

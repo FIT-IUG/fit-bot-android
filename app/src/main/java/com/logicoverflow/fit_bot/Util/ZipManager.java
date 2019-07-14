@@ -1,4 +1,4 @@
-package com.logicoverflow.fitbot.Util;
+package com.logicoverflow.fit_bot.Util;
 
 import android.util.Log;
 
@@ -16,9 +16,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 public class ZipManager {
     private static int BUFFER_SIZE = 6 * 1024;
 
-    public static void unzip(String zipFile, String location) throws IOException {
-
-
+    public static void unzip(String zipFile, String location) throws IOException{
 
         try {
             File locationDirectory = new File(location);

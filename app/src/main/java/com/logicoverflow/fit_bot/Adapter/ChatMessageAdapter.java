@@ -1,4 +1,4 @@
-package com.logicoverflow.fitbot.Adapter;
+package com.logicoverflow.fit_bot.Adapter;
 
 import android.content.Context;
 import android.text.util.Linkify;
@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.logicoverflow.fitbot.Model.ChatMessage;
-import com.logicoverflow.fitbot.R;
+import com.logicoverflow.fit_bot.Model.ChatMessage;
+import com.logicoverflow.fit_bot.R;
 
 import java.util.List;
 

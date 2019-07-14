@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/mainColor"
-    tools:context="com.logicoverflow.fitbot.Fragments.SettingsFragmentAppearance">
+    tools:context="com.logicoverflow.fit_bot.Fragments.SettingsFragmentAppearance">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout

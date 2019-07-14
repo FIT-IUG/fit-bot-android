@@ -1,4 +1,4 @@
-package com.logicoverflow.fitbot.Fragments;
+package com.logicoverflow.fit_bot.Fragments;
 
 import android.os.Bundle;
 
@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.logicoverflow.fitbot.R;
+import com.logicoverflow.fit_bot.R;
 
 public class SettingsFragmentAbout extends Fragment {
 
