@@ -8,11 +8,4 @@
         </template>
     </category>
 
-    <category>
-            <pattern> ايش </pattern>
-            <template>
-                 gif  يمكنك معرفة الارشاد الاكاديمي لاي قسم من خلال http://fit.iugaza.edu.ps/عن-الكلية/الإرشاد-الأكاديمي
-            </template>
-        </category>
-
 </aiml>

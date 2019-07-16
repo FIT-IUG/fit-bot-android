@@ -15,6 +15,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -28,17 +30,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.logicoverflow.fit_bot.Util.AndroidAnimationBuilder;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
 import com.logicoverflow.fit_bot.Util.AppInternetStatus;
 
 import org.apache.commons.io.FileUtils;
@@ -74,6 +71,10 @@ public class SplashActivity extends AppCompatActivity {
 
     boolean alreadyInChatActivity;
 
+    private Thread timeout_thread;
+
+    private boolean foundUpdate = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -88,7 +89,10 @@ public class SplashActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.splash_progress_bar);
         progress_text = findViewById(R.id.progress_text);
 
-        fileDirectory = new File(Environment.getExternalStorageDirectory().toString() + "/FITChatbot/bots/Fitbot");
+        //fileDirectory = new File(Environment.getExternalStorageDirectory().toString() + "/FITChatbot/bots/Fitbot");
+        fileDirectory = new File(getFilesDir(),"/FITChatbot/bots/Fitbot");
+        Log.e("rmy","fileDirectory: "+fileDirectory.getAbsolutePath());
+
 
         sharedPreferences = getSharedPreferences("version", Context.MODE_PRIVATE);
         sharedPreferencesEditor = sharedPreferences.edit();
@@ -99,41 +103,62 @@ public class SplashActivity extends AppCompatActivity {
         super.onResume();
         fullScreen();
         animate();
+       // storeDefaultAIMLfiles();
+        checkDatabaseVersion();
 
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                Dexter.withActivity(SplashActivity.this)
-                        .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        .withListener(new PermissionListener() {
-                            @Override
-                            public void onPermissionGranted(PermissionGrantedResponse response) {
-                                checkDatabaseVersion();
-                            }
-
-                            @Override
-                            public void onPermissionDenied(PermissionDeniedResponse response) {
-                                finish();
-                            }
-
-                            @Override
-                            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                                token.continuePermissionRequest();
-                            }
-                        }).check();
-
-            }
-        }, 2000);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                Dexter.withActivity(SplashActivity.this)
+//                        .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                        .withListener(new PermissionListener() {
+//                            @Override
+//                            public void onPermissionGranted(PermissionGrantedResponse response) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onPermissionDenied(PermissionDeniedResponse response) {
+//                                finish();
+//                            }
+//
+//                            @Override
+//                            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+//                                token.continuePermissionRequest();
+//                            }
+//                        }).check();
+//
+//            }
+//        }, 2000);
 
 
     }
 
+    public void startTerminationTimer(){
+        timeout_thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while(true) {
+                        sleep(15000);
+                        if(!foundUpdate){
+                            startChatActivity();
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        timeout_thread.start();
+    }
 
 
     private void checkDatabaseVersion() {
 
+        startTerminationTimer();
 
         if (!AppInternetStatus.getInstance(SplashActivity.this).isOnline()) {
             progress_text.setText("مشكلة في البحث عن التحديثات\nحفظ الملفات الافتراضية..");
@@ -284,10 +309,13 @@ public class SplashActivity extends AppCompatActivity {
                                 public void run() {
                                     deletePreviousAIMLfiles();
 
+
+
                                         AsyncTask.execute(new Runnable() {
                                             @Override
                                             public void run() {
                                                 try {
+                                                    foundUpdate = true;
                                                     unzip("Fitbot.zip", fileDirectory.getPath());
                                                     sharedPreferencesEditor.putInt("version", databaseVersion);
                                                     sharedPreferencesEditor.apply();
@@ -317,6 +345,46 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
+//    public void storeDefaultAIMLfiles() {
+//
+//        AssetManager assets = getResources().getAssets();
+//
+//
+//        boolean b = fileDirectory.mkdirs();
+//        if (fileDirectory.exists()) {
+//
+//            //to delete files everytime app is loaded (in case of editting aiml files)
+//            deletePreviousAIMLfiles();
+//
+//            //Reading the file
+//            try {
+//                for (String dir : assets.list("Fitbot")) {
+//                    File subdir = new File(fileDirectory.getPath() + "/" + dir);
+//                    boolean subdir_check = subdir.mkdirs();
+//                        for (String file : assets.list("Fitbot/" + dir)) {
+//                            InputStream in = null;
+//                            OutputStream out = null;
+//                            in = assets.open("Fitbot/" + dir + "/" + file);
+//                            out = new FileOutputStream(fileDirectory.getPath() + "/" + dir + "/" + file);
+//                            //copy file from assets to the mobile's SD card or any secondary memory
+//                            copyFile(in, out);
+//                            in.close();
+//                            in = null;
+//                            out.flush();
+//                            out.close();
+//                            out = null;
+//                    }
+//
+//
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            startChatActivity();
+//        }
+//    }
+
     public void storeDefaultAIMLfiles() {
 
         AssetManager assets = getResources().getAssets();
@@ -334,7 +402,6 @@ public class SplashActivity extends AppCompatActivity {
                     File subdir = new File(fileDirectory.getPath() + "/" + dir);
                     boolean subdir_check = subdir.mkdirs();
                     for (String file : assets.list("Fitbot/" + dir)) {
-                        File f = new File(fileDirectory.getPath() + "/" + dir + "/" + file);
                         InputStream in = null;
                         OutputStream out = null;
                         in = assets.open("Fitbot/" + dir + "/" + file);
@@ -369,6 +436,9 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void startChatActivity() {
+
+        timeout_thread = null;
+
         if (!alreadyInChatActivity) {
             Intent intent = new Intent(SplashActivity.this, ChatActivity.class);
             startActivity(intent);
@@ -380,6 +450,7 @@ public class SplashActivity extends AppCompatActivity {
             }
             alreadyInChatActivity = true;
         }
+
 
     }
 

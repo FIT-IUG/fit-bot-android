@@ -4,42 +4,35 @@
     <category>
         <pattern> # رئيس قسم # <set>specializations</set> # </pattern>
         <template>
-           يمكنك معرفة رئيس اي قسم من خلال http://fit.iugaza.edu.ps/عن-الكلية/هيكلية-الكلية gif
+            يمكنك معرفة رئيس قسمك من خلال http://fit.iugaza.edu.ps/عن-الكلية/مجلس-الكلية
         </template>
     </category>
 
     <category>
-        <pattern> # <set>general_words</set> # <set>teachers_title</set> # <set>teachers_names</set> # </pattern>
+        <pattern> # <set>general_words</set> # <set>teachers_title</set> #  </pattern>
         <template>
-           يمكنك معرفة ذلك من خلال http://fit.iugaza.edu.ps/عن-الكلية/الهيئة-التدريسية
+          gif يمكنك معرفة ذلك من خلال http://fit.iugaza.edu.ps/عن-الكلية/الهيئة-التدريسية
         </template>
     </category>
 
     <category>
         <pattern> # <set>teachers_title</set> # <set>specializations</set> # </pattern>
         <template>
-            يمكنك معرفة ذلك من خلال http://fit.iugaza.edu.ps/عن-الكلية/الهيئة-التدريسية
+             يمكنك معرفة ذلك من خلال http://fit.iugaza.edu.ps/عن-الكلية/الهيئة-التدريسية
         </template>
     </category>
 
     <category>
         <pattern> # <set>general_words</set> ^ <set>teachers_title</set> # <set>specializations</set> # </pattern>
         <template>
-            يمكنك معرفة ذلك من خلال http://fit.iugaza.edu.ps/عن-الكلية/الهيئة-التدريسية
+             يمكنك معرفة ذلك من خلال http://fit.iugaza.edu.ps/عن-الكلية/الهيئة-التدريسية
         </template>
     </category>
 
     <category>
-        <pattern> # ساعات مكتبية # <set>teachers_title</set> # <set>teachers_names</set> # </pattern>
+        <pattern> # <set>office_hours</set> # <set>teachers_title</set> # <set>teachers_names</set> # </pattern>
         <template>
-            <map name="teachers_office_hours"><star index="5"/></map>
-        </template>
-    </category>
-
-    <category>
-        <pattern> # الساعات المكتبية # <set>teachers_title</set> # <set>teachers_names</set> # </pattern>
-        <template>
-            <map name="teachers_office_hours"><star index="5"/></map>
+            <map name="teachers_office_hours"><star index="6"/></map>
         </template>
     </category>
 

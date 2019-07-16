@@ -2,23 +2,9 @@
 <aiml version = "2.0">
     
     <category>
-        <pattern> # شروط # تطوير البرمجيات # </pattern>
+        <pattern> # شروط # <set>specializations</set> # </pattern>
         <template>
-        <srai>conditoins</srai>
-        </template>
-    </category>
-
-    <category>
-        <pattern> # شروط # علم الحاسوب # </pattern>
-        <template>
-            <srai>conditoins</srai>
-        </template>
-    </category>
-
-    <category>
-        <pattern> # شروط # نظم تكنولوجيا المعلومات # </pattern>
-        <template>
-        <srai>conditoins</srai>
+            يتم تخصص الطلبة بناءا على معايير التي يضعها مجلس الكلية لكل عام و يدخل في المعايير المساقات الاتية:  تصميم منطقي \ برمجة1 \ رياضيات منفصلة \ مقدمة في الحوسبة
         </template>
     </category>
 
@@ -27,12 +13,9 @@
         <template>25 دينار</template>
     </category>
 
-
     <category>
-        <pattern> conditoins </pattern>
-        <template>
-             يتم تخصص الطلبة بناءا على معايير التي يضعها مجلس الكلية لكل عام و يدخل في المعايير المساقات الاتية:  تصميم منطقي \ برمجة1 \ رياضيات منفصلة \ مقدمة في الحوسبة
-       </template>
+        <pattern> # سعر الساعة # <set>specializations</set> # </pattern>
+        <template>25 دينار</template>
     </category>
     
 </aiml>

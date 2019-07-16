@@ -1,15 +1,21 @@
 package com.logicoverflow.fit_bot.Model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class FirebaseFeedback implements Serializable {
 
     private int rating ;
     private String feedbackMessage;
+    private String timestamp;
 
     public FirebaseFeedback(int rating, String feedbackMessage) {
         this.rating = rating;
         this.feedbackMessage = feedbackMessage;
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy_hh:mm:ss");
+        this.timestamp = simpleDateFormat.format(new Date());
     }
 
     public int getRating() {
@@ -26,5 +32,13 @@ public class FirebaseFeedback implements Serializable {
 
     public void setFeedbackMessage(String feedbackMessage) {
         this.feedbackMessage = feedbackMessage;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }

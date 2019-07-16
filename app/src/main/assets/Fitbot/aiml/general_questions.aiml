@@ -1,34 +1,61 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <aiml version = "2.0">
-    
+
     <category>
-        <pattern> # الوسائط المتعددة # الفرع العلمي # </pattern>
-        <template>للفرع العلمي و الادبي</template>
+        <pattern> # <set>general</set> # </pattern>
+        <template>
+            <think><set name="frequentQ"><star index="2"/></set></think>
+            <srai>AnswerOfFrequent</srai>
+        </template>
     </category>
 
     <category>
-        <pattern> # جدول # </pattern>
-        <template>من خلال موقع الجامعة -> الخدمات الالكترونية -> خدمات الطالب الاكاديمية والادارية -> القبول والتسجيل -> جدول الفصل الحالي</template>
-    </category>
-    
-    <category>
-        <pattern> # موعد امتحان # </pattern>
-        <template>من خلال موقع الجامعة -> الخدمات الالكترونية -> خدمات الطالب الاكاديمية والادارية -> القبول والتسجيل -> جدول الامتحانات</template>
+        <pattern> AnswerOfFrequent </pattern>
+        <template>
+            <condition name="frequentQ">
+              <li value="جدول محاضرة"><srai>Lecture</srai></li>
+              <li value="جدول المحاضرة"><srai>Lecture</srai></li>
+              <li value="جدول مساق"><srai>Lecture</srai></li>
+              <li value="جدول المساق"><srai>Lecture</srai></li>
+              <li value="جدول محاضرات"><srai>Lecture</srai></li>
+              <li value="جدول المحاضرات"><srai>Lecture</srai></li>
+              <li value="جدول الفصل"><srai>Lecture</srai></li>
+              <li value="الجدول الفصلي"><srai>Lecture</srai></li>
+              <li value="جدول الفصل الحالي"><srai>Lecture</srai></li>
+              <li value="جدولي"><srai>Lecture</srai></li>
+              <li value="محاضرات"><srai>Lecture</srai></li>
+              <li value="المحاضرات"><srai>Lecture</srai></li>
+              <li value="المحاضرة"><srai>Lecture</srai></li>
+              <li value="محاضرة"><srai>Lecture</srai></li>
+              <li>
+                يمكنك معرفة ذلك من خلال موقع الجامعة -> الخدمات الالكترونية -> خدمات الطالب الاكاديمية والادارية -> القبول والتسجيل -> جدول الامتحانات
+              او من خلال تطبيق خدمات الطلبة ثم جدول الامتحانات
+              </li>
+            </condition>
+        </template>
     </category>
 
     <category>
-        <pattern> # جدول امتحانات # </pattern>
-        <template>من خلال موقع الجامعة -> الخدمات الالكترونية -> خدمات الطالب الاكاديمية والادارية -> القبول والتسجيل -> جدول الامتحانات</template>
+        <pattern> Lecture </pattern>
+        <template>
+                يمكنك معرفة ذلك من خلال موقع الجامعة -> الخدمات الالكترونية -> خدمات الطالب الاكاديمية والادارية -> القبول والتسجيل -> جدول الفصل الحالي
+                او من خلال تطبيق خدمات الطلبة ثم الرئيسية ثم جدول اليوم
+        </template>
     </category>
 
     <category>
-        <pattern> # رسالة تزكية # </pattern>
-        <template>من الخلال التواصل مع سكيرتير الكلبة او الدكتور الذي تريد الرسالة منه</template>
+        <pattern> # رسالة # <set>recommendation</set> # </pattern>
+        <template>يمكنك الحصول عليها من خلال التواصل مع سكيرتير الكلية او الدكتور الذي تريد الرسالة منه</template>
     </category>
 
     <category>
-        <pattern> # تعارض # </pattern>
-        <template>يمكنك مراجعة مدير الكلية</template>
+        <pattern> # رسائل # <set>recommendation</set> # </pattern>
+        <template>يمكنك الحصول عليها من خلال التواصل مع سكيرتير الكلية او الدكتور الذي تريد الرسالة منه</template>
+    </category>
+
+    <category>
+        <pattern> # رساله # <set>recommendation</set> # </pattern>
+        <template>يمكنك الحصول عليها من خلال التواصل مع سكيرتير الكلية او الدكتور الذي تريد الرسالة منه</template>
     </category>
 
     <category>

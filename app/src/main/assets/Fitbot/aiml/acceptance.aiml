@@ -13,22 +13,81 @@
         <pattern> acceptanceset </pattern>
         <template>
           <condition name="type_of_accept">
-              <li value="تجسير"><srai>acceptbydeplom</srai></li>
-              <li value="يجسر"><srai>acceptbydeplom</srai></li>
-              <li value="اجسر"><srai>acceptbydeplom</srai></li>
-              <li value="التجسير"><srai>acceptbydeplom</srai></li>
-              <li value="شهادة الدبلوم"><srai>acceptbydeplom</srai></li>
-              <li value="القبول على شهادة الدبلوم"><srai>acceptbydeplom</srai></li>
-              <li value="شهادة بكالوريوس"><srai>acceptbybacloria</srai></li>
-              <li value="البكالوريوس"><srai>acceptbybacloria</srai></li>
-              <li value="بكالويوس"><srai>acceptbybacloria</srai></li>
-              <li value="القبول على شهادة البكالوريوس"><srai>acceptbybacloria</srai></li>
+               <li value="تجسير"><srai>acceptByDiploma</srai></li>
+               <li value="يجسر"><srai>acceptByDiploma</srai></li>
+               <li value="اجسر"><srai>acceptByDiploma</srai></li>
+               <li value="التجسير"><srai>acceptByDiploma</srai></li>
+               <li value="شهادة الدبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="القبول على شهادة الدبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="التجسير على الدبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="التجسير على شهادة الدبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="تجسير على الدبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="تجسير على شهادة الدبلومم"><srai>acceptByDiploma</srai></li>
+               <li value="اجسر على الدبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="اجسر على شهادة الدبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="تجسير دبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="تجسير الدبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="اجسر دبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="القبول على شهادة دبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="التجسير على دبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="التجسير على شهادة دبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="تجسير على دبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="تجسير على شهادة دبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="اجسر على دبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="اجسر على شهادة دبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="تجسير عدبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="اجسر عدبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="التجسير عدبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="التجسير عالدبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="اجسر عالدبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="تجسير عالدبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="اجسر عشهادة الدبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="اجسر عشهادة دبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="تجسير عشهادة الدبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="تجسير عشهادة دبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="التجسير عشهادة الدبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="التجسير عشهادة دبلوم"><srai>acceptByDiploma</srai></li>
+               <li value="شهادة بكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="البكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="بكالويوس"><srai>acceptByBA</srai></li>
+               <li value="القبول على شهادة البكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="التجسير على البكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="التجسير على شهادة البكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="تجسير على البكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="تجسير على شهادة البكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="اجسر على البكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="اجسر على شهادة البكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="تجسير البكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="تجسير البكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="اجسر البكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="القبول على شهادة بكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="التجسير على بكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="التجسير على شهادة بكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="تجسير على بكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="تجسير على شهادة بكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="اجسر على بكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="اجسر على شهادة بكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="تجسير بكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="اجسر بكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="تجسير عبكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="اجسر عبكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="التجسير عبكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="التجسير عالبكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="اجسر عالبكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="تجسير عالبكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="اجسر عشهادة البكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="اجسر عشهادة بكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="تجسير عشهادة البكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="تجسير عشهادة بكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="التجسير عشهادة البكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="التجسير عشهادة بكالوريوس"><srai>acceptByBA</srai></li>
+               <li value="القبول للبكالوريوس"><srai>acceptByBA</srai></li>
           </condition>
         </template>
     </category>
 
     <category>
-        <pattern> acceptbydeplom </pattern>
+        <pattern> acceptByDiploma </pattern>
         <template>
             من خلال الشروط التالية :
             1- إنهاء دراسة الدبلوم المتوسط بمعدل تراكمي 70% على الأقل
@@ -43,24 +102,8 @@
        </template>
     </category>
 
-        <category>
-            <pattern> تج </pattern>
-            <template>
-من خلال الشروط التالية :
-1- إنهاء دراسة الدبلوم المتوسط بمعدل تراكمي 70% على الأقل
-2- النجاح في الامتحان الشامل بتقدير (جيد) على الأقل
-3- وجود مكان شاغر في البرنامج
-4- أن يحقق الطالب أحد الشرطين الآتيين :
-*- أن يقدم الطالب شهادة خبرة معتمدة لمدة سنة على الأقل
-*- إذا تعذر تحقيق شرط الخبرة، يعطى الطالب في الجامعة
-مساقات استدراكية لها علاقة بالتخصص حسب ما تراه
-الجامعة مناسبا، على أن يحقق في هذه المساقات علامة
-70% على الاقل.
-           </template>
-        </category>
-
     <category>
-        <pattern> acceptbybacloria </pattern>
+        <pattern> acceptByBA </pattern>
         <template>
            من خلال الشروط التالية:
            1- أن يكون قد تخرج من جامعة معترف بها

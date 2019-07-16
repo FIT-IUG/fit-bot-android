@@ -4,12 +4,7 @@
 	<category>
 		<pattern> # <set>greeting</set> # </pattern>
 		<template>
-            <random>
-                <li>وعليكم السلام, ممكن أتعرف عليك!</li>
-                <li>مرحبا, ممكن أتعرف عليك!</li>
-                <li>اهلا بك, ممكن أتعرف عليك!</li>
-                <li>اهلا و سهلا, ممكن أتعرف عليك!</li>
-            </random>
+               اهلاً وسهلاً بك وشكراً لتواصلك معنا في كلية تكنولولجيا المعلومات
         </template> 
 	</category>
 
@@ -17,11 +12,23 @@
     	<pattern> # <set>self</set> # </pattern>
     	<template>
             <think><set name="username"> <star index="3"/></set></think>مرحبا بك
-            <get name="username"></get>
+            <get name="username"></get>,كيف ممكن أساعدك؟
         </template>
     </category>
 
+    <category>
+        <pattern> # اسمك # </pattern>
+        <template>
+            أسمي Fit-Bot ,ايش أسمك أنت؟
+       </template>
+    </category>
 
+    <category>
+        <pattern> # أسمك # </pattern>
+        <template>
+            أسمي Fit-Bot ,ايش أسمك أنت
+        </template>
+    </category>
 
 	<category>
 		<pattern> # صباح # </pattern>
@@ -67,7 +74,28 @@
             </random>
         </template>
 	</category>
-    
+
+    <category>
+		<pattern> # بارك الله فيك # </pattern>
+        <template>
+            <random>
+                <li>حظا سعيدا</li>
+                <li>و فيك</li>
+                <li>حياك الله</li>
+            </random>
+        </template>
+	</category>
+
+    <category>
+		<pattern> # حياك الله # </pattern>
+        <template>
+            <random>
+                <li>حظا سعيدا</li>
+                <li>بارك الله فيك</li>
+            </random>
+        </template>
+	</category>
+
     <category>
         <pattern> # تصبح على خير # </pattern>
         <template> و انت من أهله</template>

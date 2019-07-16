@@ -7,11 +7,11 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Environment;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -24,7 +24,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -57,12 +56,17 @@ import org.alicebot.ab.Timer;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import androidx.annotation.AnimRes;
+import androidx.annotation.AnimatorRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -99,18 +103,24 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
 
     private SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener;
 
+    private DialogPlus guideDialog;
+
+    private static File filesDirectory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        filesDirectory = new File(getFilesDir()+"/FITChatbot");
+
         startBot();
+
+
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mFirebaseDatabase.getReference();
 
         sharedPreferences_log = getSharedPreferences("LOG",MODE_PRIVATE);
         sharedPreferencesEditor_log = sharedPreferences_log.edit();
-
-
 
         String theme = getSharedPreferences(ChatActivity.THEME_PREFERENCES, MODE_PRIVATE).getString(ChatActivity.THEME_SAVED, ChatActivity.LIGHTTHEME);
         if (theme.equals(ChatActivity.LIGHTTHEME)) {
@@ -218,7 +228,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
             @Override
             public void onClick(View v) {
 
-                showDialog();
+                showGuide();
 
             }
         });
@@ -260,7 +270,9 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
     public static void startBot() {
 
         //get the working directory
-        MagicStrings.root_path = Environment.getExternalStorageDirectory().toString() + "/FITChatbot";
+        MagicStrings.root_path =  filesDirectory.getPath();
+        Log.e("rmy",MagicStrings.root_path);
+
         System.out.println("Working Directory = " + MagicStrings.root_path);
         AIMLProcessor.extension = new PCAIMLProcessorExtension();
         //Assign the AIML files to bot for processing
@@ -312,8 +324,11 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
                         Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(
-                activity.getCurrentFocus().getWindowToken(), 0);
+        if(activity.getCurrentFocus().getWindowToken()!=null){
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(), 0);
+        }
+
     }
 
     @Override
@@ -381,15 +396,21 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
     @Override
     public void onBackPressed() {
 
-        Boolean rating = sharedPreferences_log.getBoolean("isRating", false);
+        if(guideDialog!=null && guideDialog.isShowing()){
+            guideDialog.dismiss();
+        }else{
+            Boolean rating = sharedPreferences_log.getBoolean("isRating", false);
 
-        if (!rating) {
+            if (!rating) {
 
-            showFeedbackDialog();
-        } else {
+                showFeedbackDialog();
+            } else {
 
-            super.onBackPressed();
+                super.onBackPressed();
+            }
         }
+
+
 
 
     }
@@ -630,17 +651,28 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
             clearReportLog();
         }
     }
-    public void showDialog() {
+    public void showGuide() {
 
-        File guideFile = new File(Environment.getExternalStorageDirectory().toString()
-                + "/FITChatbot/bots/Fitbot/Fitbot/guide.md");
+        hideSoftKeyboard(ChatActivity.this);
 
-        DialogPlus dialog = DialogPlus.newDialog(this)
+        File guideFile = new File(filesDirectory
+                + "/bots/Fitbot/guide.md");
+
+        if(!guideFile.exists()){
+            try {
+                copyFile(getResources().getAssets().open("guide.md"),new FileOutputStream(filesDirectory + "/bots/Fitbot/guide.md"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        guideDialog = DialogPlus.newDialog(this)
                 .setContentHolder(new ViewHolder(R.layout.markdown_layout))
-                .setCancelable(true)
                 .setGravity(Gravity.CENTER)
+                .setMargin(100,200,100,200)
+                .setCancelable(true)
                 .create();
-        dialog.show();
+        guideDialog.show();
 
         markdownView = findViewById(R.id.markdownView);
 
@@ -668,5 +700,13 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         //Make sure you close all streams.
         fin.close();
         return ret;
+    }
+
+    private void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while ((read = in.read(buffer)) != -1) {
+            out.write(buffer, 0, read);
+        }
     }
 }

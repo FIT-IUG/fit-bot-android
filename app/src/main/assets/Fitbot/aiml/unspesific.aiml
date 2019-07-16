@@ -6,6 +6,24 @@
         <template>
             يمكنك التوجة الى سكرتير الكلية او مدير الكلية او مراسلتنا عبر بريدنا الاكتروني
             itc@iugaza.edu.ps
+            او الاتصال على الرقم
+            00970 8 2644400
+        </template>
+     </category>
+
+     <category>
+        <pattern> # التعارض # </pattern>
+        <template>
+            يمكنك التوجة للمرشد الخاص بقسمك.
+            ويمكنك معرفة مرشد قسمك من خلال  http://fit.iugaza.edu.ps/عن-الكلية/الإرشاد-الأكاديمي
+        </template>
+     </category>
+
+     <category>
+        <pattern> # تعارض # </pattern>
+        <template>
+            يمكنك التوجة للمرشد الخاص بقسمك.
+            ويمكنك معرفة مرشد قسمك من خلال  http://fit.iugaza.edu.ps/عن-الكلية/الإرشاد-الأكاديمي
         </template>
      </category>
 
