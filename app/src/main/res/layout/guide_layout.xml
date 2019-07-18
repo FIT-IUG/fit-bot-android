@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@drawable/toolbar_round_shape"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_alignParentTop="true"
+        android:background="@color/colorAccent"
+        android:id="@+id/guide_header"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <ImageView
+
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_guide"
+            android:layout_width="80dp"
+            android:layout_height="100dp" />
+    </RelativeLayout>
+
+
+    <WebView
+        android:layout_below="@+id/guide_header"
+        android:layout_gravity="end"
+        android:textAlignment="textEnd"
+        android:textDirection="rtl"
+        android:layoutDirection="rtl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/dismiss_guide_button"
+        android:id="@+id/guideWebView" />
+
+    <ImageButton
+        android:background="@color/gray_btn_bg_color"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/ic_check"
+        android:id="@+id/dismiss_guide_button"
+        android:layout_width="match_parent"
+        android:padding="0dp"
+        android:layout_height="50dp" />
+
+</RelativeLayout>
