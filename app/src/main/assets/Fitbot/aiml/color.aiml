@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="2.0">
+
+  <category>
+     <pattern> # <set>color</set>  # </pattern>
+     <template>
+        <map name="colors"><star index="2"/></map>
+     </template>
+  </category>
+
+  <category>
+      <pattern>   # اللون # المفضل # </pattern>
+      <template> الأحمر </template>
+  </category>
+
+  <category>
+      <pattern>   # لونك # المفضل # </pattern>
+      <template> الأحمر </template>
+  </category>
+
+</aiml>

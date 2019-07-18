@@ -64,7 +64,7 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.message_gif_chatbot, parent, false);
             TextView textView = convertView.findViewById(R.id.text);
             ImageView gifView = convertView.findViewById(R.id.message_gif);
-            Glide.with(convertView).load("https://firebasestorage.googleapis.com/v0/b/fit-bot-936cb.appspot.com/o/instruction1.gif?alt=media&token=72cc3b31-25ed-4e10-a328-593f1f2f75e1").placeholder(R.drawable.progress_bar).into(gifView);
+            Glide.with(convertView).load("https://firebasestorage.googleapis.com/v0/b/fit-bot-936cb.appspot.com/o/instruction1.gif?alt=media&token=72cc3b31-25ed-4e10-a328-593f1f2f75e1").placeholder(R.drawable.progress_bar).error(R.drawable.ic_cloud_error).into(gifView);
 
             textView.setText(getItem(position).getContent());
             //textView.setAutoLinkMask(Linkify.WEB_URLS);

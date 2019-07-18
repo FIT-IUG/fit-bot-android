@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="2.0">
+
+ <category>
+    <pattern> # <set>animals</set> # </pattern>
+    <template> <map name="animals"><star index="2"/></map> </template>
+ </category>
+
+ <category>
+    <pattern> # حيوانك # المفضل # </pattern>
+    <template> القطة </template>
+ </category>
+
+ <category>
+    <pattern> # الحيوان # المفضل # </pattern>
+    <template> القطة </template>
+ </category>
+
+ <category>
+    <pattern>  # حيوان # </pattern>
+    <template> معرفش  </template>
+ </category>
+
+</aiml>

@@ -19,12 +19,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Toast;
+
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -65,13 +67,11 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import androidx.annotation.AnimRes;
-import androidx.annotation.AnimatorRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import us.feras.mdv.MarkdownView;
 
 
 public class ChatActivity extends AppCompatActivity implements RatingDialogListener {
@@ -85,7 +85,8 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
 
     private ListView mListView;
     private FloatingActionButton mButtonSend;
-    private ImageView guideLine ;
+    private ImageView guideLine;
+    private ImageView dismiss_guide_button;
     private static ImageView connectivity_circle;
     private EditText mEditTextMessage;
     public static Bot bot;
@@ -94,7 +95,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
     private static ArrayList<FirebaseMessage> messageLogArrayList;
     private static ArrayList<FirebaseFeedback> feedbackLogArrayList;
     private static ArrayList<FirebaseReport> reportLogArrayList;
-   private MarkdownView markdownView;
+    private WebView guideWebView;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
 
@@ -106,20 +107,21 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
     private DialogPlus guideDialog;
 
     private static File filesDirectory;
+    private static File guideFileDirectory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        filesDirectory = new File(getFilesDir()+"/FITChatbot");
+        filesDirectory = new File(getFilesDir() + "/FITChatbot");
+        guideFileDirectory = new File(filesDirectory+ "/bots/Fitbot/guide.html");
 
         startBot();
-
 
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mFirebaseDatabase.getReference();
 
-        sharedPreferences_log = getSharedPreferences("LOG",MODE_PRIVATE);
+        sharedPreferences_log = getSharedPreferences("LOG", MODE_PRIVATE);
         sharedPreferencesEditor_log = sharedPreferences_log.edit();
 
         String theme = getSharedPreferences(ChatActivity.THEME_PREFERENCES, MODE_PRIVATE).getString(ChatActivity.THEME_SAVED, ChatActivity.LIGHTTHEME);
@@ -147,7 +149,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         if (!AppInternetStatus.getInstance(ChatActivity.this).isOnline()) {
             connectivity_circle.setImageResource(R.drawable.offline_circle);
             //connectivity_text.setText("Offline");
-        }else{
+        } else {
             connectivity_circle.setImageResource(R.drawable.online_circle);
         }
 
@@ -171,12 +173,12 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position%2==0){
+                if (position % 2 == 0) {
                     showReportDialog(new FirebaseReport(mAdapter.getItem(position).getContent(),
-                            mAdapter.getItem(position+1).getContent()) );
-                }else{
-                    showReportDialog(new FirebaseReport(mAdapter.getItem(position-1).getContent(),
-                            mAdapter.getItem(position).getContent()) );
+                            mAdapter.getItem(position + 1).getContent()));
+                } else {
+                    showReportDialog(new FirebaseReport(mAdapter.getItem(position - 1).getContent(),
+                            mAdapter.getItem(position).getContent()));
                 }
                 return false;
             }
@@ -212,9 +214,6 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         });
 
 
-
-
-
         onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
@@ -234,7 +233,6 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         });
 
     }
-
 
 
     public static void checkConnectivity(Context context) {
@@ -270,8 +268,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
     public static void startBot() {
 
         //get the working directory
-        MagicStrings.root_path =  filesDirectory.getPath();
-        Log.e("rmy",MagicStrings.root_path);
+        MagicStrings.root_path = filesDirectory.getPath();
 
         System.out.println("Working Directory = " + MagicStrings.root_path);
         AIMLProcessor.extension = new PCAIMLProcessorExtension();
@@ -321,12 +318,15 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
     }
 
     public static void hideSoftKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager =
-                (InputMethodManager) activity.getSystemService(
-                        Activity.INPUT_METHOD_SERVICE);
-        if(activity.getCurrentFocus().getWindowToken()!=null){
+
+        try {
+            InputMethodManager inputMethodManager =
+                    (InputMethodManager) activity.getSystemService(
+                            Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(
                     activity.getCurrentFocus().getWindowToken(), 0);
+        }catch (Exception e){
+            Log.e("rmy",e.getMessage());
         }
 
     }
@@ -381,14 +381,14 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
                 sweetAlertDialog.dismissWithAnimation();
             }
         }).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        //mDatabaseReference.child("reports").push().setValue(firebaseReport);
-                        saveReportToLog(firebaseReport);
-                        sweetAlertDialog.dismissWithAnimation();
-                        Toast.makeText(ChatActivity.this, "تم الابلاغ عن الرسالة بنجاح", Toast.LENGTH_SHORT).show();
-                    }
-                })
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                //mDatabaseReference.child("reports").push().setValue(firebaseReport);
+                saveReportToLog(firebaseReport);
+                sweetAlertDialog.dismissWithAnimation();
+                Toast.makeText(ChatActivity.this, "تم الابلاغ عن الرسالة بنجاح", Toast.LENGTH_SHORT).show();
+            }
+        })
                 .show();
 
     }
@@ -396,9 +396,9 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
     @Override
     public void onBackPressed() {
 
-        if(guideDialog!=null && guideDialog.isShowing()){
+        if (guideDialog != null && guideDialog.isShowing()) {
             guideDialog.dismiss();
-        }else{
+        } else {
             Boolean rating = sharedPreferences_log.getBoolean("isRating", false);
 
             if (!rating) {
@@ -409,8 +409,6 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
                 super.onBackPressed();
             }
         }
-
-
 
 
     }
@@ -469,19 +467,20 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         ChatActivity.super.onBackPressed();
     }
 
-    public void loadMessageLog(){
+    public void loadMessageLog() {
         messageLogArrayList = new ArrayList<>();
         Gson gson = new Gson();
         String json = sharedPreferences_log.getString("MessageLog", null);
-        Type type = new TypeToken<ArrayList<FirebaseMessage>>() {}.getType();
-        messageLogArrayList =  gson.fromJson(json, type);
-        if(messageLogArrayList==null){
+        Type type = new TypeToken<ArrayList<FirebaseMessage>>() {
+        }.getType();
+        messageLogArrayList = gson.fromJson(json, type);
+        if (messageLogArrayList == null) {
             messageLogArrayList = new ArrayList<FirebaseMessage>();
         }
     }
 
 
-    public void saveMessageToLog(FirebaseMessage firebaseMessage){
+    public void saveMessageToLog(FirebaseMessage firebaseMessage) {
         messageLogArrayList.add(firebaseMessage);
         Gson gson = new Gson();
         String json = gson.toJson(messageLogArrayList);
@@ -490,8 +489,8 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         sharedPreferencesEditor_log.apply();
     }
 
-    public void clearMessageLog(){
-        if(messageLogArrayList!=null){
+    public void clearMessageLog() {
+        if (messageLogArrayList != null) {
             messageLogArrayList.clear();
         }
 
@@ -501,23 +500,24 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
 
     }
 
-    public void loadFeedbackLog(){
-        if(feedbackLogArrayList==null){
+    public void loadFeedbackLog() {
+        if (feedbackLogArrayList == null) {
             feedbackLogArrayList = new ArrayList<FirebaseFeedback>();
         }
         Gson gson = new Gson();
         String json = sharedPreferences_log.getString("FeedbackLog", null);
-        Type type = new TypeToken<ArrayList<FirebaseFeedback>>() {}.getType();
-        feedbackLogArrayList =  gson.fromJson(json, type);
+        Type type = new TypeToken<ArrayList<FirebaseFeedback>>() {
+        }.getType();
+        feedbackLogArrayList = gson.fromJson(json, type);
 
-        if(feedbackLogArrayList==null){
+        if (feedbackLogArrayList == null) {
             feedbackLogArrayList = new ArrayList<FirebaseFeedback>();
         }
 
     }
 
 
-    public void saveFeedbackToLog(FirebaseFeedback firebaseFeedback){
+    public void saveFeedbackToLog(FirebaseFeedback firebaseFeedback) {
         feedbackLogArrayList.add(firebaseFeedback);
         Gson gson = new Gson();
         String json = gson.toJson(feedbackLogArrayList);
@@ -526,8 +526,8 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         sharedPreferencesEditor_log.apply();
     }
 
-    public void clearFeedbackLog(){
-        if(feedbackLogArrayList!=null){
+    public void clearFeedbackLog() {
+        if (feedbackLogArrayList != null) {
             feedbackLogArrayList.clear();
         }
 
@@ -537,23 +537,24 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
 
     }
 
-    public void loadReportLog(){
-        if(reportLogArrayList==null){
+    public void loadReportLog() {
+        if (reportLogArrayList == null) {
             reportLogArrayList = new ArrayList<FirebaseReport>();
         }
         Gson gson = new Gson();
         String json = sharedPreferences_log.getString("ReportLog", null);
-        Type type = new TypeToken<ArrayList<FirebaseReport>>() {}.getType();
-        reportLogArrayList =  gson.fromJson(json, type);
+        Type type = new TypeToken<ArrayList<FirebaseReport>>() {
+        }.getType();
+        reportLogArrayList = gson.fromJson(json, type);
 
-        if(reportLogArrayList==null){
+        if (reportLogArrayList == null) {
             reportLogArrayList = new ArrayList<FirebaseReport>();
         }
 
     }
 
 
-    public void saveReportToLog(FirebaseReport firebaseReport){
+    public void saveReportToLog(FirebaseReport firebaseReport) {
         reportLogArrayList.add(firebaseReport);
         Gson gson = new Gson();
         String json = gson.toJson(reportLogArrayList);
@@ -562,8 +563,8 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         sharedPreferencesEditor_log.apply();
     }
 
-    public void clearReportLog(){
-        if(reportLogArrayList!=null){
+    public void clearReportLog() {
+        if (reportLogArrayList != null) {
             reportLogArrayList.clear();
         }
 
@@ -574,23 +575,21 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
     }
 
 
-
     @Override
     protected void onPause() {
         super.onPause();
-        uploadMessagesToFirebase();
-        uploadFeedbackToFirebase();
-        uploadReportsToFirebase();
-
+//        uploadMessagesToFirebase();
+//        uploadFeedbackToFirebase();
+//        uploadReportsToFirebase();
     }
 
     boolean uploadedSuccessfully = true;
     int position;
 
-    public void uploadMessagesToFirebase(){
+    public void uploadMessagesToFirebase() {
         uploadedSuccessfully = true;
-        position = messageLogArrayList.size()-1;
-        while(position != -1){
+        position = messageLogArrayList.size() - 1;
+        while (position != -1) {
             mDatabaseReference.child("messages").push().setValue(messageLogArrayList.get(position)).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
@@ -608,11 +607,11 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         }
     }
 
-    public void uploadFeedbackToFirebase(){
+    public void uploadFeedbackToFirebase() {
         uploadedSuccessfully = true;
-        position = feedbackLogArrayList.size()-1;
+        position = feedbackLogArrayList.size() - 1;
 
-        while(position != -1){
+        while (position != -1) {
             mDatabaseReference.child("feedbacks").push().setValue(feedbackLogArrayList.get(position)).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
@@ -630,11 +629,11 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         }
     }
 
-    public void uploadReportsToFirebase(){
+    public void uploadReportsToFirebase() {
         uploadedSuccessfully = true;
-        position = reportLogArrayList.size()-1;
+        position = reportLogArrayList.size() - 1;
 
-        while(position != -1){
+        while (position != -1) {
             mDatabaseReference.child("reports").push().setValue(reportLogArrayList.get(position)).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
@@ -651,33 +650,41 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
             clearReportLog();
         }
     }
+
     public void showGuide() {
 
         hideSoftKeyboard(ChatActivity.this);
 
-        File guideFile = new File(filesDirectory
-                + "/bots/Fitbot/guide.md");
-
-        if(!guideFile.exists()){
+        if (!guideFileDirectory.exists()) {
             try {
-                copyFile(getResources().getAssets().open("guide.md"),new FileOutputStream(filesDirectory + "/bots/Fitbot/guide.md"));
+                copyFile(getResources().getAssets().open("guide.html"), new FileOutputStream(guideFileDirectory));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
         guideDialog = DialogPlus.newDialog(this)
-                .setContentHolder(new ViewHolder(R.layout.markdown_layout))
+                .setContentHolder(new ViewHolder(R.layout.guide_layout))
                 .setGravity(Gravity.CENTER)
-                .setMargin(100,200,100,200)
+                .setMargin(100, 200, 100, 200)
                 .setCancelable(true)
                 .create();
         guideDialog.show();
 
-        markdownView = findViewById(R.id.markdownView);
+        guideWebView = findViewById(R.id.guideWebView);
+        dismiss_guide_button = findViewById(R.id.dismiss_guide_button);
+
+        dismiss_guide_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(guideDialog.isShowing()){
+                    guideDialog.dismiss();
+                }
+            }
+        });
 
         try {
-            markdownView.loadMarkdown(getStringFromFile(guideFile));
+            guideWebView.loadUrl("file:///"+guideFileDirectory);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -694,7 +701,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         return sb.toString();
     }
 
-    public static String getStringFromFile (File fl) throws Exception {
+    public static String getStringFromFile(File fl) throws Exception {
         FileInputStream fin = new FileInputStream(fl);
         String ret = convertStreamToString(fin);
         //Make sure you close all streams.

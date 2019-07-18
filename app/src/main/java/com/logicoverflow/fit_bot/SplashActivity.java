@@ -89,9 +89,7 @@ public class SplashActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.splash_progress_bar);
         progress_text = findViewById(R.id.progress_text);
 
-        //fileDirectory = new File(Environment.getExternalStorageDirectory().toString() + "/FITChatbot/bots/Fitbot");
         fileDirectory = new File(getFilesDir(),"/FITChatbot/bots/Fitbot");
-        Log.e("rmy","fileDirectory: "+fileDirectory.getAbsolutePath());
 
 
         sharedPreferences = getSharedPreferences("version", Context.MODE_PRIVATE);
@@ -104,34 +102,13 @@ public class SplashActivity extends AppCompatActivity {
         fullScreen();
         animate();
        // storeDefaultAIMLfiles();
-        checkDatabaseVersion();
 
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                Dexter.withActivity(SplashActivity.this)
-//                        .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                        .withListener(new PermissionListener() {
-//                            @Override
-//                            public void onPermissionGranted(PermissionGrantedResponse response) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onPermissionDenied(PermissionDeniedResponse response) {
-//                                finish();
-//                            }
-//
-//                            @Override
-//                            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-//                                token.continuePermissionRequest();
-//                            }
-//                        }).check();
-//
-//            }
-//        }, 2000);
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkDatabaseVersion();
+            }
+        },2000);
 
     }
 
@@ -161,7 +138,7 @@ public class SplashActivity extends AppCompatActivity {
         startTerminationTimer();
 
         if (!AppInternetStatus.getInstance(SplashActivity.this).isOnline()) {
-            progress_text.setText("مشكلة في البحث عن التحديثات\nحفظ الملفات الافتراضية..");
+            progress_text.setText("حدث مشكلة في البحث عن تحديثات");
             if (sharedPreferences.getInt("version", 0) == 0) {
                 storeDefaultAIMLfiles();
             }else{
@@ -249,7 +226,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    progress_text.setText("مشكلة في البحث عن التحديثات / حفظ الملفات الافتراضية..");
+                    progress_text.setText("حدث مشكلة في البحث عن تحديثات");
                     storeDefaultAIMLfiles();
                 }
             };
@@ -322,7 +299,7 @@ public class SplashActivity extends AppCompatActivity {
                                                     startChatActivity();
                                                 } catch (IOException e1) {
                                                     e1.printStackTrace();
-                                                    progress_text.setText("مشكلة في فك ضغط الملفات / حفظ الملفات الافتراضية...");
+                                                    progress_text.setText("حدث مشكلة في تحديث الملفات");
                                                     Toast.makeText(SplashActivity.this, "Error unzipping files", Toast.LENGTH_SHORT).show();
                                                     storeDefaultAIMLfiles();
                                                 }
@@ -339,51 +316,11 @@ public class SplashActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                progress_text.setText("مشكلة في تنزيل التحديثات / حفظ الملفات الافتراضية...");
+                progress_text.setText("حدث مشكلة في تنزيل التحديثات");
                 storeDefaultAIMLfiles();
             }
         });
     }
-
-//    public void storeDefaultAIMLfiles() {
-//
-//        AssetManager assets = getResources().getAssets();
-//
-//
-//        boolean b = fileDirectory.mkdirs();
-//        if (fileDirectory.exists()) {
-//
-//            //to delete files everytime app is loaded (in case of editting aiml files)
-//            deletePreviousAIMLfiles();
-//
-//            //Reading the file
-//            try {
-//                for (String dir : assets.list("Fitbot")) {
-//                    File subdir = new File(fileDirectory.getPath() + "/" + dir);
-//                    boolean subdir_check = subdir.mkdirs();
-//                        for (String file : assets.list("Fitbot/" + dir)) {
-//                            InputStream in = null;
-//                            OutputStream out = null;
-//                            in = assets.open("Fitbot/" + dir + "/" + file);
-//                            out = new FileOutputStream(fileDirectory.getPath() + "/" + dir + "/" + file);
-//                            //copy file from assets to the mobile's SD card or any secondary memory
-//                            copyFile(in, out);
-//                            in.close();
-//                            in = null;
-//                            out.flush();
-//                            out.close();
-//                            out = null;
-//                    }
-//
-//
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            startChatActivity();
-//        }
-//    }
 
     public void storeDefaultAIMLfiles() {
 
@@ -405,7 +342,9 @@ public class SplashActivity extends AppCompatActivity {
                         InputStream in = null;
                         OutputStream out = null;
                         in = assets.open("Fitbot/" + dir + "/" + file);
+                        Log.e("rmy",fileDirectory.getPath() + "/" + dir + "/" + file);
                         out = new FileOutputStream(fileDirectory.getPath() + "/" + dir + "/" + file);
+
                         //copy file from assets to the mobile's SD card or any secondary memory
                         copyFile(in, out);
                         in.close();
