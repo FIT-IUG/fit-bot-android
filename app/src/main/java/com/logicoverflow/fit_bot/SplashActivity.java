@@ -280,14 +280,10 @@ public class SplashActivity extends AppCompatActivity {
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                         if (fileDirectory.canWrite()) {
 
-                            //progress_text.setText(" جاري فك ضغط الملفات ...");
                             AsyncTask.execute(new Runnable() {
                                 @Override
                                 public void run() {
                                     deletePreviousAIMLfiles();
-
-
-
                                         AsyncTask.execute(new Runnable() {
                                             @Override
                                             public void run() {
@@ -300,7 +296,8 @@ public class SplashActivity extends AppCompatActivity {
                                                 } catch (IOException e1) {
                                                     e1.printStackTrace();
                                                     progress_text.setText("حدث مشكلة في تحديث الملفات");
-                                                    Toast.makeText(SplashActivity.this, "Error unzipping files", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(SplashActivity.this, "Error unzipping files",
+                                                            Toast.LENGTH_SHORT).show();
                                                     storeDefaultAIMLfiles();
                                                 }
                                             }

@@ -281,7 +281,6 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         MagicBooleans.trace_mode = false;
         System.out.println("trace mode = " + MagicBooleans.trace_mode);
         Graphmaster.enableShortCuts = true;
-        Timer timer = new Timer();
         String request = "Hello.";
         String response = chat.multisentenceRespond(request);
 
@@ -590,7 +589,8 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         uploadedSuccessfully = true;
         position = messageLogArrayList.size() - 1;
         while (position != -1) {
-            mDatabaseReference.child("messages").push().setValue(messageLogArrayList.get(position)).addOnFailureListener(new OnFailureListener() {
+            mDatabaseReference.child("messages").push().setValue(messageLogArrayList.get(position))
+                    .addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     uploadedSuccessfully = false;

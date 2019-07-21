@@ -3,6 +3,7 @@ package com.logicoverflow.fit_bot.Model;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class FirebaseFeedback implements Serializable {
 
@@ -14,7 +15,7 @@ public class FirebaseFeedback implements Serializable {
         this.rating = rating;
         this.feedbackMessage = feedbackMessage;
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy_hh:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-dd-MM", Locale.ENGLISH);
         this.timestamp = simpleDateFormat.format(new Date());
     }
 
