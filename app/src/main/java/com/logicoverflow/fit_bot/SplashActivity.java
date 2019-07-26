@@ -23,9 +23,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +50,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import static com.logicoverflow.fit_bot.Util.ZipManager.unzip;
 
@@ -59,8 +67,8 @@ public class SplashActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseReference_2;
     private FirebaseStorage mFirebaseStorage;
     private StorageReference mStorageReference;
-    private int storedVersion;
-    private int databaseVersion;
+    private float storedVersion;
+    private float databaseVersion;
     private boolean isInstalledBefore;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor sharedPreferencesEditor;
@@ -75,8 +83,12 @@ public class SplashActivity extends AppCompatActivity {
 
     private boolean foundUpdate = false;
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        setUpUserAsAnonymous();
 
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(getApplicationContext());
@@ -94,6 +106,22 @@ public class SplashActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("version", Context.MODE_PRIVATE);
         sharedPreferencesEditor = sharedPreferences.edit();
+    }
+
+    private void setUpUserAsAnonymous(){
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signInAnonymously().addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Log.d("rmy", "signInWithCustomToken:success");
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    Log.e("rmy",user.getIdToken(true).toString());
+                } else {
+                    Log.w("rmy", "signInWithCustomToken:failure", task.getException());
+                }
+            }
+        });
     }
 
     @Override
@@ -139,7 +167,7 @@ public class SplashActivity extends AppCompatActivity {
 
         if (!AppInternetStatus.getInstance(SplashActivity.this).isOnline()) {
             progress_text.setText("حدث مشكلة في البحث عن تحديثات");
-            if (sharedPreferences.getInt("version", 0) == 0) {
+            if (sharedPreferences.getFloat("version", 0) == 0) {
                 storeDefaultAIMLfiles();
             }else{
                 startChatActivity();
@@ -150,18 +178,22 @@ public class SplashActivity extends AppCompatActivity {
             mDatabaseReference = mFirebaseDatabase.getReference("version");
             mDatabaseReference_2 = mFirebaseDatabase.getReference();
 
-            storedVersion = sharedPreferences.getInt("version", 0);
+            storedVersion = sharedPreferences.getFloat("version", 0);
             isInstalledBefore = sharedPreferences.getBoolean("isInstall", false);
 
             installationValueEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    String manufacturer =   getPhoneManufacturer();
+                    String manufacturer = getPhoneManufacturer();
                     String model = getPhoneModel();
                     int numberOfinstallationBymodel =0;
 
-                    DataSnapshot devices = dataSnapshot.child("devices");
+
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-yyyy", Locale.ENGLISH);
+                    String monthYear = simpleDateFormat.format(new Date());
+
+                    DataSnapshot devices = dataSnapshot.child("devices").child(monthYear);
 
                     if(devices.hasChild(manufacturer)){
 
@@ -173,14 +205,14 @@ public class SplashActivity extends AppCompatActivity {
                             numberOfinstallationBymodel = corporation.child(model).getValue(Integer.class);
                         }else{
 
-                            mDatabaseReference_2.child("devices").child(manufacturer).child(model).setValue(1);
+                            mDatabaseReference_2.child("devices").child(monthYear).child(manufacturer).child(model).setValue(1);
 
                         }
 
 
                     }else{
 
-                        mDatabaseReference_2.child("devices").child(manufacturer).child(model).setValue(1);
+                        mDatabaseReference_2.child("devices").child(monthYear).child(manufacturer).child(model).setValue(1);
 
                     }
 
@@ -190,7 +222,7 @@ public class SplashActivity extends AppCompatActivity {
                         sharedPreferencesEditor.putBoolean("isInstall", true);
                         sharedPreferencesEditor.apply();
                         sharedPreferencesEditor.commit();
-                        mDatabaseReference_2.child("devices").child(manufacturer)
+                        mDatabaseReference_2.child("devices").child(monthYear).child(manufacturer)
                                 .child(model).setValue(numberOfinstallationBymodel);
                     }
 
@@ -209,7 +241,7 @@ public class SplashActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                     if (dataSnapshot.getKey().equals("version")) {
-                        databaseVersion = dataSnapshot.getValue(Integer.class);
+                        databaseVersion = dataSnapshot.getValue(Float.class);
                         if (databaseVersion > storedVersion) {
                             progress_text.setText("يوجد تحديثات...");
                             try {
@@ -290,7 +322,7 @@ public class SplashActivity extends AppCompatActivity {
                                                 try {
                                                     foundUpdate = true;
                                                     unzip("Fitbot.zip", fileDirectory.getPath());
-                                                    sharedPreferencesEditor.putInt("version", databaseVersion);
+                                                    sharedPreferencesEditor.putFloat("version", databaseVersion);
                                                     sharedPreferencesEditor.apply();
                                                     startChatActivity();
                                                 } catch (IOException e1) {

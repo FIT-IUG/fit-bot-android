@@ -28,8 +28,13 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
@@ -108,9 +113,10 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
 
     private static File filesDirectory;
     private static File guideFileDirectory;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
 
         filesDirectory = new File(getFilesDir() + "/FITChatbot");
         guideFileDirectory = new File(filesDirectory+ "/bots/Fitbot/guide.html");
@@ -281,11 +287,11 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         MagicBooleans.trace_mode = false;
         System.out.println("trace mode = " + MagicBooleans.trace_mode);
         Graphmaster.enableShortCuts = true;
-        String request = "Hello.";
-        String response = chat.multisentenceRespond(request);
+        //String request = "Hello.";
+        //String response = chat.multisentenceRespond(request);
 
-        System.out.println("Human: " + request);
-        System.out.println("Robot: " + response);
+        //System.out.println("Human: " + request);
+        //System.out.println("Robot: " + response);
     }
 
     public void sendMessageButton() {
@@ -293,7 +299,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         message = message.replace("؟", " ");
         message = message.replace("?", " ");
         //bot
-        String response = chat.multisentenceRespond(message);
+        String response = getBotResponse(message);
         if (TextUtils.isEmpty(message)) {
             return;
         }
@@ -314,6 +320,10 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         mListView.setSelection(mAdapter.getCount() - 1);
 
 
+    }
+
+    public String getBotResponse(String message){
+        return chat.multisentenceRespond(message);
     }
 
     public static void hideSoftKeyboard(Activity activity) {
