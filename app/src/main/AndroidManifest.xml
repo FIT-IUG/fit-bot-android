@@ -14,21 +14,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppThemeLight"
-        tools:replace="android:icon,android:theme,android:supportsRtl"
-        >
+        tools:replace="android:icon,android:theme,android:supportsRtl">
+        <activity android:name=".IntroActivity"></activity>
 
         <receiver
             android:name=".BroadcastReceivers.InternetBroadcastReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".SettingsActivity">
-
-        </activity>
+        <activity android:name=".SettingsActivity"></activity>
         <activity
             android:name=".SplashActivity"
             android:theme="@style/AppThemeLight">
@@ -41,9 +39,7 @@
         <activity
             android:name=".ChatActivity"
             android:theme="@style/AppThemeLight"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
-
-
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

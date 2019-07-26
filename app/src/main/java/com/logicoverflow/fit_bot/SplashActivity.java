@@ -404,22 +404,29 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void startChatActivity() {
-
         timeout_thread = null;
-
         if (!alreadyInChatActivity) {
-            Intent intent = new Intent(SplashActivity.this, ChatActivity.class);
-            startActivity(intent);
-            finish();
-
-            if (versionValueEventListener != null && installationValueEventListener != null) {
-                mDatabaseReference.removeEventListener(versionValueEventListener);
-                mDatabaseReference_2.removeEventListener(installationValueEventListener);
+            Boolean it = sharedPreferences.getBoolean("tutorial", false);
+            if (!it) {
+                Intent intent = new Intent(SplashActivity.this, IntroActivity.class);
+                startActivity(intent);
+                finish();
+                if (versionValueEventListener != null && installationValueEventListener != null) {
+                    mDatabaseReference.removeEventListener(versionValueEventListener);
+                    mDatabaseReference_2.removeEventListener(installationValueEventListener);
+                }
+                alreadyInChatActivity = true;
+            }else {
+                Intent intent = new Intent(SplashActivity.this, ChatActivity.class);
+                startActivity(intent);
+                finish();
+                if (versionValueEventListener != null && installationValueEventListener != null) {
+                    mDatabaseReference.removeEventListener(versionValueEventListener);
+                    mDatabaseReference_2.removeEventListener(installationValueEventListener);
+                }
+                alreadyInChatActivity = true;
             }
-            alreadyInChatActivity = true;
         }
-
-
     }
 
 
