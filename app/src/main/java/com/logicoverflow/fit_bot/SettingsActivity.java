@@ -78,7 +78,7 @@ public class SettingsActivity extends AppCompatActivity implements RatingDialogL
         sharedPreferences = getSharedPreferences(Const.THEME_PREFERENCES, Context.MODE_PRIVATE);
         sharedPreferencesEditor = sharedPreferences.edit();
         sharedPreferences.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
-        String currentTheme = sharedPreferences.getString(Const.THEME_SAVED , Const.DARKTHEME);
+        String currentTheme = sharedPreferences.getString(Const.THEME_SAVED , Const.DEFTHEME);
 
 
         if(currentTheme.equals(Const.DEFTHEME)){

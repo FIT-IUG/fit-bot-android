@@ -79,7 +79,6 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -139,7 +138,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
 
 
          sharedPreferences_theme= getSharedPreferences(Const.THEME_PREFERENCES, MODE_PRIVATE);
-         String currentTheme = sharedPreferences_theme.getString(Const.THEME_SAVED , Const.DARKTHEME);
+         String currentTheme = sharedPreferences_theme.getString(Const.THEME_SAVED , Const.DEFTHEME);
 
         //Toast.makeText(this,currentTheme , Toast.LENGTH_LONG).show();
 
@@ -637,7 +636,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
             mDatabaseReference.child("messages").push().setValue(messageLogArrayList.get(position))
                     .addOnFailureListener(new OnFailureListener() {
                 @Override
-                public void onFailure(@NonNull Exception e) {
+                public void onFailure(Exception e) {
                     uploadedSuccessfully = false;
                 }
             });
@@ -659,7 +658,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         while (position != -1) {
             mDatabaseReference.child("feedbacks").push().setValue(feedbackLogArrayList.get(position)).addOnFailureListener(new OnFailureListener() {
                 @Override
-                public void onFailure(@NonNull Exception e) {
+                public void onFailure( Exception e) {
                     uploadedSuccessfully = false;
                 }
             });
@@ -681,7 +680,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         while (position != -1) {
             mDatabaseReference.child("reports").push().setValue(reportLogArrayList.get(position)).addOnFailureListener(new OnFailureListener() {
                 @Override
-                public void onFailure(@NonNull Exception e) {
+                public void onFailure( Exception e) {
                     uploadedSuccessfully = false;
                 }
             });
