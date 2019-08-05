@@ -39,10 +39,59 @@
     <color name="commentTextColor">#0E0D0D</color>
     <color name="colorPrimaryDark">#F6F7F8</color>
 
+    <!-- DefaultThemeColors -->
+    <color name="chat_background_DefaultTheme">#8ABAE2</color>
+    <color name="send_button_background_DefaultTheme">#527DA3</color>
+    <color name="toolbar_color_DefaultTheme">#527DA3</color>
+    <color name="guide_icon_color_DefaultTheme">#FFFFFF</color>
+    <color name="setting_icon_color_DefaultTheme">#FFFFFF</color>
+    <color name="main_text_color_DefaultTheme">#FFFFFF</color>
+    <color name="back_icon_color_DefaultTheme">#FFFFFF</color>
+    <color name="appearance_fragment_background_DefaultTheme">#8ABAE2</color>
+    <color name="about_fragment_background_DefaultTheme">#8ABAE2</color>
+    <color name="setting_activity_background_color_DefaultTheme">#8ABAE2</color>
+    <color name="editTextHintColor_DefaultTheme">#527DA3</color>
+    <color name="editText_background_DefaultTheme">#FFFFFF</color>
+    <color name="human_message_color_DefaultTheme">#E2F4FF</color>
+    <color name="robot_message_color_DefaultTheme">#FFFFFF</color>
+    <color name="send_icon_color_DefaultTheme">#FFFFFF</color>
+    <!-- END_OF_DefaultThemeColors -->
 
-    <!--<color name="colorPrimary_DarkTheme">#000000</color>-->
-    <!--<color name="colorPrimaryDark_DarkTheme">#000000</color>-->
-    <!--<color name="colorAccent_DarkTheme">#5F6FEE</color>-->
+    <!-- DarkBlueThemeColors -->
+    <color name="chat_background_DarkBlue">#151E27</color>
+    <color name="send_button_background_DarkBlue">#212D3B</color>
+    <color name="toolbar_color_DarkBlue">#212D3B</color>
+    <color name="guide_icon_color_DarkBlue">#FFFFFF</color>
+    <color name="setting_icon_color_DarkBlue">#FFFFFF</color>
+    <color name="main_text_color_DarkBlue">#FFFFFF</color>
+    <color name="back_icon_color_DarkBlue">#FFFFFF</color>
+    <color name="appearance_fragment_background_DarkBlue">#151E27</color>
+    <color name="about_fragment_background_DarkBlue">#151E27</color>
+    <color name="setting_activity_background_color_DarkBlue">#151E27</color>
+    <color name="editTextHintColor_DarkBlue">#212D3B</color>
+    <color name="editText_background_DarkBlue">#212D3B</color>
+    <color name="human_message_color_DarkBlue">#3E618A</color>
+    <color name="robot_message_color_DarkBlue">#232E3B</color>
+    <color name="send_icon_color_DarkBlue">#FFFFFF</color>
+    <!-- END_OF_DarkBlueThemeColors -->
+
+    <!-- DarkThemeColors -->
+    <color name="chat_background_Dark">#1A1C1D</color>
+    <color name="send_button_background_Dark">#26292B</color>
+    <color name="toolbar_color_Dark">#26292B</color>
+    <color name="guide_icon_color_Dark">#3E6588</color>
+    <color name="setting_icon_color_Dark">#3E6588</color>
+    <color name="main_text_color_Dark">#3E6588</color>
+    <color name="back_icon_color_Dark">#3E6588</color>
+    <color name="appearance_fragment_background_Dark">#1A1C1D</color>
+    <color name="about_fragment_background_Dark">#1A1C1D</color>
+    <color name="setting_activity_background_color_Dark">#1A1C1D</color>
+    <color name="editTextHintColor_Dark">#3E6588</color>
+    <color name="editText_background_Dark">#23282B</color>
+    <color name="human_message_color_Dark">#3E6588</color>
+    <color name="robot_message_color_Dark">#262D33</color>
+    <color name="send_icon_color_Dark">#3E6588</color>
+    <!-- END_OF_DarkBlueThemeColors -->
 
     <color name="colorSplashText">#3F51B5</color>
 

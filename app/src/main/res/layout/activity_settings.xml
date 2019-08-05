@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/mainColor"
+    android:background="?attr/setting_activity_background_color"
     tools:context=".SettingsActivity"
-    android:layoutDirection="rtl"
     >
 
     <androidx.appcompat.widget.Toolbar
@@ -45,7 +44,7 @@
                 android:text="@string/settings_textView"
                 android:paddingTop="10dp"
                 android:textAlignment="center"
-                android:textColor="@color/colorAccent"
+                android:textColor="?attr/main_text_in_app_color"
                 android:textSize="26sp" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -104,9 +103,10 @@
     </com.gauravk.bubblenavigation.BubbleNavigationConstraintView>
 
     <androidx.viewpager.widget.ViewPager
-        android:layout_below="@id/toolbar"
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="10dp" />
 
 </RelativeLayout>

@@ -5,12 +5,12 @@
 
     <!-- View backgroundColor color -->
     <solid
-        android:color="@android:color/white" >
+        android:color="?attr/robot_message_background" >
     </solid>
 
     <!-- The radius makes the corners rounded -->
     <corners
-        android:bottomLeftRadius="10dp"
+        android:topLeftRadius="10dp"
         android:radius="50dp">
     </corners>
 

@@ -104,6 +104,10 @@ public class SplashActivity extends AppCompatActivity {
         fileDirectory = new File(getFilesDir(),"/FITChatbot/bots/Fitbot");
 
 
+         //String curr = getSharedPreferences(ChatActivity.THEME_PREFERENCES, MODE_PRIVATE).getString(ChatActivity.THEME_SAVED,ChatActivity.DEFTHEME);
+
+
+
         sharedPreferences = getSharedPreferences("version", Context.MODE_PRIVATE);
         sharedPreferencesEditor = sharedPreferences.edit();
     }

@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="mainColor" format="color"/>
-    <attr name="mainColorDark" format="color"/>
+    <attr name="mainColor" format="reference"/>
+    <attr name="mainColorDark" format="reference"/>
     <!--<attr name="backgroundColor" format="color" />-->
-    <attr name="textColor" format="color" />
+    <attr name="textColor" format="reference" />
+    <attr name="human_message_background" format="reference"/>
+    <attr name="robot_message_background" format="reference"/>
+    <attr name="send_icon_color" format="reference"/>
+    <attr name="chat_background_color" format="reference"/>
+    <attr name="send_button_background" format="reference"/>
+    <attr name="toolbar_background" format="reference"/>
+    <attr name="guide_icon_color" format="reference"/>
+    <attr name="setting_icon_color" format="reference"/>
+    <attr name="main_text_in_app_color" format="reference"/>
+    <attr name="back_icon_color" format="reference"/>
+    <attr name="appearance_fragment_background_color" format="reference"/>
+    <attr name="about_fragment_background_color" format="reference"/>
+    <attr name="setting_activity_background_color" format="reference"/>
+    <attr name="message_text_size" format="reference"/>
 
 </resources>

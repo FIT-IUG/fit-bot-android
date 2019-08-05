@@ -3,138 +3,86 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/mainColor"
-    tools:context="com.logicoverflow.fit_bot.Fragments.SettingsFragmentAppearance">
+    android:background="?attr/appearance_fragment_background_color"
+    tools:context="com.logicoverflow.fit_bot.Fragments.SettingsFragmentAppearance"
+    >
 
     <!-- TODO: Update blank fragment layout -->
+
+
     <LinearLayout
-        android:id="@+id/themeView"
+        android:id="@+id/choose_theme_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:layout_marginTop="0dp"
-        android:background="@drawable/cardview_round_shape"
         android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingTop="20dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="20dp">
+        android:background="@drawable/cardview_round_shape"
+        >
 
         <TextView
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="12dp"
-            android:text="@string/theme_textView_in_appearance_fragment"
-            android:textColor="?attr/colorAccent"
-            android:textSize="28sp" />
+            android:layout_marginTop="15dp"
+            android:text="@string/choose_theme_text"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="?attr/main_text_in_app_color"
+            android:layout_gravity="end"
+             />
 
-        <RelativeLayout
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_alignParentEnd="true"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/enable_dark_mode_textView_in_appearance_fragment"
-                android:textColor="?attr/textColor"
-                android:textSize="18sp" />
-
-            <Switch
-                android:layout_marginLeft="10dp"
-                android:id="@+id/enable_darkMode_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                 />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:paddingLeft="10dp"
-                android:id="@+id/selectBackgroundTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/select_background_image_textView_in_appearance_fragment"
-                android:textStyle="bold"
-                android:textColor="?attr/textColor"
-                android:textSize="18sp" />
-
-            <ImageButton
-                android:id="@+id/remove_background"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_toRightOf="@id/background_picker"
-                android:background="@drawable/ic_cancel" />
-
-            <ImageButton
-                android:id="@+id/background_picker"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/ic_image_pick" />
-
-            <LinearLayout
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:layout_below="@+id/selectBackgroundTextView"
-                android:layout_width="match_parent"
-                android:layout_height="120dp">
-
-                <Button
-                    android:text="Default"
-                    android:textColor="?attr/textColor"
-                    android:background="?attr/mainColor"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_height="match_parent" />
-                <ImageButton
-                    android:background="@drawable/ic_image_pick"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:visibility="gone"
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/select_main_colo_textView_in_appearance_fragment"
-                android:textColor="?attr/textColor"
-                android:textSize="18sp" />
-
-            <Button
-                android:id="@+id/select_color_button"
-                android:layout_alignParentEnd="true"
-                android:layout_width="40dp"
-                android:layout_height="40dp" />
-
-        </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/theme_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="end"
+        />
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/choose_theme_layout"
+        android:orientation="vertical"
+        android:layoutDirection="rtl"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/cardview_round_shape"
+         android:padding="20dp"
+        android:layout_margin="10dp"
+        >
+
+        <TextView
+            android:id="@+id/change_textSize_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/change_sizeOfmessage_text"
+            android:textColor="?attr/main_text_in_app_color"
+            android:textSize="18sp"
+            android:layout_alignParentEnd="true"
+            />
+        <SeekBar
+            android:id="@+id/text_size_changer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/change_textSize_text"
+            android:thumbTint="@color/white"
+            android:progressTint="@color/white"
+            android:scaleX="-1"
+            />
+
+        <TextView
+            android:id="@+id/textSize_tracker_text"
+            android:layout_width="wrap_content"
+            android:text="12"
+            android:layout_alignParentStart="true"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_toLeftOf="@id/change_textSize_text"
+
+            />
+
+    </RelativeLayout>
 
 </RelativeLayout>

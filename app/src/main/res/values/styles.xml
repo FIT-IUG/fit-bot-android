@@ -1,34 +1,85 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="mainColor">@color/whiteLight</item>
-        <item name="mainColorDark">@color/whiteDark</item>
-        <item name="colorPrimaryDark">@color/whiteDark</item>
-        <item name="textColor">@android:color/black</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <!-- Assign dialog style here. -->
-        <item name="alertDialogTheme">@style/MyAlertDialogStyle</item>
-        <item name="alertDialogStyle">@style/MyAlertDialogStyle</item>
-        <!-- end-->
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
-    </style>
 
-    <style name="AppThemeDark" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="DefaultTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="mainColor">@color/black</item>
-        <item name="mainColorDark">@color/blackDark</item>
-        <item name="colorPrimaryDark">@color/blackDark</item>
-        <item name="textColor">@android:color/white</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
-        <item name="android:textColorHint">@color/black</item>
-    </style>
-
-    <style name="AppThemeLight.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="textColor">@android:color/black</item>
+        <item name="editTextBackground">@color/editText_background_DefaultTheme</item>
+        <item name="editTextColor">@color/black</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:textColorHint">@color/editTextHintColor_DefaultTheme</item>
+        <item name="human_message_background">@color/human_message_color_DefaultTheme</item>
+        <item name="robot_message_background">@color/robot_message_color_DefaultTheme</item>
+        <item name="send_icon_color">@color/send_icon_color_DefaultTheme</item>
+        <item name="chat_background_color">@color/chat_background_DefaultTheme</item>
+        <item name="send_button_background">@color/send_button_background_DefaultTheme</item>
+        <item name="toolbar_background">@color/toolbar_color_DefaultTheme</item>
+        <item name="guide_icon_color">@color/guide_icon_color_DefaultTheme</item>
+        <item name="setting_icon_color">@color/setting_icon_color_DefaultTheme</item>
+        <item name="main_text_in_app_color">@color/main_text_color_DefaultTheme</item>
+        <item name="back_icon_color">@color/back_icon_color_DefaultTheme</item>
+        <item name="alertDialogTheme">@style/MyAlertDialogStyle</item>
+        <item name="alertDialogStyle">@style/MyAlertDialogStyle</item>
+        <item name="appearance_fragment_background_color">@color/appearance_fragment_background_DefaultTheme</item>
+        <item name="about_fragment_background_color">@color/about_fragment_background_DefaultTheme</item>
+        <item name="setting_activity_background_color">@color/setting_activity_background_color_DefaultTheme</item>
+        <item name="message_text_size">@dimen/message_text_size</item>
+    </style>
+
+    <style name="DarkBlueTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="textColor">@android:color/white</item>
+        <item name="editTextBackground">@color/editText_background_DarkBlue</item>
+        <item name="editTextColor">@color/white</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:textColorHint">@color/editTextHintColor_DarkBlue</item>
+        <item name="human_message_background">@color/human_message_color_DarkBlue</item>
+        <item name="robot_message_background">@color/robot_message_color_DarkBlue</item>
+        <item name="send_icon_color">@color/send_icon_color_DarkBlue</item>
+        <item name="chat_background_color">@color/chat_background_DarkBlue</item>
+        <item name="send_button_background">@color/send_button_background_DarkBlue</item>
+        <item name="toolbar_background">@color/toolbar_color_DarkBlue</item>
+        <item name="guide_icon_color">@color/guide_icon_color_DarkBlue</item>
+        <item name="setting_icon_color">@color/setting_icon_color_DarkBlue</item>
+        <item name="main_text_in_app_color">@color/main_text_color_DarkBlue</item>
+        <item name="back_icon_color">@color/back_icon_color_DarkBlue</item>
+        <item name="alertDialogTheme">@style/MyAlertDialogStyle</item>
+        <item name="alertDialogStyle">@style/MyAlertDialogStyle</item>
+        <item name="appearance_fragment_background_color">@color/appearance_fragment_background_DarkBlue</item>
+        <item name="about_fragment_background_color">@color/about_fragment_background_DarkBlue</item>
+        <item name="setting_activity_background_color">@color/setting_activity_background_color_DarkBlue</item>
+    </style>
+
+
+    <style name="DarkTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="textColor">@android:color/white</item>
+        <item name="editTextBackground">@color/editText_background_Dark</item>
+        <item name="editTextColor">@color/white</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:textColorHint">@color/editTextHintColor_Dark</item>
+        <item name="human_message_background">@color/human_message_color_Dark</item>
+        <item name="robot_message_background">@color/robot_message_color_Dark</item>
+        <item name="send_icon_color">@color/send_icon_color_Dark</item>
+        <item name="chat_background_color">@color/chat_background_Dark</item>
+        <item name="send_button_background">@color/send_button_background_Dark</item>
+        <item name="toolbar_background">@color/toolbar_color_Dark</item>
+        <item name="guide_icon_color">@color/guide_icon_color_Dark</item>
+        <item name="setting_icon_color">@color/setting_icon_color_Dark</item>
+        <item name="main_text_in_app_color">@color/main_text_color_Dark</item>
+        <item name="back_icon_color">@color/back_icon_color_Dark</item>
+        <item name="alertDialogTheme">@style/MyAlertDialogStyle</item>
+        <item name="alertDialogStyle">@style/MyAlertDialogStyle</item>
+        <item name="appearance_fragment_background_color">@color/appearance_fragment_background_Dark</item>
+        <item name="about_fragment_background_color">@color/about_fragment_background_Dark</item>
+        <item name="setting_activity_background_color">@color/setting_activity_background_color_Dark</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -55,5 +106,8 @@
     </style>
 
     <!-- end of dialog-->
+
+
+
 
 </resources>

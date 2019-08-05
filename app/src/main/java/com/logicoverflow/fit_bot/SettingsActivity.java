@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.logicoverflow.fit_bot.Adapter.SettingsSlidePagerAdapter;
 import com.logicoverflow.fit_bot.Model.FirebaseFeedback;
+import com.logicoverflow.fit_bot.Util.Const;
 import com.stepstone.apprating.AppRatingDialog;
 import com.stepstone.apprating.listener.RatingDialogListener;
 import com.vansuita.pickimage.bean.PickResult;
@@ -53,7 +54,7 @@ public class SettingsActivity extends AppCompatActivity implements RatingDialogL
     private DatabaseReference mDatabaseReference;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor sharedPreferencesEditor;
-
+    private SharedPreferences.OnSharedPreferenceChangeListener onSharedPreferenceChangeListener;
     private SharedPreferences sharedPreferences_log;
     private SharedPreferences.Editor sharedPreferencesEditor_log;
 
@@ -67,22 +68,38 @@ public class SettingsActivity extends AppCompatActivity implements RatingDialogL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                recreate();
+            }
+        };
 
-        sharedPreferences = getSharedPreferences(ChatActivity.THEME_PREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(Const.THEME_PREFERENCES, Context.MODE_PRIVATE);
         sharedPreferencesEditor = sharedPreferences.edit();
+        sharedPreferences.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
+        String currentTheme = sharedPreferences.getString(Const.THEME_SAVED , Const.DARKTHEME);
+
+
+        if(currentTheme.equals(Const.DEFTHEME)){
+
+            setTheme(R.style.DefaultTheme);
+
+        }else if(currentTheme.equals(Const.DARKBLUETHEME)){
+
+            setTheme(R.style.DarkBlueTheme);
+
+        }else if(currentTheme.equals(Const.DARKTHEME)){
+
+            setTheme(R.style.DarkTheme);
+        }
+
+
 
         sharedPreferences_log = getSharedPreferences("LOG",MODE_PRIVATE);
         sharedPreferencesEditor_log = sharedPreferences_log.edit();
 
         loadFeedbackLog();
-
-        final String theme = sharedPreferences.getString(ChatActivity.THEME_SAVED, ChatActivity.LIGHTTHEME);
-        if (theme.equals(ChatActivity.LIGHTTHEME)) {
-            setTheme(R.style.AppThemeLight);
-
-        } else {
-            setTheme(R.style.AppThemeDark);
-        }
 
         setContentView(R.layout.activity_settings);
 
@@ -192,7 +209,7 @@ public class SettingsActivity extends AppCompatActivity implements RatingDialogL
 
     @Override
     public void onPickResult(PickResult pickResult) {
-        sharedPreferencesEditor.putString(ChatActivity.BACKGROUND_SAVED, bitmapToString(pickResult.getBitmap()));
+        sharedPreferencesEditor.putString(Const.BACKGROUND_SAVED, bitmapToString(pickResult.getBitmap()));
         sharedPreferencesEditor.apply();
         Toast.makeText(this, "Background Saved", Toast.LENGTH_SHORT).show();
         onBackPressed();
@@ -229,5 +246,8 @@ public class SettingsActivity extends AppCompatActivity implements RatingDialogL
         sharedPreferencesEditor_log.commit();
         sharedPreferencesEditor_log.apply();
     }
+
+
+
 
 }

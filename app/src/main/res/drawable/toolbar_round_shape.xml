@@ -5,7 +5,7 @@
 
     <!-- View backgroundColor color -->
     <solid
-        android:color="?attr/mainColorDark" >
+        android:color="?attr/toolbar_background" >
     </solid>
 
     <!-- The radius makes the corners rounded -->

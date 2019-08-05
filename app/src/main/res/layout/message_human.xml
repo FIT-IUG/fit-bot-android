@@ -23,8 +23,8 @@
         android:text="Hello"
         android:textAlignment="viewEnd"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@android:color/white"
+        android:textColor="?attr/textColor"
         android:textDirection="rtl"
-        android:textSize="16sp" />
+        android:textSize="?attr/message_text_size" />
 
 </RelativeLayout>
