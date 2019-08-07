@@ -27,6 +27,7 @@
         <item name="about_fragment_background_color">@color/about_fragment_background_DefaultTheme</item>
         <item name="setting_activity_background_color">@color/setting_activity_background_color_DefaultTheme</item>
         <item name="message_text_size">@dimen/message_text_size</item>
+        <item name="colorPrimaryDark">@color/toolbar_color_DefaultTheme</item>
     </style>
 
     <style name="DarkBlueTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -53,6 +54,7 @@
         <item name="appearance_fragment_background_color">@color/appearance_fragment_background_DarkBlue</item>
         <item name="about_fragment_background_color">@color/about_fragment_background_DarkBlue</item>
         <item name="setting_activity_background_color">@color/setting_activity_background_color_DarkBlue</item>
+        <item name="colorPrimaryDark">@color/toolbar_color_DarkBlue</item>
     </style>
 
 
@@ -80,6 +82,7 @@
         <item name="appearance_fragment_background_color">@color/appearance_fragment_background_Dark</item>
         <item name="about_fragment_background_color">@color/about_fragment_background_Dark</item>
         <item name="setting_activity_background_color">@color/setting_activity_background_color_Dark</item>
+        <item name="colorPrimaryDark">@color/toolbar_color_Dark</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

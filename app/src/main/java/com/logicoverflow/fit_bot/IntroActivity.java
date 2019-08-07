@@ -67,7 +67,7 @@ public class IntroActivity extends OnboarderActivity implements OnboarderPageCha
                 .titleColorId(R.color.white)
                 .imageSizeDp(200,200)
                 .imageBias(1)
-                .descriptionTextSize(20)
+                .descriptionTextSize(25)
                 .textPaddingBottomDp(80)
                 .descriptionColorId(R.color.white)
                 .multilineDescriptionCentered(true)
@@ -79,7 +79,7 @@ public class IntroActivity extends OnboarderActivity implements OnboarderPageCha
                 .imageResourceId( R.drawable.tutorial_guide_settings_info)
                 .backgroundColorId(R.color.background_color)
                 .descriptionColorId(R.color.white).textPaddingBottomDp(200)
-                .descriptionTextSize(25).imageBias(1)
+                .descriptionTextSize(30).imageBias(1)
                 .multilineDescriptionCentered(true)
                 .build();
 
@@ -90,7 +90,7 @@ public class IntroActivity extends OnboarderActivity implements OnboarderPageCha
                 .backgroundColorId(R.color.background_color)
                 .descriptionColorId(R.color.white)
                 .textPaddingBottomDp(200)
-                .descriptionTextSize(25).imageBias(1)
+                .descriptionTextSize(30).imageBias(1)
                 .multilineDescriptionCentered(true)
                 .build();
 
@@ -100,8 +100,8 @@ public class IntroActivity extends OnboarderActivity implements OnboarderPageCha
                 .imageResourceId( R.drawable.tutorial_guide_settings_rating)
                 .backgroundColorId(R.color.background_color)
                 .descriptionColorId(R.color.white)
-                .textPaddingBottomDp(200)
-                .descriptionTextSize(25).imageBias(1)
+                .textPaddingBottomDp(100)
+                .descriptionTextSize(30).imageBias(1)
                 .multilineDescriptionCentered(true)
                 .build();
 
@@ -111,8 +111,8 @@ public class IntroActivity extends OnboarderActivity implements OnboarderPageCha
                 .imageResourceId( R.drawable.tutorial_guide_chat_message)
                 .backgroundColorId(R.color.background_color)
                 .descriptionColorId(R.color.white)
-                .textPaddingBottomDp(30)
-                .descriptionTextSize(25)
+                .textPaddingBottomDp(100)
+                 .descriptionTextSize(30)
                 .imageBias(1)
                 .multilineDescriptionCentered(true)
                 .build();
