@@ -14,6 +14,8 @@
         android:layout_gravity="top"
         card_view:cardCornerRadius="5dp"
         android:layout_margin="10dp"
+        card_view:cardBackgroundColor="@android:color/transparent"
+        card_view:cardElevation="0dp"
         >
 
             <RelativeLayout
@@ -43,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/image_of_theme"
                    android:layout_centerHorizontal="true"
-                   android:textColor="@color/black"
+                   android:textColor="@color/white"
                     android:layout_marginTop="5dp"
                     />
 

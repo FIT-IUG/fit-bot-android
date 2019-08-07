@@ -161,10 +161,10 @@
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:backgroundTint="?attr/send_button_background"
+                    app:borderWidth="0dp"
                     android:src="@drawable/ic_send"
                     android:id="@+id/btn_send"
-                    android:layout_width
-                        ="60dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 

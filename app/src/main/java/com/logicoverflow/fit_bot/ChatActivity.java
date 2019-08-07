@@ -41,6 +41,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.logicoverflow.fit_bot.Adapter.ChatMessageAdapter;
+import com.logicoverflow.fit_bot.Database.DbHelper;
 import com.logicoverflow.fit_bot.Model.ChatMessage;
 import com.logicoverflow.fit_bot.Model.FirebaseFeedback;
 import com.logicoverflow.fit_bot.Model.FirebaseMessage;
@@ -79,6 +80,7 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -86,8 +88,6 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class ChatActivity extends AppCompatActivity implements RatingDialogListener {
-
-
 
 
     private ListView mListView;
@@ -117,6 +117,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
 
     private static File filesDirectory;
     private static File guideFileDirectory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -124,7 +125,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
 
 
         filesDirectory = new File(getFilesDir() + "/FITChatbot");
-        guideFileDirectory = new File(filesDirectory+ "/bots/Fitbot/guide.html");
+        guideFileDirectory = new File(filesDirectory + "/bots/Fitbot/guide.html");
 
         startBot();
 
@@ -136,37 +137,34 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         sharedPreferencesEditor_log = sharedPreferences_log.edit();
 
 
-
-         sharedPreferences_theme= getSharedPreferences(Const.THEME_PREFERENCES, MODE_PRIVATE);
-         String currentTheme = sharedPreferences_theme.getString(Const.THEME_SAVED , Const.DEFTHEME);
+        sharedPreferences_theme = getSharedPreferences(Const.THEME_PREFERENCES, MODE_PRIVATE);
+        String currentTheme = sharedPreferences_theme.getString(Const.THEME_SAVED, Const.DEFTHEME);
 
         //Toast.makeText(this,currentTheme , Toast.LENGTH_LONG).show();
 
         //Log.e("rmy","Current Theme:"+currentTheme);
 
-        if(currentTheme.equals(Const.DEFTHEME)){
+        if (currentTheme.equals(Const.DEFTHEME)) {
             //Log.e("rmy","First If");
-             setTheme(R.style.DefaultTheme);
+            setTheme(R.style.DefaultTheme);
 
-            Toast.makeText(this,"1" , Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "1", Toast.LENGTH_LONG).show();
 
-         }else if(currentTheme.equals(Const.DARKBLUETHEME)){
+        } else if (currentTheme.equals(Const.DARKBLUETHEME)) {
             //Log.e("rmy","Second If");
-             setTheme(R.style.DarkBlueTheme);
+            setTheme(R.style.DarkBlueTheme);
             //Toast.makeText(this,"2" , Toast.LENGTH_LONG).show();
 
-         }else if(currentTheme.equals(Const.DARKTHEME)){
+        } else if (currentTheme.equals(Const.DARKTHEME)) {
             //Log.e("rmy","Third If");
-             setTheme(R.style.DarkTheme);
+            setTheme(R.style.DarkTheme);
             //Toast.makeText(this,"3" , Toast.LENGTH_LONG).show();
 
-        }else {
+        } else {
             //Log.e("rmy","Else");
             //Toast.makeText(this,currentTheme+" "+ChatActivity.DARKBLUETHEME , Toast.LENGTH_LONG).show();
 
         }
-
-
 
 
         setContentView(R.layout.activity_chat);
@@ -326,7 +324,17 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
     }
 
     public void sendMessageButton() {
+
+        ChatMessage chatMessage = new ChatMessage();
+
         String message = mEditTextMessage.getText().toString();
+
+        chatMessage.setContent(message);
+        chatMessage.setIsImage(false);
+        chatMessage.setIsMine(true);
+        DbHelper.getInstance(this).insertMessage(chatMessage);
+
+
         String formattedMessage = formatRepetition(message);
 
         message = message.replace("؟", " ");
@@ -339,6 +347,11 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
 
         sendMessage(message);
         mimicOtherMessage(response);
+
+        chatMessage.setContent(response);
+        chatMessage.setIsImage(false);
+        chatMessage.setIsMine(false);
+        DbHelper.getInstance(this).insertMessage(chatMessage);
 
         //Upload messages to firebase
         boolean isAnswered = true;
@@ -356,7 +369,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
 
     }
 
-    public String getBotResponse(String message){
+    public String getBotResponse(String message) {
         return chat.multisentenceRespond(message);
     }
 
@@ -368,8 +381,8 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
                             Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(
                     activity.getCurrentFocus().getWindowToken(), 0);
-        }catch (Exception e){
-            Log.e("rmy",e.getMessage());
+        } catch (Exception e) {
+            Log.e("rmy", e.getMessage());
         }
 
     }
@@ -396,6 +409,12 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
     @Override
     protected void onResume() {
         super.onResume();
+
+        mAdapter = new ChatMessageAdapter(this, DbHelper.getInstance(this).getAllMessages());
+        mListView.setAdapter(mAdapter);
+
+        mListView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        mListView.setStackFromBottom(true);
 
         setBackgroundImage();
         loadMessageLog();
@@ -621,9 +640,16 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
     @Override
     protected void onPause() {
         super.onPause();
-       // uploadMessagesToFirebase();
-       // uploadFeedbackToFirebase();
-       // uploadReportsToFirebase();
+        // uploadMessagesToFirebase();
+        // uploadFeedbackToFirebase();
+        // uploadReportsToFirebase();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Log.e("rmy", DbHelper.getInstance(this).saveLastNMessages() + "");
     }
 
     boolean uploadedSuccessfully = true;
@@ -635,11 +661,11 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         while (position != -1) {
             mDatabaseReference.child("messages").push().setValue(messageLogArrayList.get(position))
                     .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(Exception e) {
-                    uploadedSuccessfully = false;
-                }
-            });
+                        @Override
+                        public void onFailure(Exception e) {
+                            uploadedSuccessfully = false;
+                        }
+                    });
             if (!uploadedSuccessfully) {
                 break;
             }
@@ -658,7 +684,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         while (position != -1) {
             mDatabaseReference.child("feedbacks").push().setValue(feedbackLogArrayList.get(position)).addOnFailureListener(new OnFailureListener() {
                 @Override
-                public void onFailure( Exception e) {
+                public void onFailure(Exception e) {
                     uploadedSuccessfully = false;
                 }
             });
@@ -680,7 +706,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         while (position != -1) {
             mDatabaseReference.child("reports").push().setValue(reportLogArrayList.get(position)).addOnFailureListener(new OnFailureListener() {
                 @Override
-                public void onFailure( Exception e) {
+                public void onFailure(Exception e) {
                     uploadedSuccessfully = false;
                 }
             });
@@ -699,6 +725,10 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
 
         hideSoftKeyboard(ChatActivity.this);
 
+//        Intent guideIntent = new Intent(ChatActivity.this,GuideActivity.class);
+//
+//        startActivityForResult(guideIntent,Const.GUIDE_INTENT_CODE);
+
         if (!guideFileDirectory.exists()) {
             try {
                 copyFile(getResources().getAssets().open("guide.html"), new FileOutputStream(guideFileDirectory));
@@ -709,29 +739,37 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
 
         guideDialog = DialogPlus.newDialog(this)
                 .setContentHolder(new ViewHolder(R.layout.guide_layout))
-                .setGravity(Gravity.CENTER)
-                .setMargin(100, 200, 100, 200)
+                .setGravity(Gravity.BOTTOM)
+                //.setMargin(100, 200, 100, 200)
                 .setCancelable(true)
                 .create();
         guideDialog.show();
 
-        guideWebView = findViewById(R.id.guideWebView);
-        dismiss_guide_button = findViewById(R.id.dismiss_guide_button);
-
-        dismiss_guide_button.setOnClickListener(new View.OnClickListener() {
+        ImageView back_button = findViewById(R.id.back_button);
+        back_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if(guideDialog.isShowing()){
-                    guideDialog.dismiss();
-                }
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
 
-        try {
-            guideWebView.loadUrl("file:///"+guideFileDirectory);
+        guideWebView = findViewById(R.id.guideWebView);
+//        dismiss_guide_button = findViewById(R.id.dismiss_guide_button);
+//
+//        dismiss_guide_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (guideDialog.isShowing()) {
+//                    guideDialog.dismiss();
+//                }
+//            }
+//        });
 
-            guideWebView.loadUrl("file:///"+guideFileDirectory);
-            guideWebView.setWebViewClient(new WebViewClient(){
+        try {
+            guideWebView.loadUrl("file:///" + guideFileDirectory);
+
+            guideWebView.loadUrl("file:///" + guideFileDirectory);
+            guideWebView.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
@@ -783,18 +821,29 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         }
     }
 
-    public String formatRepetition(String message){
+    public String formatRepetition(String message) {
 
         String regex = "(\\p{InARABIC})(\\1+)";
         Pattern r = Pattern.compile(regex);
         Matcher m = r.matcher(message);
         StringBuffer sb = new StringBuffer();
         while (m.find()) {
-            m.appendReplacement(sb, m.group(1)+m.group(1));
+            m.appendReplacement(sb, m.group(1) + m.group(1));
         }
         m.appendTail(sb);
 
         return sb.toString();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case (Const.GUIDE_INTENT_CODE):
+                try {
+                    mEditTextMessage.setText(data.getStringExtra(Const.GUIDE_MESSAGE_TEXT));
+                } catch (Exception e) {
+                }
+        }
+    }
 }
