@@ -5,6 +5,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -71,7 +72,15 @@ public class SettingsActivity extends AppCompatActivity implements RatingDialogL
         onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                recreate();
+
+
+                finish();
+                overridePendingTransition(0, 0);
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+
             }
         };
 
@@ -162,6 +171,10 @@ public class SettingsActivity extends AppCompatActivity implements RatingDialogL
 
     @Override
     public void onBackPressed() {
+
+        Intent intent = new Intent(this, ChatActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
         super.onBackPressed();
         Animatoo.animateSlideRight(this);
     }

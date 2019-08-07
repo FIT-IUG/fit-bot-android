@@ -148,7 +148,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
             //Log.e("rmy","First If");
             setTheme(R.style.DefaultTheme);
 
-            Toast.makeText(this, "1", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "1", Toast.LENGTH_LONG).show();
 
         } else if (currentTheme.equals(Const.DARKBLUETHEME)) {
             //Log.e("rmy","Second If");

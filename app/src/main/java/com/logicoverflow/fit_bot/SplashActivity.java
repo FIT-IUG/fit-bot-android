@@ -332,8 +332,7 @@ public class SplashActivity extends AppCompatActivity {
                                                 } catch (IOException e1) {
                                                     e1.printStackTrace();
                                                     progress_text.setText("حدث مشكلة في تحديث الملفات");
-                                                    Toast.makeText(SplashActivity.this, "Error unzipping files",
-                                                            Toast.LENGTH_SHORT).show();
+                                                    //Toast.makeText(SplashActivity.this, "Error unzipping files", Toast.LENGTH_SHORT).show();
                                                     storeDefaultAIMLfiles();
                                                 }
                                             }

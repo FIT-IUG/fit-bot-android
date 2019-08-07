@@ -10,45 +10,15 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-    <LinearLayout
-        android:id="@+id/choose_theme_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="vertical"
-        android:background="@drawable/cardview_round_shape"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/choose_theme_text"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="?attr/main_text_in_app_color"
-            android:layout_gravity="end"
-             />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/theme_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="end"
-        />
-
-    </LinearLayout>
-
     <RelativeLayout
+        android:id="@+id/text_size_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/choose_theme_layout"
         android:orientation="vertical"
         android:layoutDirection="rtl"
         android:layout_marginTop="25dp"
         android:background="@drawable/cardview_round_shape"
-         android:padding="20dp"
+        android:padding="20dp"
         android:layout_margin="10dp"
         >
 
@@ -84,5 +54,40 @@
             />
 
     </RelativeLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/choose_theme_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:background="@drawable/cardview_round_shape"
+        android:layout_below="@id/text_size_layout"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/choose_theme_text"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="?attr/main_text_in_app_color"
+            android:layout_gravity="end"
+             />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/theme_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="end"
+        />
+
+    </LinearLayout>
+
+
 
 </RelativeLayout>
