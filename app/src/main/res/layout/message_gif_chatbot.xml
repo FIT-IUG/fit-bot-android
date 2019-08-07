@@ -40,6 +40,7 @@
             android:textSize="16sp" />
 
         <ImageView
+            android:paddingLeft="15dp"
             android:id="@+id/message_gif"
             android:minWidth="300dp"
             android:minHeight="200dp"

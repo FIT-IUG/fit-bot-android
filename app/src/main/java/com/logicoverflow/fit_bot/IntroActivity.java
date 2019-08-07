@@ -2,7 +2,6 @@ package com.logicoverflow.fit_bot;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import com.cuneytayyildiz.onboarder.OnboarderActivity;
@@ -10,7 +9,6 @@ import com.cuneytayyildiz.onboarder.OnboarderPage;
 import com.cuneytayyildiz.onboarder.utils.OnboarderPageChangeListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -78,7 +76,7 @@ public class IntroActivity extends OnboarderActivity implements OnboarderPageCha
         OnboarderPage page_2 = new OnboarderPage.Builder()
                 .title("")
                 .description("بالضغط على هذه الايقونة يمكنك معرفة انماط الاسئلة المطروحة وتصنيفاتها 📝")
-                .imageResourceId( R.drawable.questions_pattern_guide)
+                .imageResourceId( R.drawable.tutorial_guide_settings_info)
                 .backgroundColorId(R.color.background_color)
                 .descriptionColorId(R.color.white).textPaddingBottomDp(200)
                 .descriptionTextSize(25).imageBias(1)
@@ -88,7 +86,7 @@ public class IntroActivity extends OnboarderActivity implements OnboarderPageCha
         OnboarderPage page_3 = new OnboarderPage.Builder()
                 .title("")
                 .description("اضغط على هذه الايقونة للدخول الى صفحة الاعدادت الخاصة بالتطبيق ⚙")
-                .imageResourceId( R.drawable.seeting_guide_image)
+                .imageResourceId( R.drawable.tutorial_guide_settings_button)
                 .backgroundColorId(R.color.background_color)
                 .descriptionColorId(R.color.white)
                 .textPaddingBottomDp(200)
@@ -99,7 +97,7 @@ public class IntroActivity extends OnboarderActivity implements OnboarderPageCha
         OnboarderPage page_4 = new OnboarderPage.Builder()
                 .title("")
                 .description("في حال اردت تقييم التطبيق اضغط على هذه الايقونة المشار اليها بالسهم🎖")
-                .imageResourceId( R.drawable.rating_button_guide)
+                .imageResourceId( R.drawable.tutorial_guide_settings_rating)
                 .backgroundColorId(R.color.background_color)
                 .descriptionColorId(R.color.white)
                 .textPaddingBottomDp(200)
@@ -110,7 +108,7 @@ public class IntroActivity extends OnboarderActivity implements OnboarderPageCha
 
         OnboarderPage page_5 = new OnboarderPage.Builder()
                 .description("في حال اردت التبليغ عن مشكلة في الرد عن احد استفساراتك الرجاء الضغط مطولا على الرد ومن ثم اضغط التبليغ عن خطا 🚩")
-                .imageResourceId( R.drawable.report_guide_image)
+                .imageResourceId( R.drawable.tutorial_guide_chat_message)
                 .backgroundColorId(R.color.background_color)
                 .descriptionColorId(R.color.white)
                 .textPaddingBottomDp(30)

@@ -2,7 +2,6 @@ package com.logicoverflow.fit_bot.Adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +9,10 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.logicoverflow.fit_bot.ChatActivity;
 import com.logicoverflow.fit_bot.Model.Theme;
 import com.logicoverflow.fit_bot.R;
 import com.logicoverflow.fit_bot.Util.Const;
@@ -43,7 +40,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeAdapter
     @Override
     public ThemeAdapter.ThemeAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        int layoutIdForListItem = R.layout.theme_kist_item;
+        int layoutIdForListItem = R.layout.theme_list_item;
         LayoutInflater inflater = LayoutInflater.from(context);
         boolean shouldAttachToParentImmediately = false;
 
