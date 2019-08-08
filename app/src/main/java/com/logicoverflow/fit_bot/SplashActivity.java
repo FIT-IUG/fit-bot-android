@@ -246,7 +246,7 @@ public class SplashActivity extends AppCompatActivity {
 
                     if (dataSnapshot.getKey().equals("version")) {
                         databaseVersion = dataSnapshot.getValue(Float.class);
-                        if (databaseVersion > storedVersion) {
+                        if (databaseVersion != storedVersion) {
                             progress_text.setText("يوجد تحديثات...");
                             try {
                                 updateAIMLfiles();

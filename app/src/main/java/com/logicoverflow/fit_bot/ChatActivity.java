@@ -337,8 +337,8 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
 
         String formattedMessage = formatRepetition(message);
 
-        message = message.replace("؟", " ");
-        message = message.replace("?", " ");
+        formattedMessage = formattedMessage.replace("؟", "");
+        formattedMessage = formattedMessage.replace("?", "");
         //bot
         String response = getBotResponse(formattedMessage);
         if (TextUtils.isEmpty(message)) {
@@ -640,9 +640,9 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
     @Override
     protected void onPause() {
         super.onPause();
-        // uploadMessagesToFirebase();
-        // uploadFeedbackToFirebase();
-        // uploadReportsToFirebase();
+         uploadMessagesToFirebase();
+         uploadFeedbackToFirebase();
+         uploadReportsToFirebase();
     }
 
     @Override
