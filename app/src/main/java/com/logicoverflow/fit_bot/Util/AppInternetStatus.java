@@ -15,11 +15,11 @@ public class AppInternetStatus {
         return instance;
     }
 
-    public boolean isOnline() {
+    public static boolean isOnline() {
             ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-            boolean isConnected = activeNetwork != null &&
-                    activeNetwork.isConnectedOrConnecting();
-            return isConnected;
+            return activeNetwork != null &&
+                    activeNetwork.isConnected();
+
     }
 }

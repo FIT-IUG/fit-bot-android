@@ -3,10 +3,12 @@ package com.logicoverflow.fit_bot;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -41,6 +43,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.logicoverflow.fit_bot.Adapter.ChatMessageAdapter;
+import com.logicoverflow.fit_bot.BroadcastReceivers.InternetBroadcastReceiver;
 import com.logicoverflow.fit_bot.Database.DbHelper;
 import com.logicoverflow.fit_bot.Model.ChatMessage;
 import com.logicoverflow.fit_bot.Model.FirebaseFeedback;
@@ -105,7 +108,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
     private WebView guideWebView;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
-
+    private InternetBroadcastReceiver myReceiver ;
     private SharedPreferences sharedPreferences_log;
     private SharedPreferences.Editor sharedPreferencesEditor_log;
     private SharedPreferences sharedPreferences_theme;
@@ -172,6 +175,7 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
         ScrollView sv = findViewById(R.id.scroll);
         sv.setEnabled(false);
 
+        myReceiver = new InternetBroadcastReceiver();
         mListView = findViewById(R.id.listView);
         guideLine = findViewById(R.id.guideline_imageView);
         mButtonSend = findViewById(R.id.btn_send);
@@ -410,6 +414,10 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
     protected void onResume() {
         super.onResume();
 
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(myReceiver ,filter);
+
         mAdapter = new ChatMessageAdapter(this, DbHelper.getInstance(this).getAllMessages());
         mListView.setAdapter(mAdapter);
 
@@ -636,6 +644,11 @@ public class ChatActivity extends AppCompatActivity implements RatingDialogListe
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(myReceiver);
+    }
 
     @Override
     protected void onPause() {

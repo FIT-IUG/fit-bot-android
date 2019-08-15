@@ -2,6 +2,7 @@ package com.logicoverflow.fit_bot.Adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestFutureTarget;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.logicoverflow.fit_bot.ChatActivity;
 import com.logicoverflow.fit_bot.Model.ChatMessage;
 import com.logicoverflow.fit_bot.R;
+import com.logicoverflow.fit_bot.Util.AppInternetStatus;
 import com.logicoverflow.fit_bot.Util.Const;
 
 import java.util.List;
@@ -74,12 +83,27 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
             textView.setAutoLinkMask(Linkify.WEB_URLS);
 
         } else if (viewType == OTHER_IMAGE) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.message_gif_chatbot, parent, false);
-            TextView textView = convertView.findViewById(R.id.text);
-            ImageView gifView = convertView.findViewById(R.id.message_gif);
-            Glide.with(convertView).load("https://firebasestorage.googleapis.com/v0/b/fit-bot-936cb.appspot.com/o/instruction1.gif?alt=media&token=72cc3b31-25ed-4e10-a328-593f1f2f75e1").placeholder(R.drawable.progress_bar).error(R.drawable.ic_cloud_error).into(gifView);
-            textView.setTextSize(textSize);
-            textView.setText(getItem(position).getContent().replace("gif",""));
+
+            if(AppInternetStatus.isOnline()){
+
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.message_gif_chatbot, parent, false);
+                TextView textView = convertView.findViewById(R.id.text);
+                ImageView gifView = convertView.findViewById(R.id.message_gif);
+                Glide.with(convertView).load("https://firebasestorage.googleapis.com/v0/b/fit-bot-936cb.appspot.com/o/instruction1.gif?alt=media&token=72cc3b31-25ed-4e10-a328-593f1f2f75e1").placeholder(R.drawable.progress_bar).into(gifView);
+                textView.setTextSize(textSize);
+                textView.setText(getItem(position).getContent().replace("gif",""));
+
+            }else {
+
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.message_gif_chatbot, parent, false);
+                TextView textView = convertView.findViewById(R.id.text);
+                ImageView gifView = convertView.findViewById(R.id.message_gif);
+                gifView.setVisibility(View.GONE);
+               // Glide.with(convertView).load("https://firebasestorage.googleapis.com/v0/b/fit-bot-936cb.appspot.com/o/instruction1.gif?alt=media&token=72cc3b31-25ed-4e10-a328-593f1f2f75e1").placeholder(R.drawable.progress_bar).into(gifView);
+                textView.setTextSize(textSize);
+                textView.setText(getItem(position).getContent().replace("gif",""));
+            }
+
             //textView.setAutoLinkMask(Linkify.WEB_URLS);
         } else {
            // convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_other_image, parent, false);
