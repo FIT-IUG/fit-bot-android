@@ -4,3 +4,5 @@ FIT-Bot is Graduation project developed for the Faculty of Information Technolog
 This Chat-bot is aimed to make the academic life of IT students at the IUG easier than ever. It was designed and implemented fitting the needs students, answering their most asked questions and guiding them through their university life, featuring offline functionality, Firebase functionality to update AIML files when needed, and a modern sleek UI design.
 
 This project was launched under the supervision and guidance of Dr. Motaz Saad, and developed by the students, Ramy Helow, Obayda Alesawi, Amjad Ajrami and Oday Attallah 
+
+AIML docs https://github.com/motazsaad/fit-bot-aiml/ 
